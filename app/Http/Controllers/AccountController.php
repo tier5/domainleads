@@ -34,12 +34,12 @@ class AccountController extends Controller {
       else {
         // if any error send back with message.
         Session::flash('error', 'Something went wrong'); 
-        return Redirect::to('login');
+        return Redirect::to('/');
       }
     }
   }
   public function logout() {
   Auth::logout(); // logout user
-  return Redirect::to('login'); //redirect back to login
+  return Redirect::to('/'); //redirect back to login
 }
 }

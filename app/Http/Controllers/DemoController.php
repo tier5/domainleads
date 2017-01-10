@@ -112,12 +112,12 @@ class DemoController extends Controller {
 		 
 		 
 			 if(DB::table('users')->insert($data)) {
-			   return redirect('signup')->with("success","Successfully Signed");
+			   return redirect('/')->with("success","Successfully Signed");
 			 } else {
-				return redirect('signup')->with("error","Unsuccessfully Signed");
+				return redirect('/')->with("error","Unsuccessfully Signed");
 			 }
 	     } else {
-		   return redirect('signup')->with("error","Email exists");
+		   return redirect('/')->with("error","Email exists");
 		 }
 	 }
 	   

@@ -26,6 +26,8 @@
 		{!! Html::style('theme/css/jquery.bxslider.css') !!}
 		{!! Html::style('theme/css/animate.css') !!}
 		
+
+    
       
         <!-- Fav and touch icons -->
         <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144.png">
@@ -58,9 +60,10 @@
                             <li><a href="#portfolio">Portfolio</a></li>
                             <li><a href="#about">About</a></li>
                             <li><a href="#clients">Clients</a></li>
-                            <li><a href="{{ URL::to('login') }}">SignIn</a></li>
-                            <li><a href="{{ URL::to('signup') }}">SignUp</a></li>
+                            <li> <button class="" id="popupid" data-toggle="modal" data-target="#myModal">SignIn</button></li>
+                            <li><button class="" id="popupid_for_reg" data-toggle="modal" data-target="#myModal_for_reg">SignUp</button></li>
                         </ul>
+                       
                     </div>
                     <!-- End main navigation -->
                 </div>
@@ -95,7 +98,7 @@
                         <a href="#" class="da-link button">Read more</a>
                         <div class="da-img">
                            <!-- <img src="images/Slider02.png" width="320" alt="image02">-->
-                            {{!! HTML :: image('theme/images/Slider02.png')!!}}
+                            {!! HTML :: image('theme/images/Slider02.png')!!}
                         </div>
                     </div>
                     <!-- End second slide -->
@@ -107,7 +110,7 @@
                         <a href="#" class="da-link button">Read more</a>
                         <div class="da-img">
                            <!-- <img src="images/Slider03.png" width="320" alt="image03"> -->
-                            {{!! HTML :: image('theme/images/Slider03.png')!!}}
+                            {!! HTML :: image('theme/images/Slider03.png')!!}
                         </div>
                     </div>
                     <!-- Start third slide -->
@@ -135,7 +138,8 @@
                     <div class="span4">
                         <div class="centered service">
                             <div class="circle-border zoom-in">
-                                <img class="img-circle" src="images/Service1.png" alt="service 1">
+                          
+                                {!! HTML :: image('theme/images/Service1.png')!!}
                             </div>
                             <h3>Modern Design</h3>
                             <p>We Create Modern And Clean Theme For Your Business Company.</p>
@@ -144,7 +148,8 @@
                     <div class="span4">
                         <div class="centered service">
                             <div class="circle-border zoom-in">
-                                <img class="img-circle" src="images/Service2.png" alt="service 2" />
+                            
+                                {!! HTML :: image('theme/images/Service2.png')!!}
                             </div>
                             <h3>Powerfull Theme</h3>
                             <p>We Create Modern And Powerful Theme With Lots Animation And Features</p>
@@ -153,7 +158,8 @@
                     <div class="span4">
                         <div class="centered service">
                             <div class="circle-border zoom-in">
-                                <img class="img-circle" src="images/Service3.png" alt="service 3">
+                               
+                                {!! HTML :: image('theme/images/Service3.png')!!}
                             </div>
                             <h3>Clean Code</h3>
                             <p>We Create Modern And Powerful Html5 And CSS3 Code Easy For Read And Customize.</p>
@@ -562,7 +568,8 @@
                 <div class="row-fluid team">
                     <div class="span4" id="first-person">
                         <div class="thumbnail">
-                            <img src="images/Team1.png" alt="team 1">
+                           
+                            {!! HTML :: image('theme/images/Team1.png')!!}
                             <h3>John Doe</h3>
                             <ul class="social">
                                 <li>
@@ -589,7 +596,8 @@
                     </div>
                     <div class="span4" id="second-person">
                         <div class="thumbnail">
-                            <img src="images/Team2.png" alt="team 1">
+                           
+                            {!! HTML :: image('theme/images/Team2.png')!!}
                             <h3>John Doe</h3>
                             <ul class="social">
                                 <li>
@@ -616,7 +624,8 @@
                     </div>
                     <div class="span4" id="third-person">
                         <div class="thumbnail">
-                            <img src="images/Team3.png" alt="team 1">
+                            
+                            {!! HTML :: image('theme/images/Team3.png')!!}
                             <h3>John Doe</h3>
                             <ul class="social">
                                 <li>
@@ -702,7 +711,8 @@
                                 <p>"I've worked too hard and too long to let anything stand in the way of my goals. I will not let my teammates down and I will not let myself down."</p>
                                 <div class="whopic">
                                     <div class="arrow"></div>
-                                    <img src="images/Client1.png" class="centered" alt="client 1">
+                                   
+                                    {!! HTML :: image('theme/images/Client1.png')!!}
                                     <strong>John Doe
                                         <small>Client</small>
                                     </strong>
@@ -714,7 +724,8 @@
                                 <p>"In motivating people, you've got to engage their minds and their hearts. I motivate people, I hope, by example - and perhaps by excitement, by having productive ideas to make others feel involved."</p>
                                 <div class="whopic">
                                     <div class="arrow"></div>
-                                    <img src="images/Client2.png" class="centered" alt="client 2">
+                                   
+                                    {!! HTML :: image('theme/images/Client2.png')!!}
                                     <strong>John Doe
                                         <small>Client</small>
                                     </strong>
@@ -726,7 +737,8 @@
                                 <p>"Determine never to be idle. No person will have occasion to complain of the want of time who never loses any. It is wonderful how much may be done if we are always doing."</p>
                                 <div class="whopic">
                                     <div class="arrow"></div>
-                                    <img src="images/Client3.png" class="centered" alt="client 3">
+                                 
+                                    {!! HTML :: image('theme/images/Client3.png')!!}
                                     <strong>John Doe
                                         <small>Client</small>
                                     </strong>
@@ -755,37 +767,44 @@
                     <ul class="row client-slider" id="clint-slider">
                         <li>
                             <a href="">
-                                <img src="images/clients/ClientLogo01.png" alt="client logo 1">
+                              
+                                {!! HTML :: image('theme/images/ClientLogo01.png')!!}
                             </a>
                         </li>
                         <li>
                             <a href="">
-                                <img src="images/clients/ClientLogo02.png" alt="client logo 2">
+                                
+                                {!! HTML :: image('theme/images/ClientLogo02.png')!!}
                             </a>
                         </li>
                         <li>
                             <a href="">
-                                <img src="images/clients/ClientLogo03.png" alt="client logo 3">
+                            
+                                {!! HTML :: image('theme/images/ClientLogo03.png')!!}
                             </a>
                         </li>
                         <li>
                             <a href="">
-                                <img src="images/clients/ClientLogo04.png" alt="client logo 4">
+                             
+                                {!! HTML :: image('theme/images/ClientLogo04.png')!!}
                             </a>
                         </li>
                         <li>
                             <a href="">
-                                <img src="images/clients/ClientLogo05.png" alt="client logo 5">
+                               
+                                {!! HTML :: image('theme/images/ClientLogo05.png')!!}
                             </a>
                         </li>
                         <li>
                             <a href="">
-                                <img src="images/clients/ClientLogo02.png" alt="client logo 6">
+                              
+                                {!! HTML :: image('theme/images/ClientLogo02.png')!!}
                             </a>
                         </li>
                         <li>
                             <a href="">
-                                <img src="images/clients/ClientLogo04.png" alt="client logo 7">
+                                
+                                {!! HTML :: image('theme/images/ClientLogo04.png')!!}
                             </a>
                         </li>
                     </ul>
@@ -973,20 +992,150 @@
         </div>
         <!-- ScrollUp button end -->
         <!-- Include javascript -->
-        <script src="js/jquery.js"></script>
-        <script type="text/javascript" src="js/jquery.mixitup.js"></script>
-        <script type="text/javascript" src="js/bootstrap.js"></script>
-        <script type="text/javascript" src="js/modernizr.custom.js"></script>
-        <script type="text/javascript" src="js/jquery.bxslider.js"></script>
-        <script type="text/javascript" src="js/jquery.cslider.js"></script>
-        <script type="text/javascript" src="js/jquery.placeholder.js"></script>
-        <script type="text/javascript" src="js/jquery.inview.js"></script>
+        {!! Html::script('theme/js/jquery.js') !!}
+        {!! Html::script('theme/js/jquery.mixitup.js') !!}
+        {!! Html::script('theme/js/bootstrap.js') !!}
+        {!! Html::script('theme/js/modernizr.custom.js') !!}
+        {!! Html::script('theme/js/jquery.bxslider.js') !!}
+        {!! Html::script('theme/js/jquery.cslider.js') !!}
+        {!! Html::script('theme/js/jquery.placeholder.js') !!}
+        {!! Html::script('theme/js/jquery.inview.js') !!}
+        {!! Html::script('theme/js/app.js') !!}
+        {!! Html::script('ttps://maps.googleapis.com/maps/api/js?sensor=false&callback=initializeMap') !!}
         <!-- Load google maps api and call initializeMap function defined in app.js -->
-        <script async="" defer="" type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&callback=initializeMap"></script>
+        
         <!-- css3-mediaqueries.js for IE8 or older -->
         <!--[if lt IE 9]>
             <script src="js/respond.min.js"></script>
         <![endif]-->
-        <script type="text/javascript" src="js/app.js"></script>
+      
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    ×</button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Login</h4>
+            </div>
+            <div class="modal-body">
+                            {{ Form::open(array('url' => 'login')) }}
+
+                @if(Session::has('error'))
+                <div class="alert-box success">
+                  <h2>{{ Session::get('error') }}</h2>
+                </div>
+                @endif
+                <div class="controls">
+                {{ Form::text('email','',array('id'=>'','class'=>'form-control span6','placeholder' => 'Please Enter your Email')) }}
+                <p class="errors">{{$errors->first('email')}}</p>
+                </div>
+                <div class="controls">
+                {{ Form::password('password',array('class'=>'form-control span6', 'placeholder' => 'Please Enter your Password')) }}
+                <p class="errors">{{$errors->first('password')}}</p>
+                </div>
+                <p>{{ Form::submit('Login', array('class'=>'send-btn')) }}</p>
+                {{ Form::close() }}
+                <!--<div class="row">
+                    <div class="col-md-6" style="border-right: 1px dotted #C2C2C2;padding-right: 30px;">
+                                            
+                            <div class="tab-pane active" id="Login">
+                                <form role="form" class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="email" class="col-sm-2 control-label">
+                                        Email</label>
+                                    <div class="col-sm-10">
+                                        <input type="email" class="form-control" id="email1" placeholder="Email" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1" class="col-sm-2 control-label">
+                                        Password</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <button type="submit" class="btn btn-primary btn-sm">
+                                            Submit</button>
+                                        <a href="javascript:;">Forgot your password?</a>
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
+                      
+                        
+                    </div>
+                  
+                </div>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal_for_reg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    ×</button>
+                <h4 class="modal-title" id="">
+                    Register</h4>
+            </div>
+            <div class="modal-body">
+                                
+                <div class="signup-form">
+
+                 @if( count($errors) > 0)
+                   <div class="alert alert-danger">
+                   <strong>woops!</strong>
+                     <ul>
+                       @foreach($errors->all() as $error) 
+                         <li>{{ $error }} </li>
+                        @endforeach 
+                     </ul>
+                   </div>
+                 @endif
+                 
+                   @if(Session::has('success'))
+                     {{ Session::get('success')}}
+                   @endif
+                   @if(Session::has('error'))
+                      {{ Session::get('error')}}
+                   @endif
+                   
+                {!! Form::open(array('url'=>'signme')) !!}
+                {!! Form ::text('first_name','',array('class'=>'formtext','id'=>"first_name","placeholder"=>'First Name')) !!}
+                {!! Form ::text('last_name','',array('class'=>'formtext','id'=>"last_name","placeholder"=>'Last Name')) !!}
+                {!! Form ::text('email','',array('class'=>'formtext','id'=>"email","placeholder"=>'Email Address')) !!}
+                {!! Form ::password('password','',array('class'=>'formtext','id'=>"password","placeholder"=>'Password')) !!}
+                {!! Form ::password('c_password','',array('class'=>'formtext','id'=>"email","placeholder"=>'Confirm Pasword')) !!}
+                {!! Form ::submit('submit') !!}
+                {!! Form::close() !!}
+                </div>           
+               
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+   $( document ).ready(function() {
+        $("popupid").click(function(){
+            $('#myModal').modal('show');
+        }); 
+        $("popupid_for_reg").click(function(){
+            $('#myModal_for_reg').modal('show');
+        }); 
+
+});
+   
+</script>
+
     </body>
 </html>
