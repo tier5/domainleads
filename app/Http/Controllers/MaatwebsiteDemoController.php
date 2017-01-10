@@ -52,7 +52,7 @@ class MaatwebsiteDemoController extends Controller
 
           if($value->registrant_email){
              unset($insert_domain);
-
+             $date=date('Y-m-d H:i:s');
                 $id_email=DB::table('users')->select('id')->where('email',$value->registrant_email)->get();
 
                   if(count($id_email) ==0 ){
@@ -105,6 +105,8 @@ class MaatwebsiteDemoController extends Controller
                                'domain_status_2' => $value->domain_status_2?$value->domain_status_2:'',
                                'domain_status_3' => $value->domain_status_3?$value->domain_status_3:'',
                                'domain_status_4' => $value->domain_status_4?$value->domain_status_4:'',
+                               "created_at"=>$date,
+                               "updated_at"=>$date,
                               
                                ];
                     
@@ -129,6 +131,8 @@ class MaatwebsiteDemoController extends Controller
                                'domain_registrar_whois' => $value->domain_registrar_whois?$value->domain_registrar_whois:'',
                                'domain_registrar_url' => $value->domain_registrar_url?$value->domain_registrar_url:'',
                                'user_id' => $user_id,
+                               "created_at"=>$date,
+                               "updated_at"=>$date,
                                ]; 
                  DB::table('domain')->insert($insert_domain);
           }      
@@ -153,7 +157,7 @@ class MaatwebsiteDemoController extends Controller
      $registrant_country=$request->registrant_country;
    
       $domain_name=$request->domain_name;
-   $requiredData=array();
+      $requiredData=array();
 
     
     if(($registrant_country!='') && ($domain_name!='')){
