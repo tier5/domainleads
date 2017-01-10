@@ -85,7 +85,8 @@
                         <p>When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane.</p>
                         <a href="#" class="da-link button">Read more</a>
                         <div class="da-img">
-                         <img src="http://localhost/myfirstproject/theme/images/Slider01.png" alt="image01" width="320"> 
+                      
+                           {!! HTML :: image('theme/images/Slider01.png')!!}
                              
                         </div>
                     </div>
@@ -194,9 +195,9 @@
                 <!-- Start details for portfolio project 1 -->
                 <div id="single-project">
                     <div id="slidingDiv" class="toggleDiv row-fluid single-project">
-                        <div class="span6">
-                            
-                            {!! HTML :: image('theme/images/Portfolio01.png')!!}
+                        <div class="span6">    
+                           {!! HTML :: image('theme/images/Portfolio01.png')!!}
+
                         </div>
                         <div class="span6">
                             <div class="project-description">
@@ -399,7 +400,8 @@
                     <!-- Start details for portfolio project 8 -->
                     <div id="slidingDiv7" class="toggleDiv row-fluid single-project">
                         <div class="span6">
-                            <img src="images/Portfolio08.png" alt="project 8">
+                        
+                              {!! HTML :: image('theme/images/Portfolio08.png')!!}
                         </div>
                         <div class="span6">
                             <div class="project-description">
@@ -427,7 +429,8 @@
                     <!-- Start details for portfolio project 9 -->
                     <div id="slidingDiv8" class="toggleDiv row-fluid single-project">
                         <div class="span6">
-                            <img src="images/Portfolio09.png" alt="project 9">
+                          
+                             {!! HTML :: image('theme/images/Portfolio09.png')!!}
                         </div>
                         <div class="span6">
                             <div class="project-description">
@@ -455,7 +458,8 @@
                     <ul id="portfolio-grid" class="thumbnails row">
                         <li class="span4 mix web">
                             <div class="thumbnail">
-                                <img src="images/Portfolio01.png" alt="project 1">
+                              
+                                {!! HTML :: image('theme/images/Portfolio01.png')!!}
                                 <a href="#single-project" class="more show_hide" rel="#slidingDiv">
                                     <i class="icon-plus"></i>
                                 </a>
@@ -466,7 +470,8 @@
                         </li>
                         <li class="span4 mix photo">
                             <div class="thumbnail">
-                                <img src="images/Portfolio02.png" alt="project 2">
+                               
+                                {!! HTML :: image('theme/images/Portfolio02.png')!!}
                                 <a href="#single-project" class="show_hide more" rel="#slidingDiv1">
                                     <i class="icon-plus"></i>
                                 </a>
@@ -477,7 +482,8 @@
                         </li>
                         <li class="span4 mix identity">
                             <div class="thumbnail">
-                                <img src="images/Portfolio03.png" alt="project 3">
+                                
+                                {!! HTML :: image('theme/images/Portfolio03.png')!!}
                                 <a href="#single-project" class="more show_hide" rel="#slidingDiv2">
                                     <i class="icon-plus"></i>
                                 </a>
@@ -488,7 +494,8 @@
                         </li>
                         <li class="span4 mix web">
                             <div class="thumbnail">
-                                <img src="images/Portfolio04.png" alt="project 4">
+                                
+                                {!! HTML :: image('theme/images/Portfolio04.png')!!}
                                 <a href="#single-project" class="show_hide more" rel="#slidingDiv3">
                                     <i class="icon-plus"></i>
                                 </a>
@@ -499,7 +506,8 @@
                         </li>
                         <li class="span4 mix photo">
                             <div class="thumbnail">
-                                <img src="images/Portfolio05.png" alt="project 5">
+                              
+                                {!! HTML :: image('theme/images/Portfolio05.png')!!}
                                 <a href="#single-project" class="show_hide more" rel="#slidingDiv4">
                                     <i class="icon-plus"></i>
                                 </a>
@@ -510,7 +518,8 @@
                         </li>
                         <li class="span4 mix identity">
                             <div class="thumbnail">
-                                <img src="images/Portfolio06.png" alt="project 6">
+                               
+                                {!! HTML :: image('theme/images/Portfolio06.png')!!}
                                 <a href="#single-project" class="show_hide more" rel="#slidingDiv5">
                                     <i class="icon-plus"></i>
                                 </a>
@@ -521,7 +530,8 @@
                         </li>
                         <li class="span4 mix web">
                             <div class="thumbnail">
-                                <img src="images/Portfolio07.png" alt="project 7" />
+                               
+                                {!! HTML :: image('theme/images/Portfolio07.png')!!}
                                 <a href="#single-project" class="show_hide more" rel="#slidingDiv6">
                                     <i class="icon-plus"></i>
                                 </a>
@@ -532,7 +542,8 @@
                         </li>
                         <li class="span4 mix photo">
                             <div class="thumbnail">
-                                <img src="images/Portfolio08.png" alt="project 8">
+                                
+                                {!! HTML :: image('theme/images/Portfolio08.png')!!}
                                 <a href="#single-project" class="show_hide more" rel="#slidingDiv7">
                                     <i class="icon-plus"></i>
                                 </a>
@@ -543,7 +554,8 @@
                         </li>
                         <li class="span4 mix identity">
                             <div class="thumbnail">
-                                <img src="images/Portfolio09.png" alt="project 9">
+                             
+                                {!! HTML :: image('theme/images/Portfolio09.png')!!}
                                 <a href="#single-project" class="show_hide more" rel="#slidingDiv8">
                                     <i class="icon-plus"></i>
                                 </a>
@@ -752,65 +764,7 @@
                 </div>
             </div>
         </div>
-        <div class="section third-section">
-            <div class="container centered">
-                <div class="sub-section">
-                    <div class="title clearfix">
-                        <div class="pull-left">
-                            <h3>Our Clients</h3>
-                        </div>
-                        <ul class="client-nav pull-right">
-                            <li id="client-prev"></li>
-                            <li id="client-next"></li>
-                        </ul>
-                    </div>
-                    <ul class="row client-slider" id="clint-slider">
-                        <li>
-                            <a href="">
-                              
-                                {!! HTML :: image('theme/images/ClientLogo01.png')!!}
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                
-                                {!! HTML :: image('theme/images/ClientLogo02.png')!!}
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                            
-                                {!! HTML :: image('theme/images/ClientLogo03.png')!!}
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                             
-                                {!! HTML :: image('theme/images/ClientLogo04.png')!!}
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                               
-                                {!! HTML :: image('theme/images/ClientLogo05.png')!!}
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                              
-                                {!! HTML :: image('theme/images/ClientLogo02.png')!!}
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                
-                                {!! HTML :: image('theme/images/ClientLogo04.png')!!}
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+      
         <!-- Price section start -->
         <div id="price" class="section secondary-section">
             <div class="container">
@@ -1000,8 +954,11 @@
         {!! Html::script('theme/js/jquery.cslider.js') !!}
         {!! Html::script('theme/js/jquery.placeholder.js') !!}
         {!! Html::script('theme/js/jquery.inview.js') !!}
-        {!! Html::script('theme/js/app.js') !!}
-        {!! Html::script('ttps://maps.googleapis.com/maps/api/js?sensor=false&callback=initializeMap') !!}
+        
+          {!! Html::script('theme/js/app.js') !!}
+        {!! Html::script('https://maps.googleapis.com/maps/api/js?key=AIzaSyB3PpQ1EOAybx-Bkx1X52noOoPR_Fh_d1w &callback=initializeMap') !!}
+         
+       
         <!-- Load google maps api and call initializeMap function defined in app.js -->
         
         <!-- css3-mediaqueries.js for IE8 or older -->
