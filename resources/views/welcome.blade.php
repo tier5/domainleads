@@ -38,7 +38,8 @@
     </head>
     
     <body>
-	
+   
+
         <div class="navbar">
             <div class="navbar-inner">
                 <div class="container">
@@ -60,8 +61,13 @@
                             <li><a href="#portfolio">Portfolio</a></li>
                             <li><a href="#about">About</a></li>
                             <li><a href="#clients">Clients</a></li>
+                             @if (Auth::check())
+                             <li> <a href="{{ URL::to('postSearchData') }}">Search Domain</a></li>
+                             <li> <a href="{{ URL::to('logout') }}">Logout</a></li>
+                              @else 
                             <li> <button class="" id="popupid" data-toggle="modal" data-target="#myModal">SignIn</button></li>
                             <li><button class="" id="popupid_for_reg" data-toggle="modal" data-target="#myModal_for_reg">SignUp</button></li>
+                            @endif
                         </ul>
                        
                     </div>

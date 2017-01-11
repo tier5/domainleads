@@ -1,5 +1,5 @@
 <html lang="en">
-
+@include('layouts.header')
 <head>
 
 	<title>Search Domain</title>
@@ -11,13 +11,14 @@
 
 <body>
 
-	<nav class="navbar navbar-default">
+
 
 		<div class="container-fluid">
 
 			<div class="navbar-header">
 
-				<a class="navbar-brand" href="#">Search Domain</a>  <a href="{{ URL::to('importExport') }}"> ImportCSV</a>
+				<a class="navbar-brand" href="#">Search Domain</a>  
+
                 @if(Session::has('msg'))
                 {{ Session::get('msg')}}
                 @endif
@@ -25,7 +26,7 @@
 
 		</div>
 
-	</nav>
+	
 
 	<div class="container">
 
@@ -34,7 +35,7 @@
 			Domain Name<input type="text" name="domain_name" value="{{ Input::get('domain_name') }}" />
 			Registrant Country<input type="text" name="registrant_country" value="{{ Input::get('registrant_country') }}" />
 
-			Registered Date<input type="text" name="create_date" id="datepicker" class="rr" value="{{ Input::get('create_date') }}" />
+			Registered Date<input type="text" name="create_date" id="datepicker" class="" value="{{ Input::get('create_date') }}" />
 
 			<button class="btn btn-primary">Search</button>
 
@@ -66,29 +67,29 @@
     </thead>
     <tbody>
     @if(count($requiredData))
-			@foreach($requiredData as $key=>$value)
-      <tr>
-        <td>{{ $value->registrant_name}}</td>
-        <td>{{ $value->email}}</td>
-        <td>{{ $value->registrant_company}}</td>
-        <td>{{ $value->registrant_address}}</td>
-        <td>{{ $value->registrant_city}}</td>
-        <td>{{ $value->registrant_state}}</td>
-        <td>{{ $value->registrant_zip}}</td>
-        <td>{{ $value->registrant_country}}</td>
-        <td>{{ $value->registrant_phone}}</td>
-        <td>{{ $value->domain_name}}</td>
-        <td>{{ $value->create_date}}</td>
-        <td>{{ $value->expiry_date}}</td>
-        <td>{{ $value->domain_registrar_id}}</td>
-        <td>{{ $value->domain_registrar_name}}</td>
-        <td>{{ $value->domain_registrar_whois}}</td>
-        <td>{{ $value->domain_registrar_url}}</td>
+		@foreach($requiredData as $key=>$value)
+	      <tr>
+	        <td>{{ $value->registrant_name}}</td>
+	        <td>{{ $value->email}}</td>
+	        <td>{{ $value->registrant_company}}</td>
+	        <td>{{ $value->registrant_address}}</td>
+	        <td>{{ $value->registrant_city}}</td>
+	        <td>{{ $value->registrant_state}}</td>
+	        <td>{{ $value->registrant_zip}}</td>
+	        <td>{{ $value->registrant_country}}</td>
+	        <td>{{ $value->registrant_phone}}</td>
+	        <td>{{ $value->domain_name}}</td>
+	        <td>{{ $value->create_date}}</td>
+	        <td>{{ $value->expiry_date}}</td>
+	        <td>{{ $value->domain_registrar_id}}</td>
+	        <td>{{ $value->domain_registrar_name}}</td>
+	        <td>{{ $value->domain_registrar_whois}}</td>
+	        <td>{{ $value->domain_registrar_url}}</td>
 
-      </tr>
-    @endforeach
-        @else <tr><td colspan="4"><p>No Result Found !!!</p></td></tr>
-		@endif 
+	      </tr>
+        @endforeach
+    @else <tr><td colspan="4"><p>No Result Found !!!</p></td></tr>
+	@endif 
     </tbody>
   </table>
 </div> 
@@ -106,7 +107,7 @@
      $( "#datepicker" ).datepicker( "option", "dateFormat", 'yy-mm-dd');
      var create_date='<?php echo Input::get('create_date'); ?>';
      if(create_date!=''){
-     //	alert(test);
+  
      	$( "#datepicker" ).val(create_date);
      }
   });

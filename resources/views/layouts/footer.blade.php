@@ -1,9 +1,8 @@
 <html lang="en">
-@include('layouts.header')
 
 <head>
 
-	<title>Import -CSV</title>
+	<title>Import - Export Laravel 5</title>
 	 
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" >
@@ -12,12 +11,12 @@
 
 <body>
 
-
+	<nav class="navbar navbar-default">
 
 		<div class="container-fluid">
 
 			<div class="navbar-header">
-               
+               <a href="{{ URL::to('logout') }}">Logout</a> <a href="{{ URL::to('postSearchData') }}">Search Data</a>
 	<!--{  Auth::user()->email}
 	{  Auth::id()}-->
 				<a class="navbar-brand" href="#">Import CSV</a>
@@ -28,7 +27,7 @@
 
 		</div>
 
-	
+	</nav>
 
 	<div class="container">
 
