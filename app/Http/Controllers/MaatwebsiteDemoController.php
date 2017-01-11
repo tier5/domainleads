@@ -154,7 +154,7 @@ class MaatwebsiteDemoController extends Controller
 
   {
       $create_date=$request->create_date;
-      //echo $create_date;dd();
+      
       $registrant_country=$request->registrant_country;
    
       $domain_name=$request->domain_name;
@@ -162,7 +162,8 @@ class MaatwebsiteDemoController extends Controller
       $requiredData=array();
 
     
-     if(($create_date!='')&& ($registrant_country!='')&& ($domain_name!='') ){
+     //if(($create_date!='')&& ($registrant_country!='')&& ($domain_name!='') ){
+
        $requiredData = DB::table('users')
               ->join('domain', 'users.id', '=', 'domain.user_id')
               ->select('users.*', 'domain.*')
@@ -183,9 +184,9 @@ class MaatwebsiteDemoController extends Controller
                ->orderBy('domain.create_date', 'desc')
               ->get();
   
-       }                      
+     //}                      
     
-                              
+     //print_r($requiredData);dd();                           
      return view('searchDomain')->with('requiredData', $requiredData)->with('registrant_country', $registrant_country);
    // return view('searchDomain',[
   //  'requiredData' => $requiredData,
