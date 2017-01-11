@@ -153,44 +153,38 @@ class MaatwebsiteDemoController extends Controller
    public function postSearchData(Request $request)
 
   {
-
-     $registrant_country=$request->registrant_country;
+      $create_date=$request->create_date;
+      //echo $create_date;dd();
+      $registrant_country=$request->registrant_country;
    
       $domain_name=$request->domain_name;
+      
       $requiredData=array();
 
     
-    if(($registrant_country!='') && ($domain_name!='')){
-     $requiredData = DB::table('users')
-            ->join('domain', 'users.id', '=', 'domain.user_id')
-            ->select('users.*', 'domain.*')
-            ->where('users.registrant_country',$registrant_country)             
-            ->where('domain.domain_name',$domain_name) 
-             ->orderBy('domain.create_date', 'desc')
-            ->get();
-     }
-                             
-    if(($registrant_country=='') && ($domain_name!='')){
-       $requiredData = DB::table('domain')
-            ->join('users', 'users.id', '=', 'domain.user_id')
-            ->select('users.*', 'domain.*')         
-            ->where('domain.domain_name',$domain_name) 
-            ->orderBy('domain.create_date', 'desc')
-            ->get();
-    // $requiredData=DB::table('domain')->select('*')
-                                // ->where('domain_name',$domain_name)
-                                // ->orderBy('create_date', 'desc')
-                                // ->get();
-     }  
-     if(($registrant_country!='') && ($domain_name=='')){
-         $requiredData = DB::table('users')
-            ->join('domain', 'users.id', '=', 'domain.user_id')
-            ->select('users.*', 'domain.*')
-            ->where('users.registrant_country',$registrant_country)              
-            ->orderBy('domain.create_date', 'desc')
-            ->get();
-         
-     }  
+     if(($create_date!='')&& ($registrant_country!='')&& ($domain_name!='') ){
+       $requiredData = DB::table('users')
+              ->join('domain', 'users.id', '=', 'domain.user_id')
+              ->select('users.*', 'domain.*')
+              
+              ->where(function($query) use ($create_date,$domain_name,$registrant_country)
+                {
+                    
+                    if (!empty($domain_name)) {
+                        $query->where('domain.domain_name', $domain_name);
+                    }
+                    if (!empty($registrant_country)) {
+                        $query->where('users.registrant_country', $registrant_country);
+                    } 
+                    if (!empty($create_date)) {
+                        $query->where('domain.create_date', $create_date);
+                    }
+                })
+               ->orderBy('domain.create_date', 'desc')
+              ->get();
+  
+       }                      
+    
                               
      return view('searchDomain')->with('requiredData', $requiredData)->with('registrant_country', $registrant_country);
    // return view('searchDomain',[

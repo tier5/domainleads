@@ -69,7 +69,7 @@ class DemoController extends Controller {
 	}
 	public function signme(Request $request){
 	  
-	 // print_r($request->all()); 
+	  //print_r($request->all()); dd();
 	 $first_name=$request->first_name;
 	  $last_name=$request->last_name;
 	   $email=$request->email;
@@ -95,7 +95,8 @@ class DemoController extends Controller {
 	 );
 	 
 	 if($validator->fails()) {
-	 return redirect('signup')->withErrors($validator)->withInput();
+	 //return redirect('signup')->withErrors($validator)->withInput();
+	 	return "error1";
 	 } else {
 	     
 		 $data=array(
@@ -112,12 +113,15 @@ class DemoController extends Controller {
 		 
 		 
 			 if(DB::table('users')->insert($data)) {
-			   return redirect('/')->with("success","Successfully Signed");
+			   //return redirect('/')->with("success","Successfully Signed");
+			 	return "success";
 			 } else {
-				return redirect('/')->with("error","Unsuccessfully Signed");
+				//return redirect('/')->with("error","Unsuccessfully Signed");
+				return "error2";
 			 }
 	     } else {
-		   return redirect('/')->with("error","Email exists");
+		   // return redirect('/')->with("error","Email exists");
+	     	return "error3";
 		 }
 	 }
 	   

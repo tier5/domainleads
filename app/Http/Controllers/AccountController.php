@@ -9,7 +9,7 @@ class AccountController extends Controller {
   public function login() {
     // Getting all post data
     $data = Input::all();
-	//print_r($data);
+	  
     // Applying validation rules.
     $rules = array(
 		'email' => 'required|email',
@@ -17,8 +17,8 @@ class AccountController extends Controller {
 	     );
     $validator = Validator::make($data, $rules);
     if ($validator->fails()){
-      // If validation falis redirect back to login.
-      return Redirect::to('/login')->withInput(Input::except('password'))->withErrors($validator);
+    return "error2";
+     // return Redirect::to('/login')->withInput(Input::except('password'))->withErrors($validator);
     }
     else {
       $userdata = array(
@@ -28,13 +28,13 @@ class AccountController extends Controller {
       // doing login.
       if (Auth::validate($userdata)) {
         if (Auth::attempt($userdata)) {
-          return Redirect::intended('importExport');
+          return "success";
         }
       } 
       else {
-        // if any error send back with message.
-        Session::flash('error', 'Something went wrong'); 
-        return Redirect::to('/');
+        return "error1";
+         // Session::flash('error', 'Something went wrong'); 
+       
       }
     }
   }

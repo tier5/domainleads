@@ -976,60 +976,25 @@
                     ×</button>
                 <h4 class="modal-title" id="myModalLabel">
                     Login</h4>
+                    <div id="errormsg"></div>
             </div>
             <div class="modal-body">
-                            {{ Form::open(array('url' => 'login')) }}
+                            {{ Form::open(array('url' => '')) }}
 
-                @if(Session::has('error'))
-                <div class="alert-box success">
-                  <h2>{{ Session::get('error') }}</h2>
-                </div>
-                @endif
+                
                 <div class="controls">
-                {{ Form::text('email','',array('id'=>'','class'=>'form-control span6','placeholder' => 'Please Enter your Email')) }}
+                {{ Form::text('email','',array('id'=>'email_id_login','class'=>'form-control span6','placeholder' => 'Please Enter your Email')) }}
                 <p class="errors">{{$errors->first('email')}}</p>
                 </div>
                 <div class="controls">
-                {{ Form::password('password',array('class'=>'form-control span6', 'placeholder' => 'Please Enter your Password')) }}
+                {{ Form::password('password',array('class'=>'form-control span6', 'placeholder' => 'Please Enter your Password','id'=>'password')) }}
                 <p class="errors">{{$errors->first('password')}}</p>
                 </div>
-                <p>{{ Form::submit('Login', array('class'=>'send-btn')) }}</p>
+                <p>{{ Form::button('Login', array('class'=>'send-btn','id' => 'submitbtn')) }}
+               
+                </p>
                 {{ Form::close() }}
-                <!--<div class="row">
-                    <div class="col-md-6" style="border-right: 1px dotted #C2C2C2;padding-right: 30px;">
-                                            
-                            <div class="tab-pane active" id="Login">
-                                <form role="form" class="form-horizontal">
-                                <div class="form-group">
-                                    <label for="email" class="col-sm-2 control-label">
-                                        Email</label>
-                                    <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="email1" placeholder="Email" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputPassword1" class="col-sm-2 control-label">
-                                        Password</label>
-                                    <div class="col-sm-10">
-                                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-2">
-                                    </div>
-                                    <div class="col-sm-10">
-                                        <button type="submit" class="btn btn-primary btn-sm">
-                                            Submit</button>
-                                        <a href="javascript:;">Forgot your password?</a>
-                                    </div>
-                                </div>
-                                </form>
-                            </div>
-                      
-                        
-                    </div>
-                  
-                </div>-->
+                
             </div>
         </div>
     </div>
@@ -1044,36 +1009,22 @@
                     ×</button>
                 <h4 class="modal-title" id="">
                     Register</h4>
+                    <div id="errormsg_reg"></div>
             </div>
             <div class="modal-body">
                                 
                 <div class="signup-form">
-
-                 @if( count($errors) > 0)
-                   <div class="alert alert-danger">
-                   <strong>woops!</strong>
-                     <ul>
-                       @foreach($errors->all() as $error) 
-                         <li>{{ $error }} </li>
-                        @endforeach 
-                     </ul>
-                   </div>
-                 @endif
-                 
-                   @if(Session::has('success'))
-                     {{ Session::get('success')}}
-                   @endif
-                   @if(Session::has('error'))
-                      {{ Session::get('error')}}
-                   @endif
+ 
                    
-                {!! Form::open(array('url'=>'signme')) !!}
+                {!! Form::open(array('url'=>'')) !!}
                 {!! Form ::text('first_name','',array('class'=>'formtext','id'=>"first_name","placeholder"=>'First Name')) !!}
                 {!! Form ::text('last_name','',array('class'=>'formtext','id'=>"last_name","placeholder"=>'Last Name')) !!}
-                {!! Form ::text('email','',array('class'=>'formtext','id'=>"email","placeholder"=>'Email Address')) !!}
-                {!! Form ::password('password','',array('class'=>'formtext','id'=>"password","placeholder"=>'Password')) !!}
-                {!! Form ::password('c_password','',array('class'=>'formtext','id'=>"email","placeholder"=>'Confirm Pasword')) !!}
-                {!! Form ::submit('submit') !!}
+                {!! Form ::text('email','',array('class'=>'formtext','id'=>"email_reg","placeholder"=>'Email Address')) !!}
+                {!! Form ::password('password',array('class'=>'formtext','id'=>"password_reg","placeholder"=>'Password')) !!}
+
+                {!! Form ::password('c_password',array('class'=>'formtext','id'=>"c_password_reg","placeholder"=>'Confirm Pasword')) !!}
+                {!! Form ::button('submit',array('class'=>'send-btn','id' => 'submitbtn_reg')) !!}
+               
                 {!! Form::close() !!}
                 </div>           
                
@@ -1082,13 +1033,65 @@
     </div>
 </div>
 <script type="text/javascript">
-   $( document ).ready(function() {
+$( document ).ready(function() {
         $("popupid").click(function(){
             $('#myModal').modal('show');
         }); 
         $("popupid_for_reg").click(function(){
             $('#myModal_for_reg').modal('show');
         }); 
+
+        $("#submitbtn").click(function(){
+            var email=$("#email_id_login").val();
+            var password=$("#password").val();
+           $.ajax({
+               type:'POST',
+               url:'login',
+               data:'email='+email+'&password='+password,
+               success:function(data){
+               // console.log(data);
+                if(data=='success'){
+                  window.location.href = 'importExport';
+                }
+                if(data=='error1'){
+                   $("#errormsg").html('User is not registered');
+                }
+                if(data=='error2'){
+                   $("#errormsg").html('Invalid login credentials');
+                } 
+                 
+               }
+            });
+        });  
+        $("#submitbtn_reg").click(function(){
+            var first_name=$("#first_name").val();
+            var last_name=$("#last_name").val();
+            var email_reg=$("#email_reg").val();
+            var password_reg=$("#password_reg").val();
+            var c_password_reg=$("#c_password_reg").val();
+
+           $.ajax({
+               type:'POST',
+               url:'signme',
+               data:'first_name='+first_name+'&last_name='+last_name+'&email='+email_reg+'&password='+password_reg+'&c_password='+c_password_reg,
+               success:function(data){
+                //console.log(data);
+                if(data=='success'){
+                   $("#errormsg_reg").html('Successfully Signed');
+                }
+                if(data=='error1'){
+                   $("#errormsg_reg").html('Data not correct');
+                }
+                if(data=='error2'){
+                   $("#errormsg_reg").html('Please signup again');
+                } 
+                if(data=='error3'){
+                   $("#errormsg_reg").html('Email exists');
+                } 
+                 
+               }
+            });
+        });  
 
 });
    

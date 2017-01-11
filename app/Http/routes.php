@@ -16,8 +16,6 @@ Route::get('/', function () {
 });
 
 
-Route::get('mylogin','DemoController@login_form' );
-Route::post('loginme','DemoController@checklogin' );
 
 Route::get('signup','DemoController@signupform' );
 Route::post('signme','DemoController@signme' );
@@ -36,7 +34,6 @@ Route::post('login', 'AccountController@login');
 Route::get('logout', array('uses' => 'AccountController@logout'));
 
 
-//Route::get('searchDomain', 'MaatwebsiteDemoController@searchDomain');
 Route::get('postSearchData', 'MaatwebsiteDemoController@searchDomain');
 Route::post('postSearchData', 'MaatwebsiteDemoController@postSearchData');
 
