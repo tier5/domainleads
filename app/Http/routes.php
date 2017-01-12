@@ -23,6 +23,9 @@ Route::post('signme','DemoController@signme' );
 Route::group(['middleware' => 'auth'],function(){
 	Route::get('importExport', 'MaatwebsiteDemoController@importExport');
     Route::post('importExcel', 'MaatwebsiteDemoController@importExcel');
+
+    Route::post('filteremailID','MaatwebsiteDemoController@filteremailID' );
+    Route::get('getDomainData/{id}','MaatwebsiteDemoController@getDomainData' );
 });
 
 // GET route

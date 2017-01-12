@@ -11,7 +11,110 @@ use Excel;
 class MaatwebsiteDemoController extends Controller
 
 {
-
+   public function getDomainData($id){
+    
+    $requiredData=array();
+    $email=base64_decode($id);
+     $requiredData = DB::table('users')
+              ->join('domain', 'users.id', '=', 'domain.user_id')
+              ->select('users.*', 'domain.*')
+               ->where('users.email', $email)
+               ->orderBy('domain.create_date', 'desc')
+              ->get();
+    
+    return view('listDomain')->with('requiredData',$requiredData);
+   }
+  
+  public function filteremailID(Request $request){
+    
+    //print_r($request->all()); dd();
+    $domain_name=$request->domain_name;
+    $registrant_country=$request->registrant_country;
+    $create_date=$request->datepicker;
+    $filteredemail=$request->filteredemail;
+    $explodeemail=explode(",",$filteredemail);
+    $notrequiredemail=array();
+    foreach($explodeemail as $val){
+      $notrequiredemail[]=$val; 
+    }
+    //print_r($notrequiredemail);dd();
+      $requiredData = DB::table('users')
+              ->join('domain', 'users.id', '=', 'domain.user_id')
+              ->select('users.*', 'domain.*')
+              
+              ->where(function($query) use ($create_date,$domain_name,$registrant_country)
+                {
+                    
+                    if (!empty($domain_name)) {
+                        $query->where('domain.domain_name', $domain_name);
+                    }
+                    if (!empty($registrant_country)) {
+                        $query->where('users.registrant_country', $registrant_country);
+                    } 
+                    if (!empty($create_date)) {
+                        $query->where('domain.create_date', $create_date);
+                    }
+                })
+               ->whereNotIn('users.email', $notrequiredemail)
+               ->orderBy('domain.create_date', 'desc')
+              ->get();
+   
+     
+          echo "<table class='table'>";
+          echo  "<thead>";
+          echo "<tr>";
+          echo  "<th>Domain Name</th>";
+          echo  "<th>Registrant Name</th>";
+          echo  "<th>Registrant Email</th>";
+          echo  "<th>Registrant Phone</th>";
+          echo  "<th>Registered Date</th>";
+          echo  "<th>Registrant Company</th>";
+          echo  "<th>Registrant Address</th>";
+          echo  "<th>Registrant City</th>";
+          echo  "<th>Registrant State</th>";
+          echo  "<th>Registrant Zip</th>";
+          echo  "<th>Registrant Country</th>";
+            
+          echo  "<th>Expiry Date</th>";
+          echo  "<th>Domain Registrar ID</th>";
+          echo  "<th>Domain Registrar Name</th>";
+          echo  "<th>Domain Registrar Whois</th>";
+          echo  "<th>Domain Registrar Url</th>";
+          echo  "</tr>";
+          echo  "</thead>";
+          echo "<tbody>";
+          if(count($requiredData)){
+           foreach($requiredData as $key=>$value) {
+                
+                echo "<tr>";
+                echo "<td><a href='http://".$value->domain_name."' target='_blank'>".$value->domain_name."</a></td>";
+                echo "<td>".$value->registrant_name."</td>";
+                //echo "<td>".$value->email."<button class='btn btn-success' onclick='filterFunction(".$value->email.")'>Filter</button></td>";
+                echo "<td>".$value->email;?><button class="btn btn-success" onclick="filterFunction('<?php echo $value->email; ?>')">Filter</button></td>
+                 <?php
+                echo "<td>".$value->registrant_phone."</td>";
+                echo "<td>".$value->create_date."</td>";
+                echo "<td>".$value->registrant_company."</td>";
+                echo "<td>".$value->registrant_address."</td>";
+                echo "<td>".$value->registrant_city."</td>";
+                echo "<td>".$value->registrant_state."</td>";
+                echo "<td>".$value->registrant_zip."</td>";
+                echo "<td>".$value->registrant_country."</td>";
+                echo "<td>".$value->expiry_date."</td>";
+                echo "<td>".$value->domain_registrar_id."</td>";
+                echo "<td>".$value->domain_registrar_name."</td>";
+                echo "<td>".$value->domain_registrar_whois."</td>";
+                echo "<td>".$value->domain_registrar_url."</td>";
+                echo "</tr>";
+              }
+            }else {
+              echo "<tr><td colspan='13'>No Result Found!!!</td></tr>";
+            } 
+         echo "</tbody>";
+         echo  "</table>";
+      
+    //print_r($requiredData);
+   } 
   public function importExport()
 
   {

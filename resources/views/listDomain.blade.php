@@ -74,7 +74,7 @@
 	      <tr>
 	        <td><a href="http://{{ $value->domain_name }}" target="_blank">{{ $value->domain_name}}</a></td>
 	        <td>{{ $value->registrant_name}}</td>
-	        <td>{{ $value->email}}<button class="btn btn-success" onclick="filterFunction('<?php echo $value->email; ?>')">Filter</button>&nbsp;<a href="getDomainData/{{base64_encode($value->email)}}" target="_blank"><button class="btn btn-success">View</button></a></td>
+	        <td>{{ $value->email}}</td>
 	        <td>{{ $value->registrant_phone}}</td>
 	        <td>{{ $value->create_date}}</td>
 	        <td>{{ $value->registrant_company}}</td>
