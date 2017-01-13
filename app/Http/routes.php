@@ -26,6 +26,8 @@ Route::group(['middleware' => 'auth'],function(){
 
     Route::post('filteremailID','MaatwebsiteDemoController@filteremailID' );
     Route::get('getDomainData/{id}','MaatwebsiteDemoController@getDomainData' );
+    Route::get('postSearchData', 'MaatwebsiteDemoController@searchDomain');
+    Route::post('postSearchData', 'MaatwebsiteDemoController@postSearchData');
 });
 
 // GET route
@@ -37,6 +39,5 @@ Route::post('login', 'AccountController@login');
 Route::get('logout', array('uses' => 'AccountController@logout'));
 
 
-Route::get('postSearchData', 'MaatwebsiteDemoController@searchDomain');
-Route::post('postSearchData', 'MaatwebsiteDemoController@postSearchData');
+
 

@@ -26,6 +26,12 @@ class MaatwebsiteDemoController extends Controller
    }
   
   public function filteremailID(Request $request){
+
+    ini_set("memory_limit","7G");
+    ini_set('max_execution_time', '0');
+    ini_set('max_input_time', '0');
+    set_time_limit(0);
+    ignore_user_abort(true); 
     
     //print_r($request->all()); dd();
     $domain_name=$request->domain_name;
@@ -90,7 +96,7 @@ class MaatwebsiteDemoController extends Controller
                 echo "<td><a href='http://".$value->domain_name."' target='_blank'>".$value->domain_name."</a></td>";
                 echo "<td>".$value->registrant_name."</td>";
                 //echo "<td>".$value->email."<button class='btn btn-success' onclick='filterFunction(".$value->email.")'>Filter</button></td>";
-                echo "<td>".$value->registrant_email;?><button class="btn btn-success" onclick="filterFunction('<?php echo $value->registrant_email; ?>')">Filter</button>&nbsp;<a href="getDomainData/{{base64_encode($value->registrant_email)}}" target="_blank"><button class="btn btn-success">View</button></a></td>
+                echo "<td>".$value->registrant_email;?><button class="btn btn-success" onclick="filterFunction('<?php echo $value->registrant_email; ?>')">Filter</button>&nbsp;<a href="getDomainData/<?php echo base64_encode($value->registrant_email); ?>" target="_blank"><button class="btn btn-success">View</button></a></td>
                  <?php
                 echo "<td>".$value->registrant_phone."</td>";
                 echo "<td>".$value->create_date."</td>";
@@ -256,7 +262,14 @@ class MaatwebsiteDemoController extends Controller
   }
    public function postSearchData(Request $request)
 
-  {
+  {   
+
+    ini_set("memory_limit","7G");
+    ini_set('max_execution_time', '0');
+    ini_set('max_input_time', '0');
+    set_time_limit(0);
+    ignore_user_abort(true); 
+
       $create_date=$request->create_date;
       
       $registrant_country=$request->registrant_country;
