@@ -104,6 +104,7 @@ class DemoController extends Controller {
 			"email"=>$email,
 			"password"=>Hash::make($password),
 			"remember_token"=>$remember_token,
+			"user_type"=>'1',
 			"created_at"=>$date,
 			"updated_at"=>$date
 		 

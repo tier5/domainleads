@@ -71,10 +71,34 @@
     <tbody>
     @if(count($requiredData))  
 		@foreach($requiredData as $key=>$value)
+
+      <?php 
+        if (Auth::user()->user_type=='1'){
+           $domainName=$value->domain_name;
+           $domainname=strstr($domainName, '.', true);
+           $ext=substr(strrchr($domainName, "."), 1);
+           $var='';
+          for ($x = 0; $x < strlen($domainname); $x++){
+            if($x==0){
+              $var=$domainname[$x];
+            }
+              elseif($x==(strlen($domainname)-1)){
+              $var=$var.$domainname[$x];  
+              }
+            else {            
+              $var=$var.'*';
+              }
+             
+          }
+          $domainName_new= $var.'.'.$ext;
+        }else {
+        $domainName_new =$value->domain_name;
+        }
+        ?>
 	      <tr>
-	        <td><a href="http://{{ $value->domain_name }}" target="_blank">{{ $value->domain_name}}</a></td>
+	        <td><a href="http://{{ $value->domain_name }}" target="_blank">{{ $domainName_new}}</a></td>
 	        <td>{{ $value->registrant_name}}</td>
-	        <td>{{ $value->email}}</td>
+	        <td>{{ $value->registrant_email}}</td>
 	        <td>{{ $value->registrant_phone}}</td>
 	        <td>{{ $value->create_date}}</td>
 	        <td>{{ $value->registrant_company}}</td>
@@ -109,34 +133,7 @@
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
   <script>
-  function filterFunction(email){
-  	var domain_name=$("#domain_name").val();
-  	var registrant_country=$("#registrant_country").val();
-  	var datepicker=$("#datepicker").val();
-    var filteredemail=$("#filteredemail").val();
-	     if(filteredemail==''){
-	      filteredemail=email;
-	     }else {
-	      filteredemail=filteredemail+","+email;
-	     } 
-        $("#filteredemail").val(filteredemail);
-
-        $.ajax({
-               type:'POST',
-               url:'filteremailID',
-               beforeSend: function()
-					{
-						$('#filtereddataid').html('<img src="theme/images/loading.gif">Loading...');
-					},
-               data:'domain_name='+domain_name+'&registrant_country='+registrant_country+'&datepicker='+datepicker+'&filteredemail='+filteredemail,
-	               success:function(data){
-	               	$("#filtereddataid").html(data);
-	                //console.log(data);
-	                 
-	               }
-                });
-      
-  }
+  
   $(function() {
   	
   	

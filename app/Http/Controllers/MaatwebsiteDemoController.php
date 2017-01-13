@@ -15,11 +15,11 @@ class MaatwebsiteDemoController extends Controller
     
     $requiredData=array();
     $email=base64_decode($id);
-     $requiredData = DB::table('users')
-              ->join('domain', 'users.id', '=', 'domain.user_id')
-              ->select('users.*', 'domain.*')
-               ->where('users.email', $email)
-               ->orderBy('domain.create_date', 'desc')
+     $requiredData = DB::table('leads')
+              ->join('domains', 'leads.id', '=', 'domains.user_id')
+              ->select('leads.*', 'domains.*')
+               ->where('leads.registrant_email', $email)
+               ->orderBy('domains.create_date', 'desc')
               ->get();
     
     return view('listDomain')->with('requiredData',$requiredData);
@@ -38,25 +38,25 @@ class MaatwebsiteDemoController extends Controller
       $notrequiredemail[]=$val; 
     }
     //print_r($notrequiredemail);dd();
-      $requiredData = DB::table('users')
-              ->join('domain', 'users.id', '=', 'domain.user_id')
-              ->select('users.*', 'domain.*')
+      $requiredData = DB::table('leads')
+              ->join('domains', 'leads.id', '=', 'domains.user_id')
+              ->select('leads.*', 'domains.*')
               
               ->where(function($query) use ($create_date,$domain_name,$registrant_country)
                 {
                     
                     if (!empty($domain_name)) {
-                        $query->where('domain.domain_name', $domain_name);
+                        $query->where('domains.domain_name', $domain_name);
                     }
                     if (!empty($registrant_country)) {
-                        $query->where('users.registrant_country', $registrant_country);
+                        $query->where('leads.registrant_country', $registrant_country);
                     } 
                     if (!empty($create_date)) {
-                        $query->where('domain.create_date', $create_date);
+                        $query->where('domains.create_date', $create_date);
                     }
                 })
-               ->whereNotIn('users.email', $notrequiredemail)
-               ->orderBy('domain.create_date', 'desc')
+               ->whereNotIn('leads.registrant_email', $notrequiredemail)
+               ->orderBy('domains.create_date', 'desc')
               ->get();
    
      
@@ -90,7 +90,7 @@ class MaatwebsiteDemoController extends Controller
                 echo "<td><a href='http://".$value->domain_name."' target='_blank'>".$value->domain_name."</a></td>";
                 echo "<td>".$value->registrant_name."</td>";
                 //echo "<td>".$value->email."<button class='btn btn-success' onclick='filterFunction(".$value->email.")'>Filter</button></td>";
-                echo "<td>".$value->email;?><button class="btn btn-success" onclick="filterFunction('<?php echo $value->email; ?>')">Filter</button></td>
+                echo "<td>".$value->registrant_email;?><button class="btn btn-success" onclick="filterFunction('<?php echo $value->registrant_email; ?>')">Filter</button>&nbsp;<a href="getDomainData/{{base64_encode($value->registrant_email)}}" target="_blank"><button class="btn btn-success">View</button></a></td>
                  <?php
                 echo "<td>".$value->registrant_phone."</td>";
                 echo "<td>".$value->create_date."</td>";
@@ -156,7 +156,7 @@ class MaatwebsiteDemoController extends Controller
           if($value->registrant_email){
              unset($insert_domain);
              $date=date('Y-m-d H:i:s');
-                $id_email=DB::table('users')->select('id')->where('email',$value->registrant_email)->get();
+                $id_email=DB::table('leads')->select('id')->where('registrant_email',$value->registrant_email)->get();
 
                   if(count($id_email) ==0 ){
                   unset($insert);
@@ -168,9 +168,36 @@ class MaatwebsiteDemoController extends Controller
                                'registrant_state' => $value->registrant_state?$value->registrant_state:'',
                                'registrant_zip' => $value->registrant_zip?$value->registrant_zip:'',
                                'registrant_country' => $value->registrant_country?$value->registrant_country:'',
-                               'email' => $value->registrant_email?$value->registrant_email:'',
+                               'registrant_email' => $value->registrant_email?$value->registrant_email:'',
                                'registrant_phone' => $value->registrant_phone?$value->registrant_phone:'',
                                'registrant_fax' => $value->registrant_fax?$value->registrant_fax:'',
+                               
+                               "created_at"=>$date,
+                               "updated_at"=>$date,
+                              
+                               ];
+                    
+          // print_r($insert);dd();
+               
+                     $user_id = DB::table('leads')->insertGetId($insert);
+
+                     
+                   
+                  } else {
+                      $user_id=$id_email[0]->id;
+
+                  }
+                  $insert_domain=array();
+                  $insert_domain = ['domain_name' => $value->domain_name, 
+                               'query_time' => $value->query_time?$value->query_time:'',
+                               'create_date' => $value->create_date?$value->create_date:'',
+                               'update_date' => $value->update_date?$value->update_date:'',
+                               'expiry_date' => $value->expiry_date?$value->expiry_date:'',
+                               'domain_registrar_id' => $value->domain_registrar_id?$value->domain_registrar_id:'',
+                               'domain_registrar_name' => $value->domain_registrar_name?$value->domain_registrar_name:'',
+                               'domain_registrar_whois' => $value->domain_registrar_whois?$value->domain_registrar_whois:'',
+                               'domain_registrar_url' => $value->domain_registrar_url?$value->domain_registrar_url:'',
+                               'user_id' => $user_id,
                                'administrative_name' => $value->administrative_name?$value->administrative_name:'',
                                'administrative_company' => $value->administrative_company?$value->administrative_company:'',
                                'administrative_address' => $value->administrative_address?$value->administrative_address:'',
@@ -210,34 +237,8 @@ class MaatwebsiteDemoController extends Controller
                                'domain_status_4' => $value->domain_status_4?$value->domain_status_4:'',
                                "created_at"=>$date,
                                "updated_at"=>$date,
-                              
-                               ];
-                    
-          // print_r($insert);dd();
-               
-                     $user_id = DB::table('users')->insertGetId($insert);
-
-                     
-                   
-                  } else {
-                      $user_id=$id_email[0]->id;
-
-                  }
-                  $insert_domain=array();
-                  $insert_domain = ['domain_name' => $value->domain_name, 
-                               'query_time' => $value->query_time?$value->query_time:'',
-                               'create_date' => $value->create_date?$value->create_date:'',
-                               'update_date' => $value->update_date?$value->update_date:'',
-                               'expiry_date' => $value->expiry_date?$value->expiry_date:'',
-                               'domain_registrar_id' => $value->domain_registrar_id?$value->domain_registrar_id:'',
-                               'domain_registrar_name' => $value->domain_registrar_name?$value->domain_registrar_name:'',
-                               'domain_registrar_whois' => $value->domain_registrar_whois?$value->domain_registrar_whois:'',
-                               'domain_registrar_url' => $value->domain_registrar_url?$value->domain_registrar_url:'',
-                               'user_id' => $user_id,
-                               "created_at"=>$date,
-                               "updated_at"=>$date,
                                ]; 
-                 DB::table('domain')->insert($insert_domain);
+                 DB::table('domains')->insert($insert_domain);
           }      
         }
          
@@ -267,24 +268,24 @@ class MaatwebsiteDemoController extends Controller
     
      //if(($create_date!='')&& ($registrant_country!='')&& ($domain_name!='') ){
 
-       $requiredData = DB::table('users')
-              ->join('domain', 'users.id', '=', 'domain.user_id')
-              ->select('users.*', 'domain.*')
+       $requiredData = DB::table('leads')
+              ->join('domains', 'leads.id', '=', 'domains.user_id')
+              ->select('leads.*', 'domains.*')
               
               ->where(function($query) use ($create_date,$domain_name,$registrant_country)
                 {
                     
                     if (!empty($domain_name)) {
-                        $query->where('domain.domain_name', $domain_name);
+                        $query->where('domains.domain_name', $domain_name);
                     }
                     if (!empty($registrant_country)) {
-                        $query->where('users.registrant_country', $registrant_country);
+                        $query->where('leads.registrant_country', $registrant_country);
                     } 
                     if (!empty($create_date)) {
-                        $query->where('domain.create_date', $create_date);
+                        $query->where('domains.create_date', $create_date);
                     }
                 })
-               ->orderBy('domain.create_date', 'desc')
+               ->orderBy('domains.create_date', 'desc')
               ->get();
   
      //}                      

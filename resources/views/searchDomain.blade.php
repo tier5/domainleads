@@ -69,12 +69,39 @@
     </thead>
     
     <tbody>
-    @if(count($requiredData))  
+   
+    
+      
+      @if(count($requiredData))  
 		@foreach($requiredData as $key=>$value)
+         
+		    <?php 
+		    if (Auth::user()->user_type=='1'){
+			     $domainName=$value->domain_name;
+			     $domainname=strstr($domainName, '.', true);
+			     $ext=substr(strrchr($domainName, "."), 1);
+			     $var='';
+			    for ($x = 0; $x < strlen($domainname); $x++){
+			    	if($x==0){
+			        $var=$domainname[$x];
+			    	}
+			        elseif($x==(strlen($domainname)-1)){
+			        $var=$var.$domainname[$x];	
+			        }
+			    	else {		        
+			        $var=$var.'*';
+			        }
+			       
+			    }
+			    $domainName_new= $var.'.'.$ext;
+		    }else {
+		    $domainName_new	=$value->domain_name;
+		    }
+		    ?>
 	      <tr>
-	        <td><a href="http://{{ $value->domain_name }}" target="_blank">{{ $value->domain_name}}</a></td>
+	        <td><a href="http://{{ $value->domain_name }}" target="_blank">{{ $domainName_new}}</a></td>
 	        <td>{{ $value->registrant_name}}</td>
-	        <td>{{ $value->email}}<button class="btn btn-success" onclick="filterFunction('<?php echo $value->email; ?>')">Filter</button>&nbsp;<a href="getDomainData/{{base64_encode($value->email)}}" target="_blank"><button class="btn btn-success">View</button></a></td>
+	        <td>{{ $value->registrant_email}}<button class="btn btn-success" onclick="filterFunction('<?php echo $value->registrant_email; ?>')">Filter</button>&nbsp;<a href="getDomainData/{{base64_encode($value->registrant_email)}}" target="_blank"><button class="btn btn-success">View</button></a></td>
 	        <td>{{ $value->registrant_phone}}</td>
 	        <td>{{ $value->create_date}}</td>
 	        <td>{{ $value->registrant_company}}</td>
