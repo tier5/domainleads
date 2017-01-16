@@ -41,101 +41,205 @@
 
 		</form>
 		
-		<div class="container">
-  <h2>Search Result</h2>
+	<div class="container">
+	<?php 
+
+	$ch = curl_init();
+
+	curl_setopt($ch, CURLOPT_URL, "https://www.textinbulk.com/app/api/validate-us-phone-number");
+	curl_setopt($ch, CURLOPT_HEADER, 0);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_POST, 1);
+
+	$data = array(
+	    'phone_number' => '8123904629'
+	   
+	);
+
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
+	$contents = curl_exec($ch);
+
+	curl_close($ch);
+	$json = json_decode($contents, true);
+	print_r($json['phone_number_details']['number_type']);
+
+
+
+
+	?>
+    <h2>Search Result</h2>
     <input type="hidden" id="filteredemail"  value=""> 
     <div id="filtereddataid">     
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Domain Name</th>
-        <th>Registrant Name</th>
-        <th>Registrant Email</th>
-        <th>Registrant Phone</th>
-        <th>Registered Date</th>
-        <th>Registrant Company</th>
-        <th>Registrant Address</th>
-        <th>Registrant City</th>
-        <th>Registrant State</th>
-        <th>Registrant Zip</th>
-        <th>Registrant Country</th>
-        
-        <th>Expiry Date</th>
-        <th>Domain Registrar ID</th>
-        <th>Domain Registrar Name</th>
-        <th>Domain Registrar Whois</th>
-        <th>Domain Registrar Url</th>
-      </tr>
-    </thead>
-    
-    <tbody>
-   
-    
-      
-      @if(count($requiredData))  
-		@foreach($requiredData as $key=>$value)
-         
-		    <?php 
-		    if (Auth::user()->user_type=='1'){
-			     $domainName=$value->domain_name;
-			     $domainname=strstr($domainName, '.', true);
-			     $ext=substr(strrchr($domainName, "."), 1);
-			     $var='';
-			    for ($x = 0; $x < strlen($domainname); $x++){
-			    	if($x==0){
-			        $var=$domainname[$x];
-			    	}
-			        elseif($x==(strlen($domainname)-1)){
-			        $var=$var.$domainname[$x];	
-			        }
-			    	else {		        
-			        $var=$var.'*';
-			        }
-			       
-			    }
-			    $domainName_new= $var.'.'.$ext;
-		    }else {
-		    $domainName_new	=$value->domain_name;
-		    }
-		    ?>
-	      <tr>
-	        <td><a href="http://{{ $value->domain_name }}" target="_blank">{{ $domainName_new}}</a></td>
-	        <td>{{ $value->registrant_name}}</td>
-	        <td>{{ $value->registrant_email}}<button class="btn btn-success" onclick="filterFunction('<?php echo $value->registrant_email; ?>')">Filter</button>&nbsp;<a href="getDomainData/{{base64_encode($value->registrant_email)}}" target="_blank"><button class="btn btn-success">View</button></a></td>
-	        <td>{{ $value->registrant_phone}}</td>
-	        <td>{{ $value->create_date}}</td>
-	        <td>{{ $value->registrant_company}}</td>
-	        <td>{{ $value->registrant_address}}</td>
-	        <td>{{ $value->registrant_city}}</td>
-	        <td>{{ $value->registrant_state}}</td>
-	        <td>{{ $value->registrant_zip}}</td>
-	        <td>{{ $value->registrant_country}}</td>
-	      
-	        
-	       
-	        <td>{{ $value->expiry_date}}</td>
-	        <td>{{ $value->domain_registrar_id}}</td>
-	        <td>{{ $value->domain_registrar_name}}</td>
-	        <td>{{ $value->domain_registrar_whois}}</td>
-	        <td>{{ $value->domain_registrar_url}}</td>
+		  <table class="table">
+		    <thead>
+		      <tr>
+		        <th></th>
+		        <th>Domain Name</th>
+		        <th>Registrant Name</th>
+		        <th>Registrant Email</th>
+		        <th>Registrant Phone</th>
+		        <th>Registered Date</th>
+		        <th>Registrant Company</th>
+		        <th>Registrant Address</th>
+		        <th>Registrant City</th>
+		        <th>Registrant State</th>
+		        <th>Registrant Zip</th>
+		        <th>Registrant Country</th>
+		        
+		        <th>Expiry Date</th>
+		        <th>Domain Registrar ID</th>
+		        <th>Domain Registrar Name</th>
+		        <th>Domain Registrar Whois</th>
+		        <th>Domain Registrar Url</th>
+		      </tr>
+		    </thead>
+		    
+		    <tbody>
+		     
 
-	      </tr>
-        @endforeach
-    @else <tr><td colspan="4"><p>No Result Found !!!</p></td></tr>
-	@endif 
-	
-    </tbody>
-     
-  </table>
+		      @if(count($requiredData))  
+				@foreach($requiredData as $key=>$value)
+		         
+				    <?php 
+				    if (Auth::user()->user_type=='1'){
+					     $domainName=$value->domain_name;
+					     $domainname=strstr($domainName, '.', true);
+					     $ext=substr(strrchr($domainName, "."), 1);
+					     $var='';
+					    for ($x = 0; $x < strlen($domainname); $x++){
+					    	if($x==0){
+					        $var=$domainname[$x];
+					    	}
+					        elseif($x==(strlen($domainname)-1)){
+					        $var=$var.$domainname[$x];	
+					        }
+					    	else {		        
+					        $var=$var.'*';
+					        }
+					       
+					    }
+					    $domainName_new= $var.'.'.$ext;
+				    }else {
+				    $domainName_new	=$value->domain_name;
+				    }
+
+						if (in_array($value->leads_id, $leadusersData))
+						{
+						  $style_unpaid='style="display: none;"';
+						  $style_paid='style="display: block;"';
+                          $checked='checked="checked"';
+						}
+						else
+						{
+						  $style_unpaid='style="display: block;"';
+						  $style_paid='style="display: none;"';
+						  $checked='';
+						}
+
+						$ph_code=strstr($value->registrant_phone, '.', true);
+						$ph_number=substr(strrchr($value->registrant_phone, "."), 1);
+						if($ph_code=='1'){
+							 $ch = curl_init();
+
+							curl_setopt($ch, CURLOPT_URL, "https://www.textinbulk.com/app/api/validate-us-phone-number");
+							curl_setopt($ch, CURLOPT_HEADER, 0);
+							curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+							curl_setopt($ch, CURLOPT_POST, 1);
+
+							$data = array(
+							    'phone_number' => $ph_number
+							   
+							);
+
+							curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
+							$contents = curl_exec($ch);
+
+							curl_close($ch);
+							$json = json_decode($contents, true);
+							//print_r($json['validation_status']);
+							$http_code=$json['http_code'];
+							if($http_code=='200'){
+
+                               $number_type=$json['phone_number_details']['number_type'];
+                                  if($number_type=='Landline'){
+                                    $phonenumber="<img src='theme/images/landline.png' width='25'>";
+                                  }else {
+                                    $phonenumber="<img src='theme/images/cellnumber.png' width='40'>";
+                                  }
+                             
+							}else {
+                               $phonenumber="<img src='theme/images/nophone.png' width='56'>";
+							}
+							
+						}else
+						{
+							$phonenumber=$value->registrant_phone;
+						}
+				    ?>
+			      <tr>
+			        <td><input type="radio" name="unlockleads{{$key}}" id="unlockleads{{$key}}" <?php echo $checked;?> onclick="unlockleadsfun('<?php echo $key; ?>','<?php echo $value->leads_id; ?>','<?php echo $value->domain_id; ?>')" value="1"></td>
+			        <td class="unpaid_td{{$key}}" <?php echo $style_unpaid;?>><a href="<?php  if (Auth::user()->user_type=='2'){ ?>http://{{ $value->domain_name }}" <?php } else { ?>javascript:void(0); <?php  } ?> target="_blank">{{ $domainName_new}}</a></td>
+			        <td class="paid_td{{$key}}" <?php echo $style_paid;?>><a href="http://{{ $value->domain_name }}" target="_blank">{{ $value->domain_name}}</a></td>
+			        <td>{{ $value->registrant_name}}</td>
+			        <td>{{ $value->registrant_email}}<a href="getDomainData/{{base64_encode($value->registrant_email)}}" target="_blank"><button class="btn btn-success">View</button></a></td>
+			        <td><?php echo $phonenumber;?></td>
+			        <td>{{ $value->create_date}}</td>
+			        <td>{{ $value->registrant_company}}</td>
+			        <td>{{ $value->registrant_address}}</td>
+			        <td>{{ $value->registrant_city}}</td>
+			        <td>{{ $value->registrant_state}}</td>
+			        <td>{{ $value->registrant_zip}}</td>
+			        <td>{{ $value->registrant_country}}</td>
+			      
+			        
+			       
+			        <td>{{ $value->expiry_date}}</td>
+			        <td>{{ $value->domain_registrar_id}}</td>
+			        <td>{{ $value->domain_registrar_name}}</td>
+			        <td>{{ $value->domain_registrar_whois}}</td>
+			        <td>{{ $value->domain_registrar_url}}</td>
+
+			      </tr>
+		        @endforeach
+		    @else <tr><td colspan="4"><p>No Result Found !!!</p></td></tr>
+			@endif 
+			
+		    </tbody>
+		     
+		  </table>
   </div>
+   
 </div> 
 		
-	</div>
+</div>
 
 </body>
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
   <script>
+  function unlockleadsfun(key,leads_id,domain_id){
+   var user_id='<?php echo Auth::user()->id?>';
+   $(".unpaid_td"+key).hide();
+   $(".paid_td"+key).show();
+   $.ajax({
+               type:'POST',
+               url:'insertUserLeads',
+               beforeSend: function()
+					{
+						//$('#filtereddataid').html('<img src="theme/images/loading.gif">Loading...');
+					},
+               data:'user_id='+user_id+'&leads_id='+leads_id+'&domain_id='+domain_id,
+	               success:function(data){
+	               	//$("#filtereddataid").html(data);
+	                //console.log(data);
+	                 
+	               }
+                });
+  }
+   
+    
   function filterFunction(email){
   	var domain_name=$("#domain_name").val();
   	var registrant_country=$("#registrant_country").val();

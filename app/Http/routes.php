@@ -20,7 +20,7 @@ Route::get('/', function () {
 Route::get('signup','DemoController@signupform' );
 Route::post('signme','DemoController@signme' );
 
-Route::group(['middleware' => 'auth'],function(){
+  Route::group(['middleware' => 'auth'],function(){
 	Route::get('importExport', 'MaatwebsiteDemoController@importExport');
     Route::post('importExcel', 'MaatwebsiteDemoController@importExcel');
 
@@ -28,6 +28,9 @@ Route::group(['middleware' => 'auth'],function(){
     Route::get('getDomainData/{id}','MaatwebsiteDemoController@getDomainData' );
     Route::get('postSearchData', 'MaatwebsiteDemoController@searchDomain');
     Route::post('postSearchData', 'MaatwebsiteDemoController@postSearchData');
+    Route::get('downloadExcel/{type}', 'MaatwebsiteDemoController@downloadExcel');
+
+    Route::post('insertUserLeads','MaatwebsiteDemoController@insertUserLeads' );
 });
 
 // GET route

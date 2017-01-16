@@ -1,16 +1,40 @@
 <?php
 namespace App\Http\Controllers;
 use Input;
-
+use Auth;
 
 use Illuminate\Http\Request;
 use DB;
+//use App\User;
 
 use Excel;
 
 class MaatwebsiteDemoController extends Controller
 
 {
+  public function downloadExcel($type)
+
+  {
+    
+   // echo $type;dd();
+      $data = User::get()->toArray();
+     // $data = DB::table('leads')
+              
+             // ->get()->toArray();
+
+    return Excel::create('itsolutionstuff_example', function($excel) use ($data) {
+
+      $excel->sheet('mySheet', function($sheet) use ($data)
+
+          {
+
+        $sheet->fromArray($data);
+
+          });
+
+    })->download($type);
+
+  }
    public function getDomainData($id){
     
     $requiredData=array();
@@ -25,6 +49,28 @@ class MaatwebsiteDemoController extends Controller
     return view('listDomain')->with('requiredData',$requiredData);
    }
   
+   public function insertUserLeads(Request $request){
+
+   // print_r($request->all()); dd();
+    $user_id=$request->user_id;
+    $leads_id=$request->leads_id;
+    $domain_id=$request->domain_id;
+    $date=date('Y-m-d H:i:s');
+    $data=array(
+
+    "user_id"=>$user_id,
+    "leads_id"=>$leads_id,
+    "domain_id"=>$domain_id,
+
+    "created_at"=>$date,
+    "updated_at"=>$date
+     
+     );
+   
+     DB::table('leadusers')->insert($data);
+     
+      
+  }
   public function filteremailID(Request $request){
 
     ini_set("memory_limit","7G");
@@ -120,7 +166,9 @@ class MaatwebsiteDemoController extends Controller
          echo  "</table>";
       
     //print_r($requiredData);
-   } 
+  } 
+
+  
   public function importExport()
 
   {
@@ -133,8 +181,10 @@ class MaatwebsiteDemoController extends Controller
 
   {
    // return view('searchDomain');
+    $leadusersData=array();
     $requiredData=array();
-    return view('searchDomain')->with('requiredData',$requiredData);
+
+    return view('searchDomain')->with('requiredData',$requiredData)->with('leadusersData',$leadusersData);
   }
 
   
@@ -263,7 +313,7 @@ class MaatwebsiteDemoController extends Controller
    public function postSearchData(Request $request)
 
   {   
-
+   
     ini_set("memory_limit","7G");
     ini_set('max_execution_time', '0');
     ini_set('max_input_time', '0');
@@ -277,13 +327,16 @@ class MaatwebsiteDemoController extends Controller
       $domain_name=$request->domain_name;
       
       $requiredData=array();
-
-    
-     //if(($create_date!='')&& ($registrant_country!='')&& ($domain_name!='') ){
-
-       $requiredData = DB::table('leads')
+      $leadusersData=array();
+      $user_id=Auth::user()->id;
+      $leadusersData = DB::table('leadusers')
+             ->select('*')
+             ->where('user_id', $user_id)
+             ->get();
+      //print_r($leadusersData);dd();
+      $requiredData = DB::table('leads')
               ->join('domains', 'leads.id', '=', 'domains.user_id')
-              ->select('leads.*', 'domains.*')
+              ->select('leads.*', 'domains.*','leads.id as leads_id','domains.id as domain_id')
               
               ->where(function($query) use ($create_date,$domain_name,$registrant_country)
                 {
@@ -298,18 +351,24 @@ class MaatwebsiteDemoController extends Controller
                         $query->where('domains.create_date', $create_date);
                     }
                 })
-               ->orderBy('domains.create_date', 'desc')
-              ->get();
-  
-     //}                      
+             ->groupBy('leads.registrant_email')
+             ->orderBy('domains.create_date', 'desc')
+             ->get();
+       
+       $lead_id=array();
+       foreach($leadusersData as $val){
+       $lead_id[]=$val->leads_id;
+
+       }          
     
-     //print_r($requiredData);dd();                           
-     return view('searchDomain')->with('requiredData', $requiredData)->with('registrant_country', $registrant_country);
-   // return view('searchDomain',[
-  //  'requiredData' => $requiredData,
-      
+      //print_r($lead_id);dd();                           
+     return view('searchDomain')->with('requiredData', $requiredData)->with('leadusersData', $lead_id);
+          //dd($leadusersData);
+   //return view::make('searchDomain',compact([
+    //'requiredData' => $requiredData,
+   //  'leadusersData' => $leadusersData, 
     
-//])->with("s",$registrant_country);
+  //  ]));
     //return redirect('searchDomain')->with("requiredData",$requiredData); 
   }
 
