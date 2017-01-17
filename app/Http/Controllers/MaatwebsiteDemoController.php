@@ -329,6 +329,7 @@ class MaatwebsiteDemoController extends Controller
       $requiredData=array();
       $leadusersData=array();
       $user_id=Auth::user()->id;
+      $user_type=Auth::user()->user_type;
       $leadusersData = DB::table('leadusers')
              ->select('*')
              ->where('user_id', $user_id)
@@ -351,6 +352,8 @@ class MaatwebsiteDemoController extends Controller
                         $query->where('domains.create_date', $create_date);
                     }
                 })
+             ->skip(0)
+             ->take(100)
              ->groupBy('leads.registrant_email')
              ->orderBy('domains.create_date', 'desc')
              ->get();
@@ -360,9 +363,13 @@ class MaatwebsiteDemoController extends Controller
        $lead_id[]=$val->leads_id;
 
        }          
-    
+        if($user_type=='1'){
+            return view('searchDomain')->with('requiredData', $requiredData)->with('leadusersData', $lead_id); 
+        }else {
+             return view('searchDomainAdmin')->with('requiredData', $requiredData)->with('leadusersData', $lead_id);
+        }
       //print_r($lead_id);dd();                           
-     return view('searchDomain')->with('requiredData', $requiredData)->with('leadusersData', $lead_id);
+    
           //dd($leadusersData);
    //return view::make('searchDomain',compact([
     //'requiredData' => $requiredData,
