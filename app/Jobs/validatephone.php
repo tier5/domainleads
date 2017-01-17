@@ -61,12 +61,22 @@ class validatephone extends Job implements ShouldQueue
               //print_r($json['validation_status']);
               $http_code=$json['http_code'];
               $phone_number=$this->registrant_phone;
-              $state=$json['phone_number_details']['state'];
-              $major_city=$json['phone_number_details']['major_city'];
-              $primary_city=$json['phone_number_details']['primary_city'];
-              $county=$json['phone_number_details']['county'];
-              $carrier_name=$json['phone_number_details']['carrier_name'];
-              $number_type=$json['phone_number_details']['number_type'];
+              if($http_code=='404'){
+                $state='';
+                $major_city='';
+                $primary_city='';
+                $county='';
+                $carrier_name='';
+                $number_type='';
+              }else {
+                $state=$json['phone_number_details']['state'];
+                $major_city=$json['phone_number_details']['major_city'];
+                $primary_city=$json['phone_number_details']['primary_city'];
+                $county=$json['phone_number_details']['county'];
+                $carrier_name=$json['phone_number_details']['carrier_name'];
+                $number_type=$json['phone_number_details']['number_type'];
+
+              }  
               
             }else
             {
