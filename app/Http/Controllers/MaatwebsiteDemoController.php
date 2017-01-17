@@ -366,7 +366,56 @@ class MaatwebsiteDemoController extends Controller
        foreach($leadusersData as $val){
        $lead_id[]=$val->leads_id;
 
-       }          
+       } 
+
+        foreach($requiredData as $key=>$value){
+
+          $ph_code='';
+                         $ph_number='';
+             $ph_code=strstr($value->registrant_phone, '.', true);
+             $ph_number=substr(strrchr($value->registrant_phone, "."), 1);
+            
+            if($ph_code=='1'){
+               $ch = curl_init();
+
+              curl_setopt($ch, CURLOPT_URL, "https://www.textinbulk.com/app/api/validate-us-phone-number");
+              curl_setopt($ch, CURLOPT_HEADER, 0);
+              curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+              curl_setopt($ch, CURLOPT_POST, 1);
+              curl_setopt($ch, CURLOPT_TIMEOUT, 0);
+
+              $data = array(
+                  'phone_number' => $ph_number
+                 
+              );
+
+              curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
+              $contents = curl_exec($ch);
+
+              curl_close($ch);
+              $json = json_decode($contents, true);
+              //print_r($json['validation_status']);
+              $http_code=$json['http_code'];
+              if($http_code=='200'){
+
+                               $number_type=$json['phone_number_details']['number_type'];
+                                  if($number_type=='Landline'){
+                                    $value->registrant_phone="<img src='theme/images/landline.png' width='25'>";
+                                  }else {
+                                    $value->registrant_phone="<img src='theme/images/cellnumber.png' width='40'>";
+                                  }
+                             
+              }else {
+                               $value->registrant_phone="<img src='theme/images/nophone.png' width='56'>";
+              }
+              
+            }else
+            {
+              $value->registrant_phone=$value->registrant_phone;
+            }
+        }
+
         if($user_type=='1'){
             return view('searchDomain')->with('requiredData', $requiredData)->with('leadusersData', $lead_id); 
         }else {
