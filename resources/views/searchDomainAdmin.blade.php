@@ -62,7 +62,7 @@
 
 	curl_close($ch);
 	$json = json_decode($contents, true);
-	print_r($json['phone_number_details']['number_type']);
+	print_r($json['http_code']);
 
 
 

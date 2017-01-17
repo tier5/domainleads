@@ -180,11 +180,15 @@ class MaatwebsiteDemoController extends Controller
   public function searchDomain()
 
   {
+     $user_type=Auth::user()->user_type;
    // return view('searchDomain');
     $leadusersData=array();
     $requiredData=array();
-
-    return view('searchDomain')->with('requiredData',$requiredData)->with('leadusersData',$leadusersData);
+     if($user_type=='1'){
+      return view('searchDomain')->with('requiredData',$requiredData)->with('leadusersData',$leadusersData);
+    }else{
+      return view('searchDomainAdmin')->with('requiredData',$requiredData)->with('leadusersData',$leadusersData);
+    }
   }
 
   
