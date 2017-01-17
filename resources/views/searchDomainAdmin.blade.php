@@ -136,9 +136,11 @@
 						  $style_paid='style="display: none;"';
 						  $checked='';
 						}
-
-						$ph_code=strstr($value->registrant_phone, '.', true);
-						$ph_number=substr(strrchr($value->registrant_phone, "."), 1);
+                         $ph_code='';
+                         $ph_number='';
+						 $ph_code=strstr($value->registrant_phone, '.', true);
+						 $ph_number=substr(strrchr($value->registrant_phone, "."), 1);
+						$http_code='';
 						if($ph_code=='1'){
 							 $ch = curl_init();
 
@@ -184,7 +186,7 @@
 			        <td class="paid_td{{$key}}" <?php echo $style_paid;?>><a href="http://{{ $value->domain_name }}" target="_blank">{{ $value->domain_name}}</a></td>
 			        <td>{{ $value->registrant_name}}</td>
 			        <td>{{ $value->registrant_email}}<a href="getDomainData/{{base64_encode($value->registrant_email)}}" target="_blank"><button class="btn btn-success">View</button></a></td>
-			        <td><a href="#" class="tooltip2"><?php echo $phonenumber;?><span> <img class="callout" src="theme/images/Callout.gif" />
+			        <td><a href="#" class="tooltip2"><?php echo $http_code;?><span> <img class="callout" src="theme/images/Callout.gif" />
                     <strong>blah blah</strong><br />or blah blah. </span></a></td>
 			        <td>{{ $value->create_date}}</td>
 			        <td>{{ $value->registrant_company}}</td>
