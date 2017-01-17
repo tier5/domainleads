@@ -42,32 +42,7 @@
 		</form>
 		
 	<div class="container">
-	<?php 
-
-	$ch = curl_init();
-
-	curl_setopt($ch, CURLOPT_URL, "https://www.textinbulk.com/app/api/validate-us-phone-number");
-	curl_setopt($ch, CURLOPT_HEADER, 0);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	curl_setopt($ch, CURLOPT_POST, 1);
-
-	$data = array(
-	    'phone_number' => '8123904629'
-	   
-	);
-
-	curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-	$contents = curl_exec($ch);
-
-	curl_close($ch);
-	$json = json_decode($contents, true);
-	print_r($json['phone_number_details']['number_type']);
-
-
-
-
-	?>
+	
     <h2>Search Result</h2>
     <input type="hidden" id="filteredemail"  value=""> 
     <div id="filtereddataid">     
@@ -137,46 +112,7 @@
 						  $checked='';
 						}
 
-						$ph_code=strstr($value->registrant_phone, '.', true);
-						$ph_number=substr(strrchr($value->registrant_phone, "."), 1);
-						if($ph_code=='1'){
-							 $ch = curl_init();
-
-							curl_setopt($ch, CURLOPT_URL, "https://www.textinbulk.com/app/api/validate-us-phone-number");
-							curl_setopt($ch, CURLOPT_HEADER, 0);
-							curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-							curl_setopt($ch, CURLOPT_POST, 1);
-
-							$data = array(
-							    'phone_number' => $ph_number
-							   
-							);
-
-							curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-							$contents = curl_exec($ch);
-
-							curl_close($ch);
-							$json = json_decode($contents, true);
-							//print_r($json['validation_status']);
-							$http_code=$json['http_code'];
-							if($http_code=='200'){
-
-                               $number_type=$json['phone_number_details']['number_type'];
-                                  if($number_type=='Landline'){
-                                    $phonenumber="<img src='theme/images/landline.png' width='25'>";
-                                  }else {
-                                    $phonenumber="<img src='theme/images/cellnumber.png' width='40'>";
-                                  }
-                             
-							}else {
-                               $phonenumber="<img src='theme/images/nophone.png' width='56'>";
-							}
-							
-						}else
-						{
-							$phonenumber=$value->registrant_phone;
-						}
+						
 				    ?>
 			      <tr>
 			        <td><input type="radio" name="unlockleads{{$key}}" id="unlockleads{{$key}}" <?php echo $checked;?> onclick="unlockleadsfun('<?php echo $key; ?>','<?php echo $value->leads_id; ?>','<?php echo $value->domain_id; ?>')" value="1"></td>
@@ -184,7 +120,7 @@
 			        <td class="paid_td{{$key}}" <?php echo $style_paid;?>><a href="http://{{ $value->domain_name }}" target="_blank">{{ $value->domain_name}}</a></td>
 			        <td>{{ $value->registrant_name}}</td>
 			        <td>{{ $value->registrant_email}}<a href="getDomainData/{{base64_encode($value->registrant_email)}}" target="_blank"><button class="btn btn-success">View</button></a></td>
-			        <td><a href="#" class="tooltip2"><?php echo $phonenumber;?><span> <img class="callout" src="theme/images/Callout.gif" />
+			        <td><a href="#" class="tooltip2"><?php echo $value->registrant_phone;?><span> <img class="callout" src="theme/images/Callout.gif" />
                     <strong>blah blah</strong><br />or blah blah. </span></a></td>
 			        <td>{{ $value->create_date}}</td>
 			        <td>{{ $value->registrant_company}}</td>

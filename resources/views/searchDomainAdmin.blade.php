@@ -42,44 +42,11 @@
 		</form>
 		
 	<div class="container">
-	<?php 
-
-	$ch = curl_init();
-
-	curl_setopt($ch, CURLOPT_URL, "https://textinbulk.com/app/api/validate-us-phone-number");
-	curl_setopt($ch, CURLOPT_HEADER, 0);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	curl_setopt($ch, CURLOPT_POST, 1);
-	curl_setopt($ch, CURLOPT_TIMEOUT, 0);
-	  
-
-	$data = array(
-	    'phone_number' => '8123904629'
-	   
-	);
-
-	curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-	$contents = curl_exec($ch);
-    $err = curl_error($ch);
-	curl_close($ch);
-	//$json = json_decode($contents, true);
-	//print_r($json['http_code']);
-	//$response = curl_exec($curl);
 	
 
-	//curl_close($curl);
-
-	if ($err) {
-	  echo "cURL Error #:" . $err;
-	} else {
-	  echo $contents;
-	}
 
 
 
-
-	?>
     <h2>Search Result</h2>
     <input type="hidden" id="filteredemail"  value=""> 
     <div id="filtereddataid">     

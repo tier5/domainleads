@@ -382,7 +382,7 @@ class MaatwebsiteDemoController extends Controller
               curl_setopt($ch, CURLOPT_HEADER, 0);
               curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
               curl_setopt($ch, CURLOPT_POST, 1);
-              curl_setopt($ch, CURLOPT_TIMEOUT, 0);
+              curl_setopt($ch, CURLOPT_TIMEOUT, 400);
 
               $data = array(
                   'phone_number' => $ph_number
