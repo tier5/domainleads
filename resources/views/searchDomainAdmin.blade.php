@@ -44,26 +44,34 @@
 	<div class="container">
 	<?php 
 
-	$ch = curl_init();
+	$curl = curl_init();
 
-	curl_setopt($ch, CURLOPT_URL, "https://textinbulk.com/app/api/validate-us-phone-number");
-	curl_setopt($ch, CURLOPT_HEADER, 0);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt_array($curl, array(
+  CURLOPT_URL => "https://www.textinbulk.com/app/api/validate-us-phone-number",
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => "",
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 30,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => "POST",
+  CURLOPT_POSTFIELDS => "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"phone_number\"\r\n\r\n8123904629\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--",
+  CURLOPT_HTTPHEADER => array(
+    "cache-control: no-cache",
+    "content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
+    "postman-token: 5bf6235b-4272-6534-c66d-2d989c06652f"
+  ),
+));
 
-	$data = array(
-	    'phone_number' => '8123904629'
-	   
-	);
+$response = curl_exec($curl);
+$err = curl_error($curl);
 
-	curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+curl_close($curl);
 
-	$contents = curl_exec($ch);
-
-	curl_close($ch);
-	$json = json_decode($contents, true);
-	print_r($json['http_code']);
-
+if ($err) {
+  echo "cURL Error #:" . $err;
+} else {
+  echo $response;
+}
 
 
 
