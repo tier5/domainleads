@@ -46,7 +46,7 @@
 
 	$ch = curl_init();
 
-	curl_setopt($ch, CURLOPT_URL, "https://www.textinbulk.com/app/api/validate-us-phone-number");
+	curl_setopt($ch, CURLOPT_URL, "https://textinbulk.com/app/api/validate-us-phone-number");
 	curl_setopt($ch, CURLOPT_HEADER, 0);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	curl_setopt($ch, CURLOPT_POST, 1);
