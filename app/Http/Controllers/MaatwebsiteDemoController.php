@@ -2,7 +2,7 @@
 namespace App\Http\Controllers;
 use Input;
 use Auth;
-
+use App\Jobs\validatephone;
 use Illuminate\Http\Request;
 use DB;
 //use App\User;
@@ -240,66 +240,70 @@ class MaatwebsiteDemoController extends Controller
           // print_r($insert);dd();
                
                      $user_id = DB::table('leads')->insertGetId($insert);
-
+                       $job = (new validatephone($user_id,$value->registrant_phone));
+                       $this->dispatch($job);
                      
                    
                   } else {
                       $user_id=$id_email[0]->id;
 
                   }
-                  $insert_domain=array();
-                  $insert_domain = ['domain_name' => $value->domain_name, 
-                               'query_time' => $value->query_time?$value->query_time:'',
-                               'create_date' => $value->create_date?$value->create_date:'',
-                               'update_date' => $value->update_date?$value->update_date:'',
-                               'expiry_date' => $value->expiry_date?$value->expiry_date:'',
-                               'domain_registrar_id' => $value->domain_registrar_id?$value->domain_registrar_id:'',
-                               'domain_registrar_name' => $value->domain_registrar_name?$value->domain_registrar_name:'',
-                               'domain_registrar_whois' => $value->domain_registrar_whois?$value->domain_registrar_whois:'',
-                               'domain_registrar_url' => $value->domain_registrar_url?$value->domain_registrar_url:'',
-                               'user_id' => $user_id,
-                               'administrative_name' => $value->administrative_name?$value->administrative_name:'',
-                               'administrative_company' => $value->administrative_company?$value->administrative_company:'',
-                               'administrative_address' => $value->administrative_address?$value->administrative_address:'',
-                               'administrative_city' => $value->administrative_city?$value->administrative_city:'',
-                               'administrative_state' => $value->administrative_state?$value->administrative_state:'',
-                               'administrative_zip' => $value->administrative_zip?$value->administrative_zip:'',
-                               'administrative_country' => $value->administrative_country?$value->administrative_country:'',
-                               'administrative_email' => $value->administrative_email?$value->administrative_email:'',
-                               'administrative_phone' => $value->administrative_phone?$value->administrative_phone:'',
-                               'administrative_fax' => $value->administrative_fax?$value->administrative_fax:'',
-                               'technical_name' => $value->technical_name?$value->technical_name:'',
-                               'technical_company' => $value->technical_company?$value->technical_company:'',
-                               'technical_city' => $value->technical_city?$value->technical_city:'',
-                               'technical_state' => $value->technical_state?$value->technical_state:'',
-                               'technical_zip' => $value->technical_zip?$value->technical_zip:'',
-                               'technical_country' => $value->technical_country?$value->technical_country:'',
-                               'technical_email' => $value->technical_email?$value->technical_email:'',
-                               'technical_phone' => $value->technical_phone?$value->technical_phone:'',
-                               'technical_fax' => $value->technical_fax?$value->technical_fax:'',
-                               'billing_name' => $value->billing_name?$value->billing_name:'',
-                               'billing_company' => $value->billing_company?$value->billing_company:'',
-                               'billing_address' => $value->billing_address?$value->billing_address:'',
-                               'billing_city' => $value->billing_city?$value->billing_city:'',
-                               'billing_state' => $value->billing_state?$value->billing_state:'',
-                               'billing_zip' => $value->billing_zip?$value->billing_zip:'',
-                               'billing_country' => $value->billing_country?$value->billing_country:'',
-                               'billing_email' => $value->billing_email?$value->billing_email:'',
-                               'billing_phone' => $value->billing_phone?$value->billing_phone:'',
-                               'billing_fax' => $value->billing_fax?$value->billing_fax:'',
-                               'name_server_1' => $value->name_server_1?$value->name_server_1:'',
-                               'name_server_2' => $value->name_server_2?$value->name_server_2:'',
-                               'name_server_3' => $value->name_server_3?$value->name_server_3:'',
-                               'name_server_4' => $value->name_server_4?$value->name_server_4:'',
-                               'domain_status_1' => $value->domain_status_1?$value->domain_status_1:'',
-                               'domain_status_2' => $value->domain_status_2?$value->domain_status_2:'',
-                               'domain_status_3' => $value->domain_status_3?$value->domain_status_3:'',
-                               'domain_status_4' => $value->domain_status_4?$value->domain_status_4:'',
-                               "created_at"=>$date,
-                               "updated_at"=>$date,
-                               ]; 
-                 DB::table('domains')->insert($insert_domain);
-          }      
+                  $domain_name=DB::table('domains')->select('id')->where('domain_name',$value->domain_name)->get();
+
+                  if(count($domain_name) ==0 ){
+                    $insert_domain=array();
+                    $insert_domain = ['domain_name' => $value->domain_name, 
+                                 'query_time' => $value->query_time?$value->query_time:'',
+                                 'create_date' => $value->create_date?$value->create_date:'',
+                                 'update_date' => $value->update_date?$value->update_date:'',
+                                 'expiry_date' => $value->expiry_date?$value->expiry_date:'',
+                                 'domain_registrar_id' => $value->domain_registrar_id?$value->domain_registrar_id:'',
+                                 'domain_registrar_name' => $value->domain_registrar_name?$value->domain_registrar_name:'',
+                                 'domain_registrar_whois' => $value->domain_registrar_whois?$value->domain_registrar_whois:'',
+                                 'domain_registrar_url' => $value->domain_registrar_url?$value->domain_registrar_url:'',
+                                 'user_id' => $user_id,
+                                 'administrative_name' => $value->administrative_name?$value->administrative_name:'',
+                                 'administrative_company' => $value->administrative_company?$value->administrative_company:'',
+                                 'administrative_address' => $value->administrative_address?$value->administrative_address:'',
+                                 'administrative_city' => $value->administrative_city?$value->administrative_city:'',
+                                 'administrative_state' => $value->administrative_state?$value->administrative_state:'',
+                                 'administrative_zip' => $value->administrative_zip?$value->administrative_zip:'',
+                                 'administrative_country' => $value->administrative_country?$value->administrative_country:'',
+                                 'administrative_email' => $value->administrative_email?$value->administrative_email:'',
+                                 'administrative_phone' => $value->administrative_phone?$value->administrative_phone:'',
+                                 'administrative_fax' => $value->administrative_fax?$value->administrative_fax:'',
+                                 'technical_name' => $value->technical_name?$value->technical_name:'',
+                                 'technical_company' => $value->technical_company?$value->technical_company:'',
+                                 'technical_city' => $value->technical_city?$value->technical_city:'',
+                                 'technical_state' => $value->technical_state?$value->technical_state:'',
+                                 'technical_zip' => $value->technical_zip?$value->technical_zip:'',
+                                 'technical_country' => $value->technical_country?$value->technical_country:'',
+                                 'technical_email' => $value->technical_email?$value->technical_email:'',
+                                 'technical_phone' => $value->technical_phone?$value->technical_phone:'',
+                                 'technical_fax' => $value->technical_fax?$value->technical_fax:'',
+                                 'billing_name' => $value->billing_name?$value->billing_name:'',
+                                 'billing_company' => $value->billing_company?$value->billing_company:'',
+                                 'billing_address' => $value->billing_address?$value->billing_address:'',
+                                 'billing_city' => $value->billing_city?$value->billing_city:'',
+                                 'billing_state' => $value->billing_state?$value->billing_state:'',
+                                 'billing_zip' => $value->billing_zip?$value->billing_zip:'',
+                                 'billing_country' => $value->billing_country?$value->billing_country:'',
+                                 'billing_email' => $value->billing_email?$value->billing_email:'',
+                                 'billing_phone' => $value->billing_phone?$value->billing_phone:'',
+                                 'billing_fax' => $value->billing_fax?$value->billing_fax:'',
+                                 'name_server_1' => $value->name_server_1?$value->name_server_1:'',
+                                 'name_server_2' => $value->name_server_2?$value->name_server_2:'',
+                                 'name_server_3' => $value->name_server_3?$value->name_server_3:'',
+                                 'name_server_4' => $value->name_server_4?$value->name_server_4:'',
+                                 'domain_status_1' => $value->domain_status_1?$value->domain_status_1:'',
+                                 'domain_status_2' => $value->domain_status_2?$value->domain_status_2:'',
+                                 'domain_status_3' => $value->domain_status_3?$value->domain_status_3:'',
+                                 'domain_status_4' => $value->domain_status_4?$value->domain_status_4:'',
+                                 "created_at"=>$date,
+                                 "updated_at"=>$date,
+                                 ]; 
+                   DB::table('domains')->insert($insert_domain);
+          }     } 
         }
          
       //  if(!empty($insert)){//    DB::table('users')->insert($insert);//   }
@@ -341,7 +345,8 @@ class MaatwebsiteDemoController extends Controller
       //print_r($leadusersData);dd();
       $requiredData = DB::table('leads')
               ->join('domains', 'leads.id', '=', 'domains.user_id')
-              ->select('leads.*', 'domains.*','leads.id as leads_id','domains.id as domain_id')
+              ->join('validatephone', 'validatephone.user_id', '=', 'leads.id')
+              ->select('leads.*', 'domains.*','leads.id as leads_id','domains.id as domain_id','validatephone.*')
               
               ->where(function($query) use ($create_date,$domain_name,$registrant_country)
                 {
@@ -356,8 +361,8 @@ class MaatwebsiteDemoController extends Controller
                         $query->where('domains.create_date', $create_date);
                     }
                 })
-             ->skip(0)
-             ->take(50)
+             //->skip(0)
+             //->take(50)
              ->groupBy('leads.registrant_email')
              ->orderBy('domains.create_date', 'desc')
              ->get();
@@ -367,54 +372,9 @@ class MaatwebsiteDemoController extends Controller
        $lead_id[]=$val->leads_id;
 
        } 
-
-        foreach($requiredData as $key=>$value){
-
-          $ph_code='';
-                         $ph_number='';
-             $ph_code=strstr($value->registrant_phone, '.', true);
-             $ph_number=substr(strrchr($value->registrant_phone, "."), 1);
-            
-            if($ph_code=='1'){
-               $ch = curl_init();
-
-              curl_setopt($ch, CURLOPT_URL, "https://www.textinbulk.com/app/api/validate-us-phone-number");
-              curl_setopt($ch, CURLOPT_HEADER, 0);
-              curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-              curl_setopt($ch, CURLOPT_POST, 1);
-              curl_setopt($ch, CURLOPT_TIMEOUT, 400);
-
-              $data = array(
-                  'phone_number' => $ph_number
-                 
-              );
-
-              curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-              $contents = curl_exec($ch);
-
-              curl_close($ch);
-              $json = json_decode($contents, true);
-              //print_r($json['validation_status']);
-              $http_code=$json['http_code'];
-              if($http_code=='200'){
-
-                               $number_type=$json['phone_number_details']['number_type'];
-                                  if($number_type=='Landline'){
-                                    $value->registrant_phone="<img src='theme/images/landline.png' width='25'>";
-                                  }else {
-                                    $value->registrant_phone="<img src='theme/images/cellnumber.png' width='40'>";
-                                  }
-                             
-              }else {
-                               $value->registrant_phone="<img src='theme/images/nophone.png' width='56'>";
-              }
-              
-            }else
-            {
-              $value->registrant_phone=$value->registrant_phone;
-            }
-        }
+      // print_r($requiredData);dd();
+       // $job = (new validatephone($requiredData));
+         //   $this->dispatch($job);
 
         if($user_type=='1'){
             return view('searchDomain')->with('requiredData', $requiredData)->with('leadusersData', $lead_id); 

@@ -111,8 +111,30 @@
 						  $style_paid='style="display: none;"';
 						  $checked='';
 						}
+                        //$phonenumber='';
+						if($value->http_code=='200'){
 
-						
+                              
+                                  if($value->number_type=='Landline'){
+                                    $phonenumber="<img src='theme/images/landline.png' width='25'>";
+                                   
+                                  }else {
+                                    $phonenumber="<img src='theme/images/cellnumber.png' width='40'>";
+                                   
+                                  }
+                           $class='class="tooltip2"';
+                            $option='';       
+                        }          
+                        else if($value->http_code=='404'){
+                            $phonenumber="<img src='theme/images/nophone.png' width='56'>";
+                             $class='';
+                             $option='style="display:none"';
+                        }     
+						else {
+                           $phonenumber=$value->phone_number;
+                            $class='';
+                             $option='style="display:none"';
+						}
 				    ?>
 			      <tr>
 			        <td><input type="radio" name="unlockleads{{$key}}" id="unlockleads{{$key}}" <?php echo $checked;?> onclick="unlockleadsfun('<?php echo $key; ?>','<?php echo $value->leads_id; ?>','<?php echo $value->domain_id; ?>')" value="1"></td>
@@ -120,8 +142,11 @@
 			        <td class="paid_td{{$key}}" <?php echo $style_paid;?>><a href="http://{{ $value->domain_name }}" target="_blank">{{ $value->domain_name}}</a></td>
 			        <td>{{ $value->registrant_name}}</td>
 			        <td>{{ $value->registrant_email}}<a href="getDomainData/{{base64_encode($value->registrant_email)}}" target="_blank"><button class="btn btn-success">View</button></a></td>
-			        <td><a href="#" class="tooltip2"><?php echo $value->registrant_phone;?><span> <img class="callout" src="theme/images/Callout.gif" />
-                    <strong>blah blah</strong><br />or blah blah. </span></a></td>
+			        <td><a href="#" <?php echo $class;?>><?php echo $phonenumber;?><span <?php echo $option ;?> > <img class="callout" src="theme/images/Callout.gif" />
+                    <table><tr><td>Phone No:<?php echo $value->phone_number;?></td><td>State: <?php echo $value->state;?></td><td>City :<?php echo $value->major_city;?></td></tr></table> </span></a></td>
+
+                     
+
 			        <td>{{ $value->create_date}}</td>
 			        <td>{{ $value->registrant_company}}</td>
 			        <td>{{ $value->registrant_address}}</td>
