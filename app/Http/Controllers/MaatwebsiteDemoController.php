@@ -357,7 +357,7 @@ class MaatwebsiteDemoController extends Controller
                     }
                 })
              ->skip(0)
-             ->take(100)
+             ->take(50)
              ->groupBy('leads.registrant_email')
              ->orderBy('domains.create_date', 'desc')
              ->get();
