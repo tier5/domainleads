@@ -5,8 +5,7 @@ use Auth;
 use App\Jobs\validatephone;
 use Illuminate\Http\Request;
 use DB;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Client;
+
 //use App\User;
 
 use Excel;

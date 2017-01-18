@@ -7,6 +7,8 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use DB;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Client;
 class validatephone extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
