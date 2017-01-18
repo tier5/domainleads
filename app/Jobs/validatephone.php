@@ -31,11 +31,7 @@ class validatephone extends Job implements ShouldQueue
      */
     public function handle()
     {
-            ini_set("memory_limit","7G");
-            ini_set('max_execution_time', '0');
-            ini_set('max_input_time', '0');
-            set_time_limit(0);
-            ignore_user_abort(true); 
+            
             //Log::info("queue start for ");
             $ph_code='';
             $ph_number='';
@@ -43,25 +39,18 @@ class validatephone extends Job implements ShouldQueue
              $ph_number=substr(strrchr($this->registrant_phone, "."), 1);
             
             if($ph_code=='1'){
-               $ch = curl_init();
 
-              curl_setopt($ch, CURLOPT_URL, "https://www.textinbulk.com/app/api/validate-us-phone-number");
-              curl_setopt($ch, CURLOPT_HEADER, 0);
-              curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-              curl_setopt($ch, CURLOPT_POST, 1);
-              curl_setopt($ch, CURLOPT_TIMEOUT, 400);
+                $client = new Client(); //GuzzleHttp\Client
+                $result = $client->post('https://www.textinbulk.com/app/api/validate-us-phone-number', [
+                'form_params' => [
+                'phone_number' => $ph_number
+                ]
+                ]);
+                $json = json_decode($result->getBody()->getContents(), true);
 
-              $data = array(
-                  'phone_number' => $ph_number
-                 
-              );
 
-              curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-              $contents = curl_exec($ch);
-
-              curl_close($ch);
-              $json = json_decode($contents, true);
+              
+              
               //print_r($json['validation_status']);
               $http_code=$json['http_code'];
               $phone_number=$this->registrant_phone;

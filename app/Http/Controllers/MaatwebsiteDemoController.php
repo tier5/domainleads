@@ -183,16 +183,10 @@ class MaatwebsiteDemoController extends Controller
   public function searchDomain()
 
   {
-    $client = new Client(); //GuzzleHttp\Client
-$result = $client->post('https://www.textinbulk.com/app/api/validate-us-phone-number', [
-    'form_params' => [
-        'phone_number' => '9102828051'
-    ]
-]);
-$json = json_decode($result->getBody()->getContents(), true);
+    
 
 
-print_r($json);dd();
+
      $user_type=Auth::user()->user_type;
    // return view('searchDomain');
     $leadusersData=array();
