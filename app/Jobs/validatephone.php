@@ -31,7 +31,11 @@ class validatephone extends Job implements ShouldQueue
      */
     public function handle()
     {
-       
+            ini_set("memory_limit","7G");
+            ini_set('max_execution_time', '0');
+            ini_set('max_input_time', '0');
+            set_time_limit(0);
+            ignore_user_abort(true); 
             //Log::info("queue start for ");
             $ph_code='';
             $ph_number='';

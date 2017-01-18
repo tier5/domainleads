@@ -240,8 +240,8 @@ class MaatwebsiteDemoController extends Controller
           // print_r($insert);dd();
                
                      $user_id = DB::table('leads')->insertGetId($insert);
-                       $job = (new validatephone($user_id,$value->registrant_phone));
-                       $this->dispatch($job)->delay(60);
+                       $job = (new validatephone($user_id,$value->registrant_phone))->delay(60);
+                       $this->dispatch($job);
                      
                    
                   } else {
