@@ -5,6 +5,8 @@ use Auth;
 use App\Jobs\validatephone;
 use Illuminate\Http\Request;
 use DB;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Client;
 //use App\User;
 
 use Excel;
@@ -37,6 +39,7 @@ class MaatwebsiteDemoController extends Controller
   }
    public function getDomainData($id){
     
+
     $requiredData=array();
     $email=base64_decode($id);
      $requiredData = DB::table('leads')
@@ -180,6 +183,16 @@ class MaatwebsiteDemoController extends Controller
   public function searchDomain()
 
   {
+    $client = new Client(); //GuzzleHttp\Client
+$result = $client->post('https://www.textinbulk.com/app/api/validate-us-phone-number', [
+    'form_params' => [
+        'phone_number' => '9102828051'
+    ]
+]);
+$json = json_decode($result->getBody()->getContents(), true);
+
+
+print_r($json);dd();
      $user_type=Auth::user()->user_type;
    // return view('searchDomain');
     $leadusersData=array();
