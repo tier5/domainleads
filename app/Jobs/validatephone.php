@@ -94,7 +94,7 @@ class validatephone extends Job implements ShouldQueue
             $data=array(
 
             "user_id"=>$this->user_id,
-            "http_code"=>$http_code,
+            "http_code"=>$http_code?$http_code:'nil',
             "phone_number"=>$phone_number,
             "state"=>$state,
             "major_city"=>$major_city,
