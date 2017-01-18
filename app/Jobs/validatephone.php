@@ -62,12 +62,12 @@ class validatephone extends Job implements ShouldQueue
               $http_code=$json['http_code'];
               $phone_number=$this->registrant_phone;
               if($http_code=='404'){
-                $state='';
-                $major_city='';
-                $primary_city='';
-                $county='';
-                $carrier_name='';
-                $number_type='';
+                $state='0';
+                $major_city='0';
+                $primary_city='0';
+                $county='0';
+                $carrier_name='0';
+                $number_type='0';
               }else {
                 $state=$json['phone_number_details']['state'];
                 $major_city=$json['phone_number_details']['major_city'];
@@ -81,14 +81,14 @@ class validatephone extends Job implements ShouldQueue
             }else
             {
              // $this->registrant_phone=$this->registrant_phone;
-                $http_code='';
+                $http_code='0';
               $phone_number=$this->registrant_phone;
-              $state='';
-              $major_city='';
-              $primary_city='';
-              $county='';
-              $carrier_name='';
-              $number_type='';
+              $state='0';
+              $major_city='0';
+              $primary_city='0';
+              $county='0';
+              $carrier_name='0';
+              $number_type='0';
             }
             $date=date('Y-m-d H:i:s');
             $data=array(

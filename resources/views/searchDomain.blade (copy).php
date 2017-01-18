@@ -5,8 +5,9 @@
 	<title>Search Domain</title>
 	 
 
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
 
-        {!! Html::style('resources/assets/css/bootstrap.css') !!}
 		{!! Html::style('resources/assets/css/jquery.dataTables.css') !!}
 		{!! Html::script('resources/assets/js/jquery-1.12.0.js') !!}
 		{!! Html::script('resources/assets/js/jquery.dataTables.js') !!}
@@ -49,7 +50,7 @@
     <h2>Search Result</h2>
     <input type="hidden" id="filteredemail"  value=""> 
     <div id="filtereddataid">     
-		  <table class="table table-hover table-bordered domainDAta">
+		  <table class="table product">
 		    <thead>
 		      <tr>
 		        <th></th>
@@ -142,7 +143,7 @@
 			      <tr>
 			        <td><input type="radio" name="unlockleads{{$key}}" id="unlockleads{{$key}}" <?php echo $checked;?> onclick="unlockleadsfun('<?php echo $key; ?>','<?php echo $value->leads_id; ?>','<?php echo $value->domain_id; ?>')" value="1"></td>
 			        <td class="unpaid_td{{$key}}" <?php echo $style_unpaid;?>><a href="<?php  if (Auth::user()->user_type=='2'){ ?>http://{{ $value->domain_name }}" <?php } else { ?>javascript:void(0); <?php  } ?> target="_blank">{{ $domainName_new}}</a></td>
-			        
+			        <td class="paid_td{{$key}}" <?php echo $style_paid;?>><a href="http://{{ $value->domain_name }}" target="_blank">{{ $value->domain_name}}</a></td>
 			        <td>{{ $value->registrant_name}}</td>
 			        <td>{{ $value->registrant_email}}<a href="getDomainData/{{base64_encode($value->registrant_email)}}" target="_blank"><button class="btn btn-success">View</button></a></td>
 			        <td><a href="#" <?php echo $class;?>><?php echo $phonenumber;?><span <?php echo $option ;?> > <img class="callout" src="theme/images/Callout.gif" />
@@ -181,11 +182,12 @@
 </div>
 
 </body>
-  
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
   <script type="text/javascript">
 $(document).ready(function(){
-$('.domainDAta').DataTable({
-  "pageLength": 50,
+$('.product').DataTable({
+
   select:true,
   "order":[[0,"desc"]],
   "paging" :true,

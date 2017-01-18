@@ -19,7 +19,7 @@ class ProductController extends Controller
 	//return $category->name;
 	$products=Product::all();
 	//return $products;
-	//return view('products.index')->with('products',$products);
+	return view('products.index')->with('products',$products);
 	} 
 	
 	public function create(){
