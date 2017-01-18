@@ -246,7 +246,7 @@ class MaatwebsiteDemoController extends Controller
           // print_r($insert);dd();
                
                      $user_id = DB::table('leads')->insertGetId($insert);
-                       $job = (new validatephone($user_id,$value->registrant_phone))->delay(120);
+                       $job = (new validatephone($user_id,$value->registrant_phone))->delay(10000);
                        $this->dispatch($job);
                      
                    
