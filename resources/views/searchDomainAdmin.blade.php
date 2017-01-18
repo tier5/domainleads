@@ -5,8 +5,12 @@
 	<title>Search Domain</title>
 	 
 
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" >
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+	 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+    
+        {!! Html::style('resources/assets/css/bootstrap.css') !!}
+		{!! Html::style('resources/assets/css/jquery.dataTables.css') !!}
+		{!! Html::script('resources/assets/js/jquery-1.12.0.js') !!}
+		{!! Html::script('resources/assets/js/jquery.dataTables.js') !!}
 </head>
 
 <body>
@@ -46,7 +50,7 @@
     <h2>Search Result</h2>
     <input type="hidden" id="filteredemail"  value=""> 
     <div id="filtereddataid">     
-		  <table class="table">
+		  <table class="table table-hover table-bordered domainDAta">
 		    <thead>
 		      <tr>
 		        <th></th>
@@ -135,9 +139,8 @@
 				    ?>
 			      <tr>
 			        <td><input type="radio" name="unlockleads{{$key}}" id="unlockleads{{$key}}" <?php echo $checked;?> onclick="unlockleadsfun('<?php echo $key; ?>','<?php echo $value->leads_id; ?>','<?php echo $value->domain_id; ?>')" value="1"></td>
-			        <td class="unpaid_td{{$key}}" <?php echo $style_unpaid;?>><a href="<?php  if (Auth::user()->user_type=='2'){ ?>http://{{ $value->domain_name }}" <?php } else { ?>javascript:void(0); <?php  } ?> target="_blank">{{ $domainName_new}}</a></td>
-			        <td class="paid_td{{$key}}" <?php echo $style_paid;?>><a href="http://{{ $value->domain_name }}" target="_blank">{{ $value->domain_name}}</a></td>
-			        <td>{{ $value->registrant_name}}</td>
+			        <td><a href="http://{{ $value->domain_name }}"  target="_blank">{{ $domainName_new}}</a></td>
+			        
 			        <td>{{ $value->registrant_email}}<a href="getDomainData/{{base64_encode($value->registrant_email)}}" target="_blank"><button class="btn btn-success">View</button></a></td>
 			        <td><a href="#" class="tooltip2"><?php echo $phonenumber; ?><span ><img class="callout" src="theme/images/Callout.gif" />
                     <table><tr><td>Phone No:<?php echo $value->phone_number;?></td><td>State: <?php echo $value->state;?></td><td>City :<?php echo $value->major_city;?></td></tr></table> </span></a></td>
@@ -159,7 +162,7 @@
 
 			      </tr>
 		        @endforeach
-		    @else <tr><td colspan="4"><p>No Result Found !!!</p></td></tr>
+		   
 			@endif 
 			
 		    </tbody>
@@ -172,28 +175,22 @@
 </div>
 
 </body>
-  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+ 
   <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+  <script type="text/javascript">
+$(document).ready(function(){
+	$('.domainDAta').DataTable({
+	  "pageLength": 50,
+	  select:true,
+	  "order":[[0,"desc"]],
+	 "paging" :true,
+	 "bProcessing":true
+	  
+	});
+});
+</script>
   <script>
-  function unlockleadsfun(key,leads_id,domain_id){
-   var user_id='<?php echo Auth::user()->id?>';
-   $(".unpaid_td"+key).hide();
-   $(".paid_td"+key).show();
-   $.ajax({
-               type:'POST',
-               url:'insertUserLeads',
-               beforeSend: function()
-					{
-						//$('#filtereddataid').html('<img src="theme/images/loading.gif">Loading...');
-					},
-               data:'user_id='+user_id+'&leads_id='+leads_id+'&domain_id='+domain_id,
-	               success:function(data){
-	               	//$("#filtereddataid").html(data);
-	                //console.log(data);
-	                 
-	               }
-                });
-  }
+  
    
     
   function filterFunction(email){

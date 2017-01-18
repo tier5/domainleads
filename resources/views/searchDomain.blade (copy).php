@@ -186,14 +186,14 @@
   <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
   <script type="text/javascript">
 $(document).ready(function(){
-$('.product').DataTable({
+//$('.product').DataTable({
 
-  select:true,
-  "order":[[0,"desc"]],
-  "paging" :true,
-  "bProcessing":true
+  //select:true,
+  //"order":[[0,"desc"]],
+  //"paging" :true,
+  //"bProcessing":true
   
-});
+//});
 });
 </script>
   <script>
