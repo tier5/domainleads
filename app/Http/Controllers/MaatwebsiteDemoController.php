@@ -342,6 +342,21 @@ class MaatwebsiteDemoController extends Controller
     ignore_user_abort(true); 
 
       $create_date=$request->create_date;
+      $tdl_com=$request->tdl_com;
+      $tdl_net=$request->tdl_net;
+      $tdl_org=$request->tdl_org;
+      $tdl_io=$request->tdl_io;
+
+      $cell_number=$request->cell_number;
+      $landline=$request->landline;
+
+      $phone_number=array();
+      if($cell_number=='1'){
+        $phone_number[]='Cell Number';
+      }
+      if($landline=='1'){
+        $phone_number[]='Landline';
+      }
       
       $registrant_country=$request->registrant_country;
    
@@ -356,30 +371,42 @@ class MaatwebsiteDemoController extends Controller
              ->where('user_id', $user_id)
              ->get();
       //print_r($leadusersData);dd();
+
+           
       $requiredData = DB::table('leads')
               ->join('domains', 'leads.id', '=', 'domains.user_id')
               ->join('validatephone', 'validatephone.user_id', '=', 'leads.id')
               ->select('leads.*', 'domains.*','leads.id as leads_id','domains.id as domain_id','validatephone.*')
               
-              ->where(function($query) use ($create_date,$domain_name,$registrant_country)
+              ->where(function($query) use ($create_date,$domain_name,$registrant_country,$phone_number)
                 {
-                    
-                    if (!empty($domain_name)) {
-                        $query->where('domains.domain_name', $domain_name);
-                    }
                     if (!empty($registrant_country)) {
                         $query->where('leads.registrant_country', $registrant_country);
                     } 
                     if (!empty($create_date)) {
                         $query->where('domains.create_date', $create_date);
+                    } 
+                    if (!empty($domain_name)) {
+                       $query->where('domains.domain_name','like', '%'.$domain_name.'%');
+                       
                     }
+                    if (!empty($phone_number)) {
+                        $query->whereIn('validatephone.number_type', $phone_number);
+                       
+                    }
+                   
+                    
+                    
+                      
+                    
                 })
              //->skip(0)
              //->take(50)
              ->groupBy('leads.registrant_email')
              ->orderBy('domains.create_date', 'desc')
              ->get();
-       
+            
+     
        $lead_id=array();
        foreach($leadusersData as $val){
        $lead_id[]=$val->leads_id;

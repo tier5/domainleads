@@ -40,7 +40,14 @@
 			Registrant Country<input type="text" name="registrant_country" id="registrant_country" value="{{ Input::get('registrant_country') }}" />
 
 			Registered Date<input type="text" name="create_date" id="datepicker" class="" value="{{ Input::get('create_date') }}" />
-
+            
+            <br/>
+            .com<input type="checkbox" name="tdl_com" value='1' <?php if(Input::get('tdl_com')==1) { echo "checked";} ?>>
+            .net<input type="checkbox" name="tdl_net" value='1' <?php if(Input::get('tdl_net')==1) { echo "checked";} ?>>
+            .org<input type="checkbox" name="tdl_org" value='1'>
+            .io<input type="checkbox" name="tdl_io" value='1'>
+            Cell Number<input type="checkbox" name="cell_number" value='1' <?php if(Input::get('cell_number')==1) { echo "checked";} ?>>
+            Landline Number<input type="checkbox" name="landline" value='1' <?php if(Input::get('landline')==1) { echo "checked";} ?>>
 			<button class="btn btn-primary">Search</button>
 
 		</form>
