@@ -4,13 +4,13 @@
 
 	<title>Search Domain</title>
 	 
-
-	 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+      <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
     
         {!! Html::style('resources/assets/css/bootstrap.css') !!}
 		{!! Html::style('resources/assets/css/jquery.dataTables.css') !!}
 		{!! Html::script('resources/assets/js/jquery-1.12.0.js') !!}
 		{!! Html::script('resources/assets/js/jquery.dataTables.js') !!}
+       
 </head>
 
 <body>
@@ -46,7 +46,7 @@
 		</form>
 		
 	<div class="container">
-
+	
     <h2>Search Result</h2>
     <input type="hidden" id="filteredemail"  value=""> 
     <div id="filtereddataid">     
@@ -108,42 +108,58 @@
 						  $style_unpaid='style="display: none;"';
 						  $style_paid='style="display: block;"';
                           $checked='checked="checked"';
+                          $disabled='disabled="true"';
 						}
 						else
 						{
 						  $style_unpaid='style="display: block;"';
 						  $style_paid='style="display: none;"';
 						  $checked='';
+						  $disabled='';
 						}
+                        //$phonenumber='';
 						if($value->http_code=='200'){
 
                               
                                   if($value->number_type=='Landline'){
                                     $phonenumber="<img src='theme/images/landline.png' width='25'>";
-                                    
+                                   
                                   }else {
                                     $phonenumber="<img src='theme/images/cellnumber.png' width='40'>";
-                                     
+                                   
                                   }
-                            $class='class="tooltip2"';
-                         }         
+                           $class='class="tooltip2"';
+                            $option='';       
+                        }          
                         else if($value->http_code=='404'){
                             $phonenumber="<img src='theme/images/nophone.png' width='56'>";
                              $class='';
-                           
-						}else {
+                             $option='style="display:none"';
+                        }     
+						else {
                            $phonenumber=$value->phone_number;
-                           $class='';
+                            $class='';
+                             $option='style="display:none"';
 						}
-                         
 				    ?>
 			      <tr>
-			        <td><input type="radio" name="unlockleads{{$key}}" id="unlockleads{{$key}}" <?php echo $checked;?> onclick="unlockleadsfun('<?php echo $key; ?>','<?php echo $value->leads_id; ?>','<?php echo $value->domain_id; ?>')" value="1"></td>
-			        <td><a href="http://{{ $value->domain_name }}"  target="_blank">{{ $domainName_new}}</a></td>
-			        
+			        <td>
+                      <div><input type="checkbox" name="downloadcsv" value="1"></div>
+			        </td>
+			        <td >
+				        
+	                     <div><a href="http://{{ $value->domain_name }}" target="_blank">{{ $value->domain_name}}</a></div>
+			        </td>
+
+
+			        <td>{{ $value->registrant_name}}</td>
 			        <td>{{ $value->registrant_email}}<a href="getDomainData/{{base64_encode($value->registrant_email)}}" target="_blank"><button class="btn btn-success">View</button></a></td>
-			        <td><a href="#" class="tooltip2"><?php echo $phonenumber; ?><span ><img class="callout" src="theme/images/Callout.gif" />
-                    <table><tr><td>Phone No:<?php echo $value->phone_number;?></td><td>State: <?php echo $value->state;?></td><td>City :<?php echo $value->major_city;?></td></tr></table> </span></a></td>
+
+			        <td>			            
+				        <div><a href="#" <?php echo $class;?>><?php echo $phonenumber;?><span <?php echo $option ;?> > <img class="callout" src="theme/images/Callout.gif" />
+	                    <table><tr><td>Phone No:<?php echo $value->phone_number;?></td><td>State: <?php echo $value->state;?></td><td>City :<?php echo $value->major_city;?></td></tr></table> </span></a></div>
+                    </td>
+
 			        <td>{{ $value->create_date}}</td>
 			        <td>{{ $value->registrant_company}}</td>
 			        <td>{{ $value->registrant_address}}</td>
@@ -175,8 +191,8 @@
 </div>
 
 </body>
- 
-  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+
+ <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
   <script type="text/javascript">
 $(document).ready(function(){
 	$('.domainDAta').DataTable({
@@ -190,7 +206,26 @@ $(document).ready(function(){
 });
 </script>
   <script>
-  
+  function unlockleadsfun(key,leads_id,domain_id){
+   var user_id='<?php echo Auth::user()->id?>';
+   $(".unpaid_td"+key).hide();
+   $(".paid_td"+key).show();
+   $("#unlockleads"+key).attr('disabled', true);
+   $.ajax({
+               type:'POST',
+               url:'insertUserLeads',
+               beforeSend: function()
+					{
+						//$('#filtereddataid').html('<img src="theme/images/loading.gif">Loading...');
+					},
+               data:'user_id='+user_id+'&leads_id='+leads_id+'&domain_id='+domain_id,
+	               success:function(data){
+	               	//$("#filtereddataid").html(data);
+	                //console.log(data);
+	                 
+	               }
+                });
+  }
    
     
   function filterFunction(email){

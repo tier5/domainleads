@@ -48,8 +48,11 @@
 	<div class="container">
 	
     <h2>Search Result</h2>
+    <h3>Total leads : {{$total_leads}}</h3>
+    <h3>Used leads : <span id="used_leads_id">{{$used_leads}}</span></h3>
     <input type="hidden" id="filteredemail"  value=""> 
-    <div id="filtereddataid">     
+    <div id="filtereddataid">  
+    <div id="checkavailableleadsid"></div>   
 		  <table class="table table-hover table-bordered domainDAta">
 		    <thead>
 		      <tr>
@@ -76,7 +79,7 @@
 		    
 		    <tbody>
 		     
-
+            
 		      @if(count($requiredData))  
 				@foreach($requiredData as $key=>$value)
 		         
@@ -211,10 +214,10 @@ $(document).ready(function(){
 </script>
   <script>
   function unlockleadsfun(key,leads_id,domain_id){
+
+   var total_leads='<?php echo $total_leads?>';
    var user_id='<?php echo Auth::user()->id?>';
-   $(".unpaid_td"+key).hide();
-   $(".paid_td"+key).show();
-   $("#unlockleads"+key).attr('disabled', true);
+   
    $.ajax({
                type:'POST',
                url:'insertUserLeads',
@@ -222,10 +225,21 @@ $(document).ready(function(){
 					{
 						//$('#filtereddataid').html('<img src="theme/images/loading.gif">Loading...');
 					},
-               data:'user_id='+user_id+'&leads_id='+leads_id+'&domain_id='+domain_id,
+               data:'user_id='+user_id+'&leads_id='+leads_id+'&domain_id='+domain_id+'&total_leads='+total_leads,
 	               success:function(data){
-	               	//$("#filtereddataid").html(data);
-	                //console.log(data);
+	               	  if(data=='false'){
+						
+                        $("#unlockleads"+key).prop('checked',false);
+                        //$("#checkavailableleadsid").html("You have used all leads!!!");
+                        alert("You have used all leads!!!");
+	               	  }else{
+	               	  	$(".unpaid_td"+key).hide();
+						$(".paid_td"+key).show();
+						$("#unlockleads"+key).attr('disabled', true);
+						$("#used_leads_id").text(data);
+	               	  	
+	               	  }
+
 	                 
 	               }
                 });

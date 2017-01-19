@@ -54,23 +54,29 @@ class MaatwebsiteDemoController extends Controller
    public function insertUserLeads(Request $request){
 
    // print_r($request->all()); dd();
-    $user_id=$request->user_id;
-    $leads_id=$request->leads_id;
-    $domain_id=$request->domain_id;
-    $date=date('Y-m-d H:i:s');
-    $data=array(
+      $total_leads=$request->total_leads;
+      $user_id=$request->user_id;
+      $leads_id=$request->leads_id;
+      $domain_id=$request->domain_id;
+       $used_leads=count(DB::table('leadusers')->select('id')->where('user_id',$user_id)->get());
+        if($total_leads>$used_leads){
+            $date=date('Y-m-d H:i:s');
+              $data=array(
 
-    "user_id"=>$user_id,
-    "leads_id"=>$leads_id,
-    "domain_id"=>$domain_id,
+              "user_id"=>$user_id,
+              "leads_id"=>$leads_id,
+              "domain_id"=>$domain_id,
 
-    "created_at"=>$date,
-    "updated_at"=>$date
-     
-     );
-   
-     DB::table('leadusers')->insert($data);
-     
+              "created_at"=>$date,
+              "updated_at"=>$date
+               
+               );
+       
+          DB::table('leadusers')->insert($data);
+          echo $used_leads+1;
+        }else {
+          echo "false";
+        }
       
   }
   public function filteremailID(Request $request){
@@ -182,19 +188,20 @@ class MaatwebsiteDemoController extends Controller
   public function searchDomain()
 
   {
-    
-
-
 
      $user_type=Auth::user()->user_type;
-   // return view('searchDomain');
-    $leadusersData=array();
-    $requiredData=array();
-     if($user_type=='1'){
-      return view('searchDomain')->with('requiredData',$requiredData)->with('leadusersData',$leadusersData);
-    }else{
-      return view('searchDomainAdmin')->with('requiredData',$requiredData)->with('leadusersData',$leadusersData);
-    }
+     $user_id=Auth::user()->id;
+     $used_leads=count(DB::table('leadusers')->select('id')->where('user_id',$user_id)->get());
+
+   
+      $leadusersData=array();
+      $requiredData=array();    
+      $total_leads='10';
+       if($user_type=='1'){
+        return view('searchDomain')->with('requiredData',$requiredData)->with('leadusersData',$leadusersData)->with('total_leads',$total_leads)->with('used_leads',$used_leads);
+      }else{
+        return view('searchDomainAdmin')->with('requiredData',$requiredData)->with('leadusersData',$leadusersData);
+      }
   }
 
   
@@ -378,24 +385,23 @@ class MaatwebsiteDemoController extends Controller
        $lead_id[]=$val->leads_id;
 
        } 
-      // print_r($requiredData);dd();
-       // $job = (new validatephone($requiredData));
-         //   $this->dispatch($job);
+       $total_leads='10';
+       $used_leads=count(DB::table('leadusers')->select('id')->where('user_id',$user_id)->get());
 
         if($user_type=='1'){
-            return view('searchDomain')->with('requiredData', $requiredData)->with('leadusersData', $lead_id); 
+            return view('searchDomain')->with('requiredData', $requiredData)->with('leadusersData', $lead_id)->with('total_leads', $total_leads)->with('used_leads', $used_leads); 
         }else {
              return view('searchDomainAdmin')->with('requiredData', $requiredData)->with('leadusersData', $lead_id);
         }
-      //print_r($lead_id);dd();                           
+                             
     
-          //dd($leadusersData);
-   //return view::make('searchDomain',compact([
-    //'requiredData' => $requiredData,
-   //  'leadusersData' => $leadusersData, 
-    
-  //  ]));
-    //return redirect('searchDomain')->with("requiredData",$requiredData); 
+         
+         //return view::make('searchDomain',compact([
+          //'requiredData' => $requiredData,
+         //  'leadusersData' => $leadusersData, 
+          
+        //  ]));
+          //return redirect('searchDomain')->with("requiredData",$requiredData); 
   }
 
 }
