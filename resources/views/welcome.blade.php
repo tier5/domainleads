@@ -678,46 +678,46 @@
                     <div class="row">
                         <div class="span4">
                             <div class="testimonial">
-                                <p>"I've worked too hard and too long to let anything stand in the way of my goals. I will not let my teammates down and I will not let myself down."</p>
+                                <p>"We really love domainleads becuase we can quickly find only local leads looking for our service and contact them in bulk. DomainLeads saves us time and money in marketing and is always bringing in new clients."</p>
                                 <div class="whopic">
                                     <div class="arrow"></div>
                                    
-                                    {!! HTML :: image('theme/images/Client1.png')!!}
-                                    <strong>John Doe
-                                        <small>Client</small>
+                                    {!! HTML :: image('theme/images/jon.jpg')!!}
+                                    <strong>Jon Vaughn
+                                        <small>CEO Tier5 LLC</small>
                                     </strong>
                                 </div>
                             </div>
                         </div>
                         <div class="span4">
                             <div class="testimonial">
-                                <p>"In motivating people, you've got to engage their minds and their hearts. I motivate people, I hope, by example - and perhaps by excitement, by having productive ideas to make others feel involved."</p>
+                                <p>"Every website needs a logo, with domainleads I can search for specific keywords in domains and quickly send out MMS messages with samples of similar logos I've created. I'm constantly getting sales usings domainleads."</p>
                                 <div class="whopic">
                                     <div class="arrow"></div>
                                    
-                                    {!! HTML :: image('theme/images/Client2.png')!!}
-                                    <strong>John Doe
-                                        <small>Client</small>
+                                    {!! HTML :: image('theme/images/steph.jpg')!!}
+                                    <strong>Stephine Ayrs
+                                        <small>Founder - Item Strategies LLC</small>
                                     </strong>
                                 </div>
                             </div>
                         </div>
                         <div class="span4">
                             <div class="testimonial">
-                                <p>"Determine never to be idle. No person will have occasion to complain of the want of time who never loses any. It is wonderful how much may be done if we are always doing."</p>
+                                <p>"I always go for the old leads, Skybound only does SEO and digital marketing. With domain leads I can quickly filter by leads that already have a website, I love this feature becuase those are my target audience for our service. DomainLeads gives me the tools I need to target leads and make sales."</p>
                                 <div class="whopic">
                                     <div class="arrow"></div>
                                  
-                                    {!! HTML :: image('theme/images/Client3.png')!!}
-                                    <strong>John Doe
-                                        <small>Client</small>
+                                    {!! HTML :: image('theme/images/brandon.jpg')!!}
+                                    <strong>Brandon Shavers
+                                        <small>Founder - Skybound Digital</small>
                                     </strong>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <p class="testimonial-text">
-                        "Perfection is Achieved Not When There Is Nothing More to Add, But When There Is Nothing Left to Take Away"
+                        "With others you just buy leads, with us you contact and convert leads to sales."
                     </p>
                 </div>
             </div>
