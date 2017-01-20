@@ -1128,8 +1128,8 @@ p {
     height: 100%;
 }
 
-@media screen and (max-width:767){
+@media screen and (max-width:767px){
     .videosection {
-        margin: 0 100px;
+        margin: 0 20px;
     }
 }
