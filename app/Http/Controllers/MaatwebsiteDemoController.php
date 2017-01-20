@@ -423,7 +423,8 @@ class MaatwebsiteDemoController extends Controller
              //->take(50)
              ->groupBy('leads.registrant_email')
              ->orderBy('domains.create_date', 'desc')
-             ->get();
+             ->paginate(100);
+             //->get();
             
      
        $lead_id=array();
@@ -448,6 +449,102 @@ class MaatwebsiteDemoController extends Controller
           
         //  ]));
           //return redirect('searchDomain')->with("requiredData",$requiredData); 
+  }
+
+  public function ajax(Request $request)
+
+  {   
+   
+  
+
+      $create_date=$request->create_date;
+      
+      $tdl_com=$request->tdl_com;
+      
+      $tdl_net=$request->tdl_net;
+      
+     $tdl_org=$request->tdl_org;
+      
+      $tdl_io=$request->tdl_io;
+
+
+      $cell_number=$request->cell_number;
+       $landline=$request->landline;
+
+      $phone_number=array();
+      if($cell_number=='1'){
+        $phone_number[]='Cell Number';
+      }
+      if($landline=='1'){
+        $phone_number[]='Landline';
+      }
+      $tdl=array();
+      if($tdl_com==1){
+       $tdl[]='com'; 
+      }
+      if($tdl_net==1){
+       $tdl[]='net'; 
+      }
+      if($tdl_org==1){
+       $tdl[]='org'; 
+      }
+      if($tdl_io==1){
+       $tdl[]='io'; 
+      }
+      
+      $registrant_country=$request->registrant_country;
+   
+      $domain_name=$request->domain_name;
+      
+      $requiredData=array();
+      $leadusersData=array();
+      $user_id=Auth::user()->id;
+      $user_type=Auth::user()->user_type;
+      $leadusersData = DB::table('leadusers')
+             ->select('*')
+             ->where('user_id', $user_id)
+             ->get();
+      //print_r($leadusersData);dd();
+
+           
+      $requiredData = DB::table('leads')
+              ->join('domains', 'leads.id', '=', 'domains.user_id')
+              ->join('validatephone', 'validatephone.user_id', '=', 'leads.id')
+              ->select('leads.*','leads.id as leads_id','domains.id as domain_id','validatephone.*',
+                      'domains.domain_name','domains.create_date','domains.expiry_date','domains.domain_registrar_id','domains.domain_registrar_name','domains.domain_registrar_whois','domains.domain_registrar_url')
+              
+              ->where(function($query) use ($create_date,$domain_name,$registrant_country,$phone_number,$tdl)
+                {
+                    if (!empty($registrant_country)) {
+                        $query->where('leads.registrant_country', $registrant_country);
+                    } 
+                    if (!empty($create_date)) {
+                        $query->where('domains.create_date', $create_date);
+                    } 
+                    if (!empty($domain_name)) {
+                       $query->where('domains.domain_name','like', '%'.$domain_name.'%');
+                       
+                    }
+                    if (!empty($phone_number)) {
+                        $query->whereIn('validatephone.number_type', $phone_number);
+                       
+                    }
+                     if (!empty($tdl)) {
+                        $query->whereIn('domains.domain_ext', $tdl);
+                       
+                    }
+                  
+                })
+             //->skip(0)
+             //->take(50)
+             ->groupBy('leads.registrant_email')
+             ->orderBy('domains.create_date', 'desc')
+             ->paginate(100);
+             //->get();
+      //return $requiredData;     
+   //return view('searchDomain_ajax')->with('requiredData', $requiredData)>with('leadusersData', $leadusersData)->render();       
+   return view('searchDomain_ajax')->with('requiredData',$requiredData)->with('leadusersData', $leadusersData)->render();        
+    
   }
 
 }
