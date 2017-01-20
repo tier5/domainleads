@@ -704,7 +704,7 @@
                         </div>
                         <div class="span4">
                             <div class="testimonial">
-                                <p>"I always go for the old leads, Skybound only does SEO and digital marketing. With domain leads I can quickly filter by leads that already have a website, I love this feature becuase those are my target audience for our service. DomainLeads gives me the tools I need to target leads and make sales."</p>
+                                <p>"I always go for the old leads, Skybound only does SEO and digital marketing. With domain leads I can quickly filter by leads that already have a website, I love this feature becuase that is my target audience for our service. DomainLeads gives me the tools I need to target leads and make sales."</p>
                                 <div class="whopic">
                                     <div class="arrow"></div>
                                  
