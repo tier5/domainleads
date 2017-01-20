@@ -70,6 +70,8 @@
 		        <th>Registrant Phone</th>
 		        <th>Registered Date</th>
 		        <th>Registrant Company</th>
+		       
+		        <!--
 		        <th>Registrant Address</th>
 		        <th>Registrant City</th>
 		        <th>Registrant State</th>
@@ -81,6 +83,7 @@
 		        <th>Domain Registrar Name</th>
 		        <th>Domain Registrar Whois</th>
 		        <th>Domain Registrar Url</th>
+		      	-->
 		      </tr>
 		    </thead>
 		    
@@ -176,6 +179,7 @@
 
 			        <td>{{ $value->create_date}}</td>
 			        <td>{{ $value->registrant_company}}</td>
+			       	<!--
 			        <td>{{ $value->registrant_address}}</td>
 			        <td>{{ $value->registrant_city}}</td>
 			        <td>{{ $value->registrant_state}}</td>
@@ -189,7 +193,7 @@
 			        <td>{{ $value->domain_registrar_name}}</td>
 			        <td>{{ $value->domain_registrar_whois}}</td>
 			        <td>{{ $value->domain_registrar_url}}</td>
-
+					-->
 			      </tr>
 		        @endforeach
 		   
