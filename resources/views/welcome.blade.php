@@ -58,9 +58,10 @@
                         <ul class="nav" id="top-navigation">
                             <li class="active"><a href="#home">Home</a></li>
                             <li><a href="#service">Services</a></li>
-                            <li><a href="#portfolio">Portfolio</a></li>
+                            <li><a href="#portfolio">How it works</a></li>
                             <li><a href="#about">About</a></li>
                             <li><a href="#clients">Clients</a></li>
+                            <li><a href="#price">Pricing</a></li>
                              @if (Auth::check())
                              <li> <a href="{{ URL::to('postSearchData') }}">Search Domain</a></li>
                              <li> <a href="{{ URL::to('logout') }}">Logout</a></li>
@@ -705,7 +706,7 @@
                         </div>
                     </div>
                     <p class="testimonial-text">
-                        "With others you just buy leads, with us you contact and convert leads to sales."
+                        "With others you just buy bulk leads, with us you target, contact, and convert leads to sales."
                     </p>
                 </div>
             </div>
