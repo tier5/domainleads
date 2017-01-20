@@ -15,6 +15,25 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/test' , function(){
+    $x = \App\Lead::where('registrant_country' , 'United States')->get();
+    //return($x->count());
+    $arr = array();
+    $i = 0;
+    foreach($x as $xx)
+    {
+        $arr[$i++] = $xx->id;
+    }
+    ini_set("memory_limit","7G");
+    $y = \App\Domain::whereIn('user_id' , $xx)->get();
+    return ($y->count());
+    
+    // foreach($x as $z)
+    // {
+    //     $y = \App\Domain::where('user_id' , $z->id);
+    // }
+});
+
 
 
 
@@ -22,6 +41,7 @@ Route::get('signup','DemoController@signupform' );
 Route::post('signme','DemoController@signme' );
 
   Route::group(['middleware' => 'auth'],function(){
+
 	Route::get('importExport', 'MaatwebsiteDemoController@importExport');
     Route::post('importExcel', 'MaatwebsiteDemoController@importExcel');
 
@@ -32,6 +52,7 @@ Route::post('signme','DemoController@signme' );
     Route::get('downloadExcel/{type}', 'MaatwebsiteDemoController@downloadExcel');
 
     Route::post('insertUserLeads','MaatwebsiteDemoController@insertUserLeads' );
+    Route::get('/myleads' , 'MaatwebsiteDemoController@myleads');
 });
 
 // GET route

@@ -19,7 +19,7 @@
 
 
 
-		<div class="container-fluid">
+		<div class="container-fluid container">
 
 			<div class="navbar-header">
 
@@ -28,12 +28,11 @@
                 @if(Session::has('msg'))
                 {{ Session::get('msg')}}
                 @endif
+
+                <a class="navbar-brand" href="{{url('/')}}/myleads">My leads</a>
 			</div>
-
 		</div>
-
 	
-
 	<div class="container">
 
 		<form style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 10px;" action="{{ URL::to('postSearchData') }}" class="form-horizontal" method="post" enctype="multipart/form-data">
@@ -53,6 +52,7 @@
 			<button class="btn btn-primary">Search</button>
 
 		</form>
+
 		
 	<div class="container">
 	
@@ -92,12 +92,15 @@
 		    
 		    <tbody>
 		     
-            
-		        @if(count($requiredData))
+
+            <?php $i = 0; ?>
+		      @if(count($requiredData))  
 				@foreach($requiredData as $key=>$value)
 		         
 				    <?php 
-				    if (Auth::user()->user_type=='1'){
+				    //dd($leadusersData);
+				    if (Auth::user()->user_type=='1')
+				    {
 					     $domainName=$value->domain_name;
 					     $domainname=strstr($domainName, '.', true);
 					     $ext=substr(strrchr($domainName, "."), 1);
@@ -159,18 +162,58 @@
 						}
 				    ?>
 			      <tr>
-			        <td><input type="radio" name="unlockleads{{$key}}" id="unlockleads{{$key}}" <?php echo $checked;?> onclick="unlockleadsfun('<?php echo $key; ?>','<?php echo $value->leads_id; ?>','<?php echo $value->domain_id; ?>')" value="1" <?php echo $disabled;?>>
+			        <td>
+			        <input type="radio" name="unlockleads{{$key}}" id="unlockleads{{$key}}" <?php echo $checked;?> onclick="unlockleadsfun('<?php echo $key; ?>','<?php echo $value->leads_id; ?>','<?php echo $value->domain_id; ?>','{{$value->registrant_email}}' , 
+			        '{{$value->registrant_name}}' , '{{$value->create_date}}')" value="1" <?php echo $disabled;?>>
+
                     <div class="paid_td{{$key}}" <?php echo $style_paid;?> ><input type="checkbox" name="downloadcsv" value="1"></div>
 			        </td>
-			        <td >
+
+			        <td>
 				        <div class="unpaid_td{{$key}}" <?php echo $style_unpaid;?>><a href="<?php  if (Auth::user()->user_type=='2'){ ?>http://{{ $value->domain_name }}" <?php } else { ?>javascript:void(0); <?php  } ?> target="_blank">{{ $domainName_new}}</a></div>
 	                     <div class="paid_td{{$key}}" <?php echo $style_paid;?> ><a href="http://{{ $value->domain_name }}" target="_blank">{{ $value->domain_name}}</a></div>
 			        </td>
 
-			        
+			      
+			        <td>
 
-			        <td>{{ $value->registrant_name}}</td>
-			        <td>{{ $value->registrant_email}}<a href="getDomainData/{{base64_encode($value->registrant_email)}}" target="_blank"><button class="btn btn-success">View</button></a></td>
+			        @if(in_array($value->leads_id, $leadusersData))
+			        <span id="show_name{{$key}}">{{ $value->registrant_name}}</span>
+			        	
+			        @else
+			        	<?php
+			        		$s = $value->registrant_name;
+			        		for($i = 1 ; $i < strlen($s)-1 ; $i++)
+			        		{
+			        			$s[$i] = '*';
+			        		}
+			        	?>
+			        <span id="show_name{{$key}}">{{$s}}</span>
+			        @endif
+
+			        </td>
+
+			        <td>
+			        @if(in_array($value->leads_id, $leadusersData))
+			         <span id="show_email{{$key}}">{{ $value->registrant_email}}</span>
+			        	
+			        @else
+			        	<?php
+			        		$s = $value->registrant_email;
+			        		$s = explode('@', $s);
+			        		$ss = $s[0];
+			        		for($i = 1 ; $i < strlen($ss)-1 ; $i++)
+			        		{
+			        			$ss[$i] = '*';
+			        		}
+
+			        	?>
+			        <span id="show_email{{$key}}">{{$ss}}</span>
+			        	
+			        @endif
+
+			        <a href="getDomainData/{{base64_encode($value->registrant_email)}}" target="_blank"><button class="btn btn-success">View</button></a>
+			        </td>
 
 			        <td>
 			            <div class="unpaid_td{{$key}}" <?php echo $style_unpaid;?>><?php echo $phonenumber;?></div>
@@ -180,8 +223,23 @@
 
                      
 
-			        <td>{{ $value->create_date}}</td>
-			        <td>{{ $value->registrant_company}}</td>
+			        <td>
+			        @if(in_array($value->leads_id, $leadusersData))
+			        <span id="show_date{{$key}}">{{$value->create_date}}</span>
+			        @else
+			        <span id="show_date{{$key}}">****/**/**</span>
+			        @endif
+
+			        </td>
+			        <td>
+
+			        	@if($value->registrant_company != null)
+			        		<img src="{{url('/')}}/public/images/company.png" style="width:30px; height:30px">
+			        	@else
+			        		<img src="{{url('/')}}/public/images/userimg.png" style="width:30px; height:30px">
+			        	@endif
+
+			        </td>
 			       	<!--
 			        <td>{{ $value->registrant_address}}</td>
 			        <td>{{ $value->registrant_city}}</td>
@@ -281,7 +339,8 @@
 	</script>
   
   <script>
-  function unlockleadsfun(key,leads_id,domain_id){
+  function unlockleadsfun(key,leads_id,domain_id,email,name,date)
+  {
 
    var total_leads='<?php echo $total_leads?>';
    var user_id='<?php echo Auth::user()->id?>';
@@ -305,6 +364,11 @@
 						$(".paid_td"+key).show();
 						$("#unlockleads"+key).attr('disabled', true);
 						$("#used_leads_id").text(data);
+
+						$('#show_name'+key).text(name);
+						$('#show_email'+key).text(email);
+						$('#show_date'+key).text(date);
+
 	               	  	
 	               	  }
 
@@ -335,6 +399,7 @@
 					},
                data:'domain_name='+domain_name+'&registrant_country='+registrant_country+'&datepicker='+datepicker+'&filteredemail='+filteredemail,
 	               success:function(data){
+	               	alert(1);
 	               	$("#filtereddataid").html(data);
 	                //console.log(data);
 	                 
