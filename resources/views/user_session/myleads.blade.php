@@ -11,7 +11,7 @@
 		<section>
 		<h4 class="center">My Leads</h4>
 			<div>
-		    		        
+		    	@if(isset($myleads) && $myleads != null)         
 				@foreach($myleads as $key=>$each)
 				<table class="table table-hover table-bordered domainDAta">
 
@@ -60,6 +60,7 @@
 					
 				</table>
 				@endforeach
+				@endif
 			</div>
 		</section>
 	</body>
