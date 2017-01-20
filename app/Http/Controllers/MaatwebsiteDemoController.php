@@ -450,13 +450,15 @@ class MaatwebsiteDemoController extends Controller
        $lead_id[]=$val->leads_id;
 
        } 
-       $total_leads='20';
+       $total_leads='50';
        $used_leads=count(DB::table('leadusers')->select('id')->where('user_id',$user_id)->get());
 
-        if($user_type=='1'){
-
+        if($user_type=='1')
+        {
             return view('searchDomain')->with('requiredData', $requiredData)->with('leadusersData', $lead_id)->with('total_leads', $total_leads)->with('used_leads', $used_leads); 
-        }else {
+        }
+        else 
+        {
              return view('searchDomainAdmin')->with('requiredData', $requiredData)->with('leadusersData', $lead_id);
         }
                              
