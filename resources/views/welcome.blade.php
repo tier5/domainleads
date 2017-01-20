@@ -10,7 +10,7 @@
     <head>
         <meta charset=utf-8>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Pluton Theme by BraphBerry.com</title>
+        <title>Domian Leads</title>
         <!-- Load Roboto font -->
         <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700&amp;subset=latin,latin-ext' rel='stylesheet' type='text/css'>
         <!-- Load css styles -->
@@ -138,7 +138,7 @@
                 <div class="title">
                     <h1>Why use DomainLeads?</h1>
                     <!-- Section's title goes here -->
-                    <p>Simple, our leads go out and our sales come in.</p>
+                    <p>Simple, our leads go out and your sales come in.</p>
                     <!--Simple description for section goes here. -->
                 </div>
                 <div class="row-fluid">
@@ -587,7 +587,7 @@
                     <div class="span4" id="first-person">
                         <div class="thumbnail">
                            
-                            {!! HTML :: image('theme/images/Team1.png')!!}
+                            {!! HTML :: image('theme/images/valid.png')!!}
                             <h3>Validated Phone Numbers</h3>
                             
                             <div class="mask">
@@ -599,7 +599,7 @@
                     <div class="span4" id="second-person">
                         <div class="thumbnail">
                            
-                            {!! HTML :: image('theme/images/Team2.png')!!}
+                            {!! HTML :: image('theme/images/filters.jpg')!!}
                             <h3>Advanced Filters</h3>
                             
                             <div class="mask">
@@ -611,7 +611,7 @@
                     <div class="span4" id="third-person">
                         <div class="thumbnail">
                             
-                            {!! HTML :: image('theme/images/Team3.png')!!}
+                            {!! HTML :: image('theme/images/crm.png')!!}
                             <h3>Full CRM</h3>
                            
                             <div class="mask">
