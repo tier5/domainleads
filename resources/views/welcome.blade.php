@@ -14,6 +14,7 @@
         <!-- Load Roboto font -->
         <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700&amp;subset=latin,latin-ext' rel='stylesheet' type='text/css'>
         <!-- Load css styles -->
+
 		{!! Html::style('theme/css/bootstrap.css') !!}
 		{!! Html::style('theme/css/bootstrap-responsive.css') !!}
 		{!! Html::style('theme/css/style.css') !!}
@@ -26,7 +27,6 @@
 		{!! Html::style('theme/css/jquery.bxslider.css') !!}
 		{!! Html::style('theme/css/animate.css') !!}
 		
-
     
       
         <!-- Fav and touch icons -->
@@ -184,7 +184,7 @@
                     <h1>Want to see how it works?</h1>
                     <p>Watch our demo video to see how powerful our platform is.</p>
                 </div>
-                <ul class="nav nav-pills">
+                <!-- <ul class="nav nav-pills">
                     <li class="filter" data-filter="all">
                         <a href="#noAction">All</a>
                     </li>
@@ -198,7 +198,6 @@
                         <a href="#noAction">Identity</a>
                     </li>
                 </ul>
-                <!-- Start details for portfolio project 1 -->
                 <div id="single-project">
                     <div id="slidingDiv" class="toggleDiv row-fluid single-project">
                         <div class="span6">    
@@ -227,8 +226,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- End details for portfolio project 1 -->
-                    <!-- Start details for portfolio project 2 -->
                     <div id="slidingDiv1" class="toggleDiv row-fluid single-project">
                         <div class="span6">
                           
@@ -256,8 +253,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- End details for portfolio project 2 -->
-                    <!-- Start details for portfolio project 3 -->
                     <div id="slidingDiv2" class="toggleDiv row-fluid single-project">
                         <div class="span6">
                            
@@ -285,8 +280,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- End details for portfolio project 3 -->
-                    <!-- Start details for portfolio project 4 -->
                     <div id="slidingDiv3" class="toggleDiv row-fluid single-project">
                         <div class="span6">
                            
@@ -314,8 +307,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- End details for portfolio project 4 -->
-                    <!-- Start details for portfolio project 5 -->
                     <div id="slidingDiv4" class="toggleDiv row-fluid single-project">
                         <div class="span6">
                       
@@ -343,8 +334,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- End details for portfolio project 5 -->
-                    <!-- Start details for portfolio project 6 -->
                     <div id="slidingDiv5" class="toggleDiv row-fluid single-project">
                         <div class="span6">
                            
@@ -372,8 +361,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- End details for portfolio project 6 -->
-                    <!-- Start details for portfolio project 7 -->
                     <div id="slidingDiv6" class="toggleDiv row-fluid single-project">
 
                         <div class="span6">
@@ -402,8 +389,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- End details for portfolio project 7 -->
-                    <!-- Start details for portfolio project 8 -->
                     <div id="slidingDiv7" class="toggleDiv row-fluid single-project">
                         <div class="span6">
                         
@@ -431,8 +416,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- End details for portfolio project 8 -->
-                    <!-- Start details for portfolio project 9 -->
                     <div id="slidingDiv8" class="toggleDiv row-fluid single-project">
                         <div class="span6">
                           
@@ -460,7 +443,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- End details for portfolio project 9 -->
                     <ul id="portfolio-grid" class="thumbnails row">
                         <li class="span4 mix web">
                             <div class="thumbnail">
@@ -571,6 +553,12 @@
                             </div>
                         </li>
                     </ul>
+                </div> -->
+                <div class="videosection">
+                    <img src="theme/images/vdo-img.jpg" class="img-responsive">
+                    <div class="video-container">
+                        <iframe class="video" width="560" height="313" src="https://www.youtube.com/embed/vaf13ZhmFb8?enablejsapi=1&amp;version=3&amp;playerapiid=ytplayer&amp;rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" marginwidth="0" marginheight="0" hspace="0" vspace="0" scrolling="no" allowfullscreen="" allowscriptaccess="always"></iframe>
+                    </div>
                 </div>
             </div>
         </div>
@@ -928,9 +916,9 @@
         <![endif]-->
       
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+<div class="modal fade loginsignup" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -940,35 +928,32 @@
                     <div id="errormsg"></div>
             </div>
             <div class="modal-body">
-                            {{ Form::open(array('url' => '')) }}
-
-                
-                <div class="controls">
-                {{ Form::text('email','',array('id'=>'email_id_login','class'=>'form-control span6','placeholder' => 'Please Enter your Email')) }}
+                {{ Form::open(array('url' => '')) }}
+                <div class="form-group">
+                {{ Form::text('email','',array('id'=>'email_id_login','class'=>'form-control','placeholder' => 'Please Enter your Email')) }}
                 <p class="errors">{{$errors->first('email')}}</p>
                 </div>
-                <div class="controls">
-                {{ Form::password('password',array('class'=>'form-control span6', 'placeholder' => 'Please Enter your Password','id'=>'password')) }}
+                <div class="form-group">
+                {{ Form::password('password',array('class'=>'form-control', 'placeholder' => 'Please Enter your Password','id'=>'password')) }}
                 <p class="errors">{{$errors->first('password')}}</p>
                 </div>
-                <p>{{ Form::button('Login', array('class'=>'send-btn','id' => 'submitbtn')) }}
-               
-                </p>
+                <div class="form-group">
+                {{ Form::button('Submit', array('class'=>'send-btn','id' => 'submitbtn')) }}
                 {{ Form::close() }}
-                
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="myModal_for_reg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+<div class="modal fade loginsignup" id="myModal_for_reg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                     ×</button>
-                <h4 class="modal-title" id="">
+                <h4 class="modal-title" id="myLargeModalLabel">
                     Register</h4>
                     <div id="errormsg_reg"></div>
             </div>
@@ -978,14 +963,24 @@
  
                    
                 {!! Form::open(array('url'=>'')) !!}
-                {!! Form ::text('first_name','',array('class'=>'formtext','id'=>"first_name","placeholder"=>'First Name')) !!}
-                {!! Form ::text('last_name','',array('class'=>'formtext','id'=>"last_name","placeholder"=>'Last Name')) !!}
-                {!! Form ::text('email','',array('class'=>'formtext','id'=>"email_reg","placeholder"=>'Email Address')) !!}
-                {!! Form ::password('password',array('class'=>'formtext','id'=>"password_reg","placeholder"=>'Password')) !!}
-
-                {!! Form ::password('c_password',array('class'=>'formtext','id'=>"c_password_reg","placeholder"=>'Confirm Pasword')) !!}
+                <div class="form-group">
+                {!! Form ::text('first_name','',array('class'=>'formtext form-control','id'=>"first_name","placeholder"=>'First Name')) !!}
+                </div>
+                <div class="form-group">
+                {!! Form ::text('last_name','',array('class'=>'formtext form-control','id'=>"last_name","placeholder"=>'Last Name')) !!}
+                </div>
+                <div class="form-group">
+                {!! Form ::text('email','',array('class'=>'formtext form-control','id'=>"email_reg","placeholder"=>'Email Address')) !!}
+                </div>
+                <div class="form-group">
+                {!! Form ::password('password',array('class'=>'formtext form-control','id'=>"password_reg","placeholder"=>'Password')) !!}
+                </div>
+                <div class="form-group">
+                {!! Form ::password('c_password',array('class'=>'formtext form-control','id'=>"c_password_reg","placeholder"=>'Confirm Pasword')) !!}
+                </div>
+                <div class="form-group">
                 {!! Form ::button('submit',array('class'=>'send-btn','id' => 'submitbtn_reg')) !!}
-               
+                </div>
                 {!! Form::close() !!}
                 </div>           
                
@@ -995,12 +990,12 @@
 </div>
 <script type="text/javascript">
 $( document ).ready(function() {
-        $("popupid").click(function(){
-            $('#myModal').modal('show');
-        }); 
-        $("popupid_for_reg").click(function(){
-            $('#myModal_for_reg').modal('show');
-        }); 
+        // $("popupid").click(function(){
+        //     $('#myModal').modal('show');
+        // }); 
+        // $("popupid_for_reg").click(function(){
+        //     $('#myModal_for_reg').modal('show');
+        // }); 
 
         $("#submitbtn").click(function(){
             var email=$("#email_id_login").val();
@@ -1057,6 +1052,14 @@ $( document ).ready(function() {
 });
    
 </script>
-
-    </body>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".videosection img").click(function(e){
+            $(this).hide();
+            $(this).parent().find(".video")[0].src += "&autoplay=1";
+            e.preventDefault();
+        });
+    });
+</script>
+</body>
 </html>
