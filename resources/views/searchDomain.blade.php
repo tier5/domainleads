@@ -7,9 +7,11 @@
       <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
     
         {!! Html::style('resources/assets/css/bootstrap.css') !!}
-		{!! Html::style('resources/assets/css/jquery.dataTables.css') !!}
+		
 		{!! Html::script('resources/assets/js/jquery-1.12.0.js') !!}
-		{!! Html::script('resources/assets/js/jquery.dataTables.js') !!}
+		
+		
+		{!! Html::script('resources/assets/js/bootstrap.js') !!}
        
 </head>
 
@@ -42,12 +44,12 @@
 			Registered Date<input type="text" name="create_date" id="datepicker" class="" value="{{ Input::get('create_date') }}" />
             
             <br/>
-            .com<input type="checkbox" name="tdl_com" value='1' <?php if(Input::get('tdl_com')==1) { echo "checked";} ?>>
-            .net<input type="checkbox" name="tdl_net" value='1' <?php if(Input::get('tdl_net')==1) { echo "checked";} ?>>
-            .org<input type="checkbox" name="tdl_org" value='1'<?php if(Input::get('tdl_org')==1) { echo "checked";} ?>>
-            .io<input type="checkbox" name="tdl_io" value='1' <?php if(Input::get('tdl_io')==1) { echo "checked";} ?>>
-            Cell Number<input type="checkbox" name="cell_number" value='1' <?php if(Input::get('cell_number')==1) { echo "checked";} ?>>
-            Landline Number<input type="checkbox" name="landline" value='1' <?php if(Input::get('landline')==1) { echo "checked";} ?>>
+            .com<input type="checkbox" name="tdl_com" id="tdl_com" value='1' <?php if(Input::get('tdl_com')==1) { echo "checked";} ?>>
+            .net<input type="checkbox" name="tdl_net" id="tdl_net" value='1' <?php if(Input::get('tdl_net')==1) { echo "checked";} ?>>
+            .org<input type="checkbox" name="tdl_org" id="tdl_org" value='1'<?php if(Input::get('tdl_org')==1) { echo "checked";} ?>>
+            .io<input type="checkbox" name="tdl_io" id="tdl_io" value='1' <?php if(Input::get('tdl_io')==1) { echo "checked";} ?>>
+            Cell Number<input type="checkbox" name="cell_number" id="cell_number" value='1' <?php if(Input::get('cell_number')==1) { echo "checked";} ?>>
+            Landline Number<input type="checkbox" name="landline" id="landline" value='1' <?php if(Input::get('landline')==1) { echo "checked";} ?>>
 			<button class="btn btn-primary">Search</button>
 
 		</form>
@@ -58,8 +60,9 @@
     <h3>Total leads : {{$total_leads}}</h3>
     <h3>Used leads : <span id="used_leads_id">{{$used_leads}}</span></h3>
     <input type="hidden" id="filteredemail"  value=""> 
-    <div id="filtereddataid">  
-    <div id="checkavailableleadsid"></div>   
+    <div id="filtereddataid" class="content">  
+   
+        <div id="checkavailableleadsid"></div>   
 		  <table class="table table-hover table-bordered domainDAta">
 		    <thead>
 		      <tr>
@@ -90,7 +93,7 @@
 		    <tbody>
 		     
             
-		      @if(count($requiredData))  
+		        @if(count($requiredData))
 				@foreach($requiredData as $key=>$value)
 		         
 				    <?php 
@@ -196,12 +199,15 @@
 					-->
 			      </tr>
 		        @endforeach
-		   
-			@endif 
+		   @endif 
+			
 			
 		    </tbody>
 		     
 		  </table>
+      @if(count($requiredData))
+		{{$requiredData->links()}}  
+	@endif 
   </div>
    
 </div> 
@@ -211,18 +217,69 @@
 </body>
 
  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-  <script type="text/javascript">
-$(document).ready(function(){
-	$('.domainDAta').DataTable({
-	  "pageLength": 50,
-	  select:true,
-	  "order":[[0,"desc"]],
-	 "paging" :true,
-	 "bProcessing":true
-	  
-	});
-});
-</script>
+ <script>
+		/*==================== PAGINATION =========================*/
+
+		$(window).on('hashchange',function(){
+			page = window.location.hash.replace('#','');
+			getProducts(page);
+		});
+
+		$(document).on('click','.pagination a', function(e){
+			e.preventDefault();
+			var page = $(this).attr('href').split('page=')[1];
+			// getProducts(page);
+			location.hash = page;
+		});
+
+		function getProducts(page){
+			var domain_name=$("#domain_name").val();
+			var registrant_country=$("#registrant_country").val();
+			var datepicker=$("#datepicker").val();
+			
+				if($("#tdl_com").is(':checked')){
+				 var tdl_com='1';	
+				}else {
+				 var tdl_com='0';	
+				}
+				if($("#tdl_net").is(':checked')){
+				 var tdl_net='1';	
+				}else {
+				 var tdl_net='0';	
+				}
+				if($("#tdl_org").is(':checked')){
+				 var tdl_org='1';	
+				}else {
+				 var tdl_org='0';	
+				}
+			    if($("#tdl_io").is(':checked')){
+				 var tdl_io='1';	
+				}else {
+				 var tdl_io='0';	
+				}
+				 if($("#cell_number").is(':checked')){
+				 var cell_number='1';	
+				}else {
+				 var cell_number='0';	
+				}
+				 if($("#landline").is(':checked')){
+				 var landline='1';	
+				}else {
+				 var landline='0';	
+				}
+			
+			
+			
+			$.ajax({
+				url: 'ajax/search?page=' + page,
+				data:'domain_name='+domain_name+'&registrant_country='+registrant_country+'&tdl_com='+tdl_com+'&tdl_net='+tdl_net+'&tdl_org='+tdl_org+'&tdl_io='+tdl_io+'&cell_number='+cell_number+'&landline='+landline,
+			}).done(function(data){
+				$('.content').html(data);
+			});
+		}
+
+	</script>
+  
   <script>
   function unlockleadsfun(key,leads_id,domain_id){
 

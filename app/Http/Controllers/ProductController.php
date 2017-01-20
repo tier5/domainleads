@@ -7,7 +7,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Product;
 use App\Category;
-
+use DB;
 class ProductController extends Controller
 {
 
@@ -17,9 +17,24 @@ class ProductController extends Controller
 	//$product = Product::where('name', '=', 'jeans')->first();
    //$category = $product->getCategory;
 	//return $category->name;
-	$products=Product::all();
+	//$products=Product::paginate(10);
+	 $products = DB::table('products')
+                ->select('*')
+                ->paginate(10);
 	//return $products;
 	return view('products.index')->with('products',$products);
+	} 
+	public function ajax(){
+	
+	$products = DB::table('products')
+                ->select('*')
+                ->paginate(10);
+	//$products = Product::paginate(10);
+	//print_r($products);dd();
+	//return $products;
+	return view('products.index')->with('products',$products)->render();
+	//return View::make('products.products',['products' => $products])->render();
+
 	} 
 	
 	public function create(){

@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 
 
+
 Route::get('signup','DemoController@signupform' );
 Route::post('signme','DemoController@signme' );
 
@@ -40,6 +41,10 @@ Route::get('login', function() {
 //POST route
 Route::post('login', 'AccountController@login');
 Route::get('logout', array('uses' => 'AccountController@logout'));
+Route::resource('product', 'ProductController');
+
+Route::get('ajax/product', 'ProductController@ajax');
+Route::get('ajax/search', 'MaatwebsiteDemoController@ajax');
 
 
 

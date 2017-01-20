@@ -4,13 +4,13 @@
 
 	<title>Search Domain</title>
 	 
-
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" >
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
-
+      <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+    
+        {!! Html::style('resources/assets/css/bootstrap.css') !!}
 		{!! Html::style('resources/assets/css/jquery.dataTables.css') !!}
 		{!! Html::script('resources/assets/js/jquery-1.12.0.js') !!}
 		{!! Html::script('resources/assets/js/jquery.dataTables.js') !!}
+       
 </head>
 
 <body>
@@ -40,7 +40,14 @@
 			Registrant Country<input type="text" name="registrant_country" id="registrant_country" value="{{ Input::get('registrant_country') }}" />
 
 			Registered Date<input type="text" name="create_date" id="datepicker" class="" value="{{ Input::get('create_date') }}" />
-
+            
+            <br/>
+            .com<input type="checkbox" name="tdl_com" value='1' <?php if(Input::get('tdl_com')==1) { echo "checked";} ?>>
+            .net<input type="checkbox" name="tdl_net" value='1' <?php if(Input::get('tdl_net')==1) { echo "checked";} ?>>
+            .org<input type="checkbox" name="tdl_org" value='1'<?php if(Input::get('tdl_org')==1) { echo "checked";} ?>>
+            .io<input type="checkbox" name="tdl_io" value='1' <?php if(Input::get('tdl_io')==1) { echo "checked";} ?>>
+            Cell Number<input type="checkbox" name="cell_number" value='1' <?php if(Input::get('cell_number')==1) { echo "checked";} ?>>
+            Landline Number<input type="checkbox" name="landline" value='1' <?php if(Input::get('landline')==1) { echo "checked";} ?>>
 			<button class="btn btn-primary">Search</button>
 
 		</form>
@@ -48,9 +55,12 @@
 	<div class="container">
 	
     <h2>Search Result</h2>
+    <h3>Total leads : {{$total_leads}}</h3>
+    <h3>Used leads : <span id="used_leads_id">{{$used_leads}}</span></h3>
     <input type="hidden" id="filteredemail"  value=""> 
-    <div id="filtereddataid">     
-		  <table class="table product">
+    <div id="filtereddataid">  
+    <div id="checkavailableleadsid"></div>   
+		  <table class="table table-hover table-bordered domainDAta">
 		    <thead>
 		      <tr>
 		        <th></th>
@@ -76,7 +86,7 @@
 		    
 		    <tbody>
 		     
-
+            
 		      @if(count($requiredData))  
 				@foreach($requiredData as $key=>$value)
 		         
@@ -108,12 +118,14 @@
 						  $style_unpaid='style="display: none;"';
 						  $style_paid='style="display: block;"';
                           $checked='checked="checked"';
+                          $disabled='disabled="true"';
 						}
 						else
 						{
 						  $style_unpaid='style="display: block;"';
 						  $style_paid='style="display: none;"';
 						  $checked='';
+						  $disabled='';
 						}
                         //$phonenumber='';
 						if($value->http_code=='200'){
@@ -141,13 +153,24 @@
 						}
 				    ?>
 			      <tr>
-			        <td><input type="radio" name="unlockleads{{$key}}" id="unlockleads{{$key}}" <?php echo $checked;?> onclick="unlockleadsfun('<?php echo $key; ?>','<?php echo $value->leads_id; ?>','<?php echo $value->domain_id; ?>')" value="1"></td>
-			        <td class="unpaid_td{{$key}}" <?php echo $style_unpaid;?>><a href="<?php  if (Auth::user()->user_type=='2'){ ?>http://{{ $value->domain_name }}" <?php } else { ?>javascript:void(0); <?php  } ?> target="_blank">{{ $domainName_new}}</a></td>
-			        <td class="paid_td{{$key}}" <?php echo $style_paid;?>><a href="http://{{ $value->domain_name }}" target="_blank">{{ $value->domain_name}}</a></td>
+			        <td><input type="radio" name="unlockleads{{$key}}" id="unlockleads{{$key}}" <?php echo $checked;?> onclick="unlockleadsfun('<?php echo $key; ?>','<?php echo $value->leads_id; ?>','<?php echo $value->domain_id; ?>')" value="1" <?php echo $disabled;?>>
+                    <div class="paid_td{{$key}}" <?php echo $style_paid;?> ><input type="checkbox" name="downloadcsv" value="1"></div>
+			        </td>
+			        <td >
+				        <div class="unpaid_td{{$key}}" <?php echo $style_unpaid;?>><a href="<?php  if (Auth::user()->user_type=='2'){ ?>http://{{ $value->domain_name }}" <?php } else { ?>javascript:void(0); <?php  } ?> target="_blank">{{ $domainName_new}}</a></div>
+	                     <div class="paid_td{{$key}}" <?php echo $style_paid;?> ><a href="http://{{ $value->domain_name }}" target="_blank">{{ $value->domain_name}}</a></div>
+			        </td>
+
+			        
+
 			        <td>{{ $value->registrant_name}}</td>
 			        <td>{{ $value->registrant_email}}<a href="getDomainData/{{base64_encode($value->registrant_email)}}" target="_blank"><button class="btn btn-success">View</button></a></td>
-			        <td><a href="#" <?php echo $class;?>><?php echo $phonenumber;?><span <?php echo $option ;?> > <img class="callout" src="theme/images/Callout.gif" />
-                    <table><tr><td>Phone No:<?php echo $value->phone_number;?></td><td>State: <?php echo $value->state;?></td><td>City :<?php echo $value->major_city;?></td></tr></table> </span></a></td>
+
+			        <td>
+			            <div class="unpaid_td{{$key}}" <?php echo $style_unpaid;?>><?php echo $phonenumber;?></div>
+				        <div class="paid_td{{$key}}" <?php echo $style_paid;?> ><a href="#" <?php echo $class;?>><?php echo $phonenumber;?><span <?php echo $option ;?> > <img class="callout" src="theme/images/Callout.gif" />
+	                    <table><tr><td>Phone No:<?php echo $value->phone_number;?></td><td>State: <?php echo $value->state;?></td><td>City :<?php echo $value->major_city;?></td></tr></table> </span></a></div>
+                    </td>
 
                      
 
@@ -169,7 +192,7 @@
 
 			      </tr>
 		        @endforeach
-		    @else <tr><td colspan="4"><p>No Result Found !!!</p></td></tr>
+		   
 			@endif 
 			
 		    </tbody>
@@ -182,25 +205,26 @@
 </div>
 
 </body>
-  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+
+ <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
   <script type="text/javascript">
 $(document).ready(function(){
-//$('.product').DataTable({
-
-  //select:true,
-  //"order":[[0,"desc"]],
-  //"paging" :true,
-  //"bProcessing":true
-  
-//});
+	$('.domainDAta').DataTable({
+	  "pageLength": 50,
+	  select:true,
+	  "order":[[0,"desc"]],
+	 "paging" :true,
+	 "bProcessing":true
+	  
+	});
 });
 </script>
   <script>
   function unlockleadsfun(key,leads_id,domain_id){
+
+   var total_leads='<?php echo $total_leads?>';
    var user_id='<?php echo Auth::user()->id?>';
-   $(".unpaid_td"+key).hide();
-   $(".paid_td"+key).show();
+   
    $.ajax({
                type:'POST',
                url:'insertUserLeads',
@@ -208,10 +232,21 @@ $(document).ready(function(){
 					{
 						//$('#filtereddataid').html('<img src="theme/images/loading.gif">Loading...');
 					},
-               data:'user_id='+user_id+'&leads_id='+leads_id+'&domain_id='+domain_id,
+               data:'user_id='+user_id+'&leads_id='+leads_id+'&domain_id='+domain_id+'&total_leads='+total_leads,
 	               success:function(data){
-	               	//$("#filtereddataid").html(data);
-	                //console.log(data);
+	               	  if(data=='false'){
+						
+                        $("#unlockleads"+key).prop('checked',false);
+                        //$("#checkavailableleadsid").html("You have used all leads!!!");
+                        alert("You have used all leads!!!");
+	               	  }else{
+	               	  	$(".unpaid_td"+key).hide();
+						$(".paid_td"+key).show();
+						$("#unlockleads"+key).attr('disabled', true);
+						$("#used_leads_id").text(data);
+	               	  	
+	               	  }
+
 	                 
 	               }
                 });

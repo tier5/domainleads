@@ -2,52 +2,58 @@
 
 
 		{!! Html::style('resources/assets/css/bootstrap.css') !!}
-		{!! Html::style('resources/assets/css/jquery.dataTables.css') !!}
+		<!-- {!! Html::style('resources/assets/css/jquery.dataTables.css') !!} -->
 		{!! Html::script('resources/assets/js/jquery-1.12.0.js') !!}
-		{!! Html::script('resources/assets/js/jquery.dataTables.js') !!}
+		{!! Html::script('resources/assets/js/bootstrap.js') !!}
+		<!-- {!! Html::script('resources/assets/js/jquery.dataTables.js') !!} -->
 		
 
-				<table class="table table-hover table-bordered product22">
-					<thead>
-					<th>ID</th>
-					<th>Name</th>
-					<th>Price</th>
-					<th>Action</th>
-					</thead>
-					<tbody>
+				
 
-
-
+            <div class="container">
+                <div class="content">
 					@foreach($products as $product)
-					<tr>
-					<td>{{$product->id}}</td>
-					<td>{{$product->name}}</td>
-					<td>{{$product->price}}</td>
-					<td>{!! Form ::open ([
-					                'method'=>'delete',
-					                'route'=>['product.destroy',$product->id]
-									])!!}
-
-					{!!Form::submit('Delete')!!}
-
-					<a href="{{route('product.edit',$product->id)}}">Edit</a>
-					{!! Form::close()!!}</td>
-					</tr>
+					{{$product->name}}
 					@endforeach
-					</tbody>
-				</table>
-			
-<script type="text/javascript">
-$(document).ready(function(){
-$('.product22').DataTable({
+					{{$products->links()}}
+				</div>	
+			</div>
+					<script>
+				/*==================== PAGINATION =========================*/
 
-  select:true,
-  "order":[[0,"desc"]],
-  "paging" :true,
-  "bProcessing":true
+				$(window).on('hashchange',function(){
+					page = window.location.hash.replace('#','');
+					getProducts(page);
+				});
+
+				$(document).on('click','.pagination a', function(e){
+					e.preventDefault();
+					var page = $(this).attr('href').split('page=')[1];
+					// getProducts(page);
+					location.hash = page;
+				});
+
+				function getProducts(page){
+
+					$.ajax({
+						url: 'ajax/product?page=' + page
+					}).done(function(data){
+						$('.content').html(data);
+					});
+				}
+
+				</script>
+<script type="text/javascript">
+//$(document).ready(function(){
+//$('.product22').DataTable({
+
+ // select:true,
+ // "order":[[0,"desc"]],
+ // "paging" :true,
+ // "bProcessing":true
   
-});
-});
+//});
+//});
 </script>
 
 
