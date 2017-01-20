@@ -136,9 +136,9 @@
             <div class="container">
                 <!-- Start title section -->
                 <div class="title">
-                    <h1>What We Do?</h1>
+                    <h1>Why use DomainLeads?</h1>
                     <!-- Section's title goes here -->
-                    <p>Duis mollis placerat quam, eget laoreet tellus tempor eu. Quisque dapibus in purus in dignissim.</p>
+                    <p>Simple, our leads go out and our sales come in.</p>
                     <!--Simple description for section goes here. -->
                 </div>
                 <div class="row-fluid">
@@ -148,8 +148,8 @@
                           
                                 {!! HTML :: image('theme/images/Service1.png')!!}
                             </div>
-                            <h3>Modern Design</h3>
-                            <p>We Create Modern And Clean Theme For Your Business Company.</p>
+                            <h3>Pre-Verified Leads</h3>
+                            <p>All our leads are pre-verfied and you can see how many other users are engaged with any lead before you unlock.</p>
                         </div>
                     </div>
                     <div class="span4">
@@ -158,8 +158,8 @@
                             
                                 {!! HTML :: image('theme/images/Service2.png')!!}
                             </div>
-                            <h3>Powerfull Theme</h3>
-                            <p>We Create Modern And Powerful Theme With Lots Animation And Features</p>
+                            <h3>Powerfull Filters</h3>
+                            <p>Easily filter by TDL, Location, Registered Date, Valid contact info, and much more. Search nitch specific domains quickly.</p>
                         </div>
                     </div>
                     <div class="span4">
@@ -168,8 +168,8 @@
                                
                                 {!! HTML :: image('theme/images/Service3.png')!!}
                             </div>
-                            <h3>Clean Code</h3>
-                            <p>We Create Modern And Powerful Html5 And CSS3 Code Easy For Read And Customize.</p>
+                            <h3>Full CRM</h3>
+                            <p>Not only do we provide fresh high quality leads, we also provide a full CRM for you SMS, Call, Email leads, manage contacts and call backs, and record sales.</p>
                         </div>
                     </div>
                 </div>
@@ -181,8 +181,8 @@
             <div class="triangle"></div>
             <div class="container">
                 <div class=" title">
-                    <h1>Have You Seen our Works?</h1>
-                    <p>Duis mollis placerat quam, eget laoreet tellus tempor eu. Quisque dapibus in purus in dignissim.</p>
+                    <h1>Want to see how it works?</h1>
+                    <p>Watch our demo video to see how powerful our platform is.</p>
                 </div>
                 <ul class="nav nav-pills">
                     <li class="filter" data-filter="all">
@@ -580,35 +580,19 @@
             <div class="triangle"></div>
             <div class="container">
                 <div class="title">
-                    <h1>Who We Are?</h1>
-                    <p>Duis mollis placerat quam, eget laoreet tellus tempor eu. Quisque dapibus in purus in dignissim.</p>
+                    <h1>Industry Unique Features</h1>
+                    <p>You won't find anyone else with these powerful features.</p>
                 </div>
                 <div class="row-fluid team">
                     <div class="span4" id="first-person">
                         <div class="thumbnail">
                            
                             {!! HTML :: image('theme/images/Team1.png')!!}
-                            <h3>John Doe</h3>
-                            <ul class="social">
-                                <li>
-                                    <a href="">
-                                        <span class="icon-facebook-circled"></span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <span class="icon-twitter-circled"></span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <span class="icon-linkedin-circled"></span>
-                                    </a>
-                                </li>
-                            </ul>
+                            <h3>Validated Phone Numbers</h3>
+                            
                             <div class="mask">
-                                <h2>Copywriter</h2>
-                                <p>When you stop expecting people to be perfect, you can like them for who they are.</p>
+                                <h2>So Powerful</h2>
+                                <p>Before you ever unlock a lead we let you know if they have a valid phone number or not. We also let you know if it's a landline or Cell Phone. When you unlock the lead you get even more information like carrier and location of the phone number.</p>
                             </div>
                         </div>
                     </div>
@@ -616,27 +600,11 @@
                         <div class="thumbnail">
                            
                             {!! HTML :: image('theme/images/Team2.png')!!}
-                            <h3>John Doe</h3>
-                            <ul class="social">
-                                <li>
-                                    <a href="">
-                                        <span class="icon-facebook-circled"></span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <span class="icon-twitter-circled"></span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <span class="icon-linkedin-circled"></span>
-                                    </a>
-                                </li>
-                            </ul>
+                            <h3>Advanced Filters</h3>
+                            
                             <div class="mask">
-                                <h2>Designer</h2>
-                                <p>When you stop expecting people to be perfect, you can like them for who they are.</p>
+                                <h2>Find the leads you're looking for.</h2>
+                                <p>With our advanced filters you can quickly find only the leads that matter to you. Filter by TDL, Location, Registration Date, State, City, Phone Type on file. You can even target specific keywords included in the domain.</p>
                             </div>
                         </div>
                     </div>
@@ -644,27 +612,11 @@
                         <div class="thumbnail">
                             
                             {!! HTML :: image('theme/images/Team3.png')!!}
-                            <h3>John Doe</h3>
-                            <ul class="social">
-                                <li>
-                                    <a href="">
-                                        <span class="icon-facebook-circled"></span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <span class="icon-twitter-circled"></span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <span class="icon-linkedin-circled"></span>
-                                    </a>
-                                </li>
-                            </ul>
+                            <h3>Full CRM</h3>
+                           
                             <div class="mask">
-                                <h2>Photographer</h2>
-                                <p>When you stop expecting people to be perfect, you can like them for who they are.</p>
+                                <h2>Sales Automation</h2>
+                                <p>We give you a full CRM to manage your leads. Our CRM offers: Bulk Email/SMS/Call blasts. SMS auto-responder, Voice IVR, in-browser dialer, lead dispositions, sales tracking, and much more..</p>
                             </div>
                         </div>
                     </div>
@@ -673,7 +625,7 @@
                     <h3>About Us</h3>
                     <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</p>
                 </div>
-                <h3>Skills</h3>
+                <h3>Typical Lead Conversions</h3>
                 <div class="row-fluid">
                     <div class="span6">
                         <ul class="skills">
@@ -682,23 +634,23 @@
                                 <h3>Graphic Design</h3>
                             </li>
                             <li>
-                                <span class="bar" data-width="95%"></span>
-                                <h3>Html & Css</h3>
+                                <span class="bar" data-width="60%"></span>
+                                <h3>Wordpress Website</h3>
                             </li>
                             <li>
-                                <span class="bar" data-width="68%"></span>
-                                <h3>jQuery</h3>
+                                <span class="bar" data-width="90%"></span>
+                                <h3>SEO</h3>
                             </li>
                             <li>
-                                <span class="bar" data-width="70%"></span>
-                                <h3>Wordpress</h3>
+                                <span class="bar" data-width="45%"></span>
+                                <h3>Website Development</h3>
                             </li>
                         </ul>
                     </div>
                     <div class="span6">
                         <div class="highlighted-box center">
-                            <h1>We're Hiring</h1>
-                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, ullamcorper suscipit lobortis nisl ut aliquip consequat. I learned that we can do anything, but we can't do everything...</p>
+                            <h1>Get real results!</h1>
+                            <p>If you need real conversions you should be using DomainLeads. We give you the newest leads with a proven high sales conversion rate. We also provide all the tools necessary to put your marketing campaigns on auto-piliot. Kick back and watch our system do all the work while you rack up the sales.</p>
                             <button class="button button-sp">Join Us</button>
                         </div>
                     </div>
@@ -709,8 +661,8 @@
         <div class="section secondary-section">
             <div class="triangle"></div>
             <div class="container centered">
-                <p class="large-text">Elegance is not the abundance of simplicity. It is the absence of complexity.</p>
-                <a href="#" class="button">Purshase now</a>
+                <p class="large-text">Our leads are ready to buy your services, what are you waiting for?</p>
+                <a href="#" class="button">Join now</a>
             </div>
         </div>
         <!-- Client section start -->
@@ -720,8 +672,8 @@
                 <div class="triangle"></div>
                 <div class="container">
                     <div class="title">
-                        <h1>What Client Say?</h1>
-                        <p>Duis mollis placerat quam, eget laoreet tellus tempor eu. Quisque dapibus in purus in dignissim.</p>
+                        <h1>What our users Say?</h1>
+                        <p>Design Firms, Development Firms, Digital Marketing Agencies, they are all using our system to get new clients and sell their services. See how they like it.</p>
                     </div>
                     <div class="row">
                         <div class="span4">
@@ -775,37 +727,40 @@
         <div id="price" class="section secondary-section">
             <div class="container">
                 <div class="title">
-                    <h1>Price</h1>
-                    <p>Duis mollis placerat quam, eget laoreet tellus tempor eu. Quisque dapibus in purus in dignissim.</p>
+                    <h1>Montlhy Pricing</h1>
+                    <p>You won't find a more competitive price for the same features.</p>
                 </div>
                 <div class="price-table row-fluid">
                     <div class="span4 price-column">
                         <h3>Basic</h3>
                         <ul class="list">
-                            <li class="price">$19,99</li>
-                            <li><strong>Free</strong> Setup</li>
-                            <li><strong>24/7</strong> Support</li>
-                            <li><strong>5 GB</strong> File Storage</li>
+                            <li class="price">$9.99</li>
+                            <li><strong>50</strong> Monthly Leads</li>
+                            <li><strong>$0.99</strong> Each additional Lead</li>
+                            <li><strong>Basic</strong> Filters</li>
+                            <li><strong>NO</strong> CRM</li>
                         </ul>
                         <a href="#" class="button button-ps">BUY</a>
                     </div>
                     <div class="span4 price-column">
                         <h3>Pro</h3>
                         <ul class="list">
-                            <li class="price">$39,99</li>
-                            <li><strong>Free</strong> Setup</li>
-                            <li><strong>24/7</strong> Support</li>
-                            <li><strong>25 GB</strong> File Storage</li>
+                            <li class="price">$49.99</li>
+                            <li><strong>500</strong> Monly Leads</li>
+                            <li><strong>$0.50</strong> Each additional Lead</li>
+                            <li><strong>Full</strong> Filters</li>
+                            <li><strong>Basic</strong> CRM</li>
                         </ul>
                         <a href="#" class="button button-ps">BUY</a>
                     </div>
                     <div class="span4 price-column">
                         <h3>Premium</h3>
                         <ul class="list">
-                            <li class="price">$79,99</li>
-                            <li><strong>Free</strong> Setup</li>
-                            <li><strong>24/7</strong> Support</li>
-                            <li><strong>50 GB</strong> File Storage</li>
+                            <li class="price">$99.99</li>
+                            <li><strong>5000</strong> Monthly Leads</li>
+                            <li><strong>$0.25</strong> Each additional Lead</li>
+                            <li><strong>Full</strong> Filters</li>
+                            <li><strong>Full</strong> CRM</li>
                         </ul>
                         <a href="#" class="button button-ps">BUY</a>
                     </div>
@@ -828,10 +783,10 @@
                     </div>
                 </div>
                 <div id="success-subscribe" class="alert alert-success invisible">
-                    <strong>Well done!</strong>You successfully subscribet to our newsletter.</div>
+                    <strong>You're on your way!</strong>Check your email to finish up and get your free weekly leads and help from our experts.</div>
                 <div class="row-fluid">
                     <div class="span5">
-                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                        <p>Sign up to get 10 free leads a week plus the hottest tips and tricks to get more sales conversions from your leads.</p>
                     </div>
                     <div class="span7">
                         <form class="inline-form">
@@ -850,7 +805,7 @@
                 <div class="container">
                     <div class="title">
                         <h1>Contact Us</h1>
-                        <p>Duis mollis placerat quam, eget laoreet tellus tempor eu. Quisque dapibus in purus in dignissim.</p>
+                        <p>Have any doubts, we're here to clear the air.</p>
                     </div>
                 </div>
                 <div class="map-wrapper">
@@ -858,9 +813,9 @@
                     <div class="container">
                         <div class="row-fluid">
                             <div class="span5 contact-form centered">
-                                <h3>Say Hello</h3>
+                                <h3>Engage with us!</h3>
                                 <div id="successSend" class="alert alert-success invisible">
-                                    <strong>Well done!</strong>Your message has been sent.</div>
+                                    <strong>We listen!</strong>Your message has been sent.</div>
                                 <div id="errorSend" class="alert alert-error invisible">There was an error.</div>
                                 <form id="contact-form" action="php/mail.php">
                                     <div class="control-group">
@@ -941,7 +896,7 @@
         <!-- Contact section edn -->
         <!-- Footer section start -->
         <div class="footer">
-            <p>&copy; 2013 Theme by <a href="http://www.graphberry.com">GraphBerry</a>, <a href="http://goo.gl/NM84K2">Documentation</a></p>
+            <p>&copy; 2017 Powered by <a href="https://www.tier5.us">Tier5</a></p>
         </div>
         <!-- Footer section end -->
         <!-- ScrollUp button start -->
