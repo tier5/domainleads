@@ -68,6 +68,7 @@
 		        <th>Registrant Phone</th>
 		        <th>Registered Date</th>
 		        <th>Registrant Company</th>
+		        <!--
 		        <th>Registrant Address</th>
 		        <th>Registrant City</th>
 		        <th>Registrant State</th>
@@ -79,6 +80,7 @@
 		        <th>Domain Registrar Name</th>
 		        <th>Domain Registrar Whois</th>
 		        <th>Domain Registrar Url</th>
+		        -->
 		      </tr>
 		    </thead>
 		    
