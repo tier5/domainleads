@@ -68,6 +68,7 @@
 		        <th>Registrant Phone</th>
 		        <th>Registered Date</th>
 		        <th>Registrant Company</th>
+		        <th>Actions</th>
 		        <!--
 		        <th>Registrant Address</th>
 		        <th>Registrant City</th>
@@ -163,7 +164,7 @@
 
 
 			        <td>{{ $value->registrant_name}}</td>
-			        <td>{{ $value->registrant_email}}<a href="getDomainData/{{base64_encode($value->registrant_email)}}" target="_blank"><button class="btn btn-success">View</button></a></td>
+			        <td>{{ $value->registrant_email}}</td>
 
 			        <td>			            
 				        <div><a href="#" <?php echo $class;?>><?php echo $phonenumber;?><span <?php echo $option ;?> > <img class="callout" src="theme/images/Callout.gif" />
@@ -172,6 +173,7 @@
 
 			        <td>{{ $value->create_date}}</td>
 			        <td>{{ $value->registrant_company}}</td>
+			        <td><a href="getDomainData/{{base64_encode($value->registrant_email)}}" target="_blank"><button class="btn btn-success">View</button></a></td>
 			       
 			        <!--
 			        <td>{{ $value->registrant_address}}</td>
