@@ -67,6 +67,7 @@ class CreateDomainsTable extends Migration
             $table->string('domain_status_2');
             $table->string('domain_status_3');
             $table->string('domain_status_4');
+            $table->string('domain_ext');
 
 
             $table->timestamps();

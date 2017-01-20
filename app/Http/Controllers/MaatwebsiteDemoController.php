@@ -6,7 +6,7 @@ use App\Jobs\validatephone;
 use Illuminate\Http\Request;
 use DB;
 
-//use App\User;
+use App\User;
 
 use Excel;
 
@@ -18,10 +18,13 @@ class MaatwebsiteDemoController extends Controller
   {
     
    // echo $type;dd();
-      $data = User::get()->toArray();
-     // $data = DB::table('leads')
-              
-             // ->get()->toArray();
+      //$data = User::get()->toArray();
+      //print_r($data);dd();
+       $data1 = DB::table('users')
+                ->select('email','name')
+                ->get();
+       $data = json_decode(json_encode($data1), true);
+      // print_r($data);dd();
 
     return Excel::create('itsolutionstuff_example', function($excel) use ($data) {
 
@@ -264,6 +267,7 @@ class MaatwebsiteDemoController extends Controller
                   $domain_name=DB::table('domains')->select('id')->where('domain_name',$value->domain_name)->get();
 
                   if(count($domain_name) ==0 ){
+                    $domain_ext=substr(strrchr($value->domain_name, "."), 1);
                     $insert_domain=array();
                     $insert_domain = ['domain_name' => $value->domain_name, 
                                  'query_time' => $value->query_time?$value->query_time:'',
@@ -312,6 +316,7 @@ class MaatwebsiteDemoController extends Controller
                                  'domain_status_2' => $value->domain_status_2?$value->domain_status_2:'',
                                  'domain_status_3' => $value->domain_status_3?$value->domain_status_3:'',
                                  'domain_status_4' => $value->domain_status_4?$value->domain_status_4:'',
+                                 'domain_ext' => $domain_ext?$domain_ext:'',
                                  "created_at"=>$date,
                                  "updated_at"=>$date,
                                  ]; 
@@ -357,6 +362,19 @@ class MaatwebsiteDemoController extends Controller
       if($landline=='1'){
         $phone_number[]='Landline';
       }
+      $tdl=array();
+      if($tdl_com==1){
+       $tdl[]='com'; 
+      }
+      if($tdl_net==1){
+       $tdl[]='net'; 
+      }
+      if($tdl_org==1){
+       $tdl[]='org'; 
+      }
+      if($tdl_io==1){
+       $tdl[]='io'; 
+      }
       
       $registrant_country=$request->registrant_country;
    
@@ -376,9 +394,10 @@ class MaatwebsiteDemoController extends Controller
       $requiredData = DB::table('leads')
               ->join('domains', 'leads.id', '=', 'domains.user_id')
               ->join('validatephone', 'validatephone.user_id', '=', 'leads.id')
-              ->select('leads.*', 'domains.*','leads.id as leads_id','domains.id as domain_id','validatephone.*')
+              ->select('leads.*','leads.id as leads_id','domains.id as domain_id','validatephone.*',
+                      'domains.domain_name','domains.create_date','domains.expiry_date','domains.domain_registrar_id','domains.domain_registrar_name','domains.domain_registrar_whois','domains.domain_registrar_url')
               
-              ->where(function($query) use ($create_date,$domain_name,$registrant_country,$phone_number)
+              ->where(function($query) use ($create_date,$domain_name,$registrant_country,$phone_number,$tdl)
                 {
                     if (!empty($registrant_country)) {
                         $query->where('leads.registrant_country', $registrant_country);
@@ -394,11 +413,11 @@ class MaatwebsiteDemoController extends Controller
                         $query->whereIn('validatephone.number_type', $phone_number);
                        
                     }
-                   
-                    
-                    
-                      
-                    
+                     if (!empty($tdl)) {
+                        $query->whereIn('domains.domain_ext', $tdl);
+                       
+                    }
+                  
                 })
              //->skip(0)
              //->take(50)
