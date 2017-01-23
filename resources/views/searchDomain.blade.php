@@ -54,7 +54,7 @@
 		</form>
 
 		<form style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 10px;" action="{{ URL::to('downloadExcel') }}" class="form-horizontal" method="get" enctype="multipart/form-data">
-
+         <input type="hidden" name="domains_for_export" id="domains_for_export_id" value="">
 		 <button class="btn btn-primary" id="exportID">Export</button>
 
 		</form>
@@ -176,7 +176,7 @@
 			        <input type="radio" name="unlockleads{{$key}}" id="unlockleads{{$key}}" <?php echo $checked;?> onclick="unlockleadsfun('<?php echo $key; ?>','<?php echo $value->leads_id; ?>','<?php echo $value->domain_id; ?>','{{$value->registrant_email}}' , 
 			        '{{$value->registrant_name}}' , '{{$value->create_date}}')" value="1" <?php echo $disabled;?>>
 
-                    <div class="paid_td{{$key}}" <?php echo $style_paid;?> ><input type="checkbox" name="downloadcsv" value="1" class="eachrow_download"></div>
+                    <div class="paid_td{{$key}}" <?php echo $style_paid;?> ><input type="checkbox" name="downloadcsv" value="1" class="eachrow_download" id="{{$value->domain_id}}"></div>
 
 			        </td>
 
@@ -286,6 +286,25 @@
 </body>
 
  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+ <script>
+  var domains = [];
+  $('.eachrow_download').click(function(event){
+   var id=$(this).attr('id');
+   
+	    if($("#"+id).is(':checked')) {
+	    domains.push(id);
+	    } else {
+	   
+	    var x = domains.indexOf(id);
+         domains.splice(x,1);
+	    }
+        
+	    
+	     $("#domains_for_export_id").val(domains);
+	   
+  });
+
+ </script>
  <script>
 		/*==================== PAGINATION =========================*/
 

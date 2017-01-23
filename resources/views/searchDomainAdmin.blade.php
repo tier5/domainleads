@@ -15,8 +15,6 @@
 
 <body>
 
-
-
 		<div class="container-fluid">
 
 			<div class="navbar-header">
@@ -44,15 +42,29 @@
 			 <br/>
             .com<input type="checkbox" name="tdl_com" value='1' <?php if(Input::get('tdl_com')==1) { echo "checked";} ?>>
             .net<input type="checkbox" name="tdl_net" value='1' <?php if(Input::get('tdl_net')==1) { echo "checked";} ?>>
-            .org<input type="checkbox" name="tdl_org" value='1'>
-            .io<input type="checkbox" name="tdl_io" value='1'>
+            .org<input type="checkbox" name="tdl_org" value='1' <?php if(Input::get('tdl_org')==1) { echo "checked";} ?>>
+            .io<input type="checkbox" name="tdl_io" value='1' <?php if(Input::get('tdl_io')==1) { echo "checked";} ?>>
             Cell Number<input type="checkbox" name="cell_number" value='1' <?php if(Input::get('cell_number')==1) { echo "checked";} ?>>
             Landline Number<input type="checkbox" name="landline" value='1' <?php if(Input::get('landline')==1) { echo "checked";} ?>>
 
 			<button class="btn btn-primary">Search</button>
 
 		</form>
+		<form style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 10px;" action="{{ URL::to('downloadExcel') }}" class="form-horizontal" method="get" enctype="multipart/form-data">
+        <input type="hidden" name="domain_name_downloadExcel"  value="{{ Input::get('domain_name') }}" />
+		<input type="hidden" name="registrant_country_downloadExcel" id="registrant_country" value="{{ Input::get('registrant_country') }}" />
+
+		<input type="hidden" name="create_date_downloadExcel"  class="" value="{{ Input::get('create_date') }}" />
 		
+        <input type="hidden" name="tdl_com_downloadExcel" value="{{ Input::get('tdl_com') }}" >
+        <input type="hidden" name="tdl_net_downloadExcel" value="{{ Input::get('tdl_net') }}" >
+        <input type="hidden" name="tdl_org_downloadExcel" value="{{ Input::get('tdl_org') }}">
+        <input type="hidden" name="tdl_io_downloadExcel" value="{{ Input::get('tdl_io') }}">
+        <input type="hidden" name="cell_number_downloadExcel" value="{{ Input::get('cell_number') }}" >
+        <input type="hidden" name="landline_downloadExcel" value="{{ Input::get('landline') }}">
+		 <button class="btn btn-primary" id="exportID">Export</button>
+
+		</form>
 	<div class="container">
 	
     <h2>Search Result</h2>
