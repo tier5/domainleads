@@ -52,7 +52,7 @@ class MaatwebsiteDemoController extends Controller
                           ->join('leads', 'leads.id', '=', 'leadusers.user_id')
                           ->join('domains', 'leads.id', '=', 'domains.user_id')
                           ->join('validatephone', 'validatephone.user_id', '=', 'leads.id')
-                           ->select('leads.registrant_name as name','domains.domain_registrar_url as website','leads.registrant_address as address','leads.registrant_phone as phone','leads.registrant_email as email_id')
+                           ->select('leads.registrant_name as name','domains.domain_name as website','leads.registrant_address as address','leads.registrant_phone as phone','leads.registrant_email as email_id')
                           ->where('leadusers.user_id',$user_id)->get();  
         }else {
     
@@ -105,7 +105,7 @@ class MaatwebsiteDemoController extends Controller
       $exel_data = DB::table('leads')
               ->join('domains', 'leads.id', '=', 'domains.user_id')
               ->join('validatephone', 'validatephone.user_id', '=', 'leads.id')
-              ->select('leads.registrant_name as name','domains.domain_registrar_url as website','leads.registrant_address as address','leads.registrant_phone as phone','leads.registrant_email as email_id')
+              ->select('leads.registrant_name as name','domains.domain_name as website','leads.registrant_address as address','leads.registrant_phone as phone','leads.registrant_email as email_id')
               
               ->where(function($query) use ($create_date,$domain_name,$registrant_country,$phone_number,$tdl)
                 {
