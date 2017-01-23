@@ -492,6 +492,8 @@ class MaatwebsiteDemoController extends Controller
       }
       
       $registrant_country=$request->registrant_country;
+
+      $registrant_state = $request->registrant_state;
    
       $domain_name=$request->domain_name;
       
@@ -513,11 +515,15 @@ class MaatwebsiteDemoController extends Controller
               ->select('leads.*','leads.id as leads_id','domains.id as domain_id','validatephone.*',
                       'domains.domain_name','domains.create_date','domains.expiry_date','domains.domain_registrar_id','domains.domain_registrar_name','domains.domain_registrar_whois','domains.domain_registrar_url')
               
-              ->where(function($query) use ($create_date,$domain_name,$registrant_country,$phone_number,$tdl)
+              ->where(function($query) use ($create_date,$domain_name,$registrant_country,$phone_number,$tdl,$registrant_state)
                 {
                     if (!empty($registrant_country)) {
                         $query->where('leads.registrant_country', $registrant_country);
                     } 
+                    if(!empty($registrant_state))
+                    {
+                        $query->where('leads.registrant_state', $registrant_state);
+                    }
                     if (!empty($create_date)) {
                         $query->where('domains.create_date', $create_date);
                     } 
