@@ -9,7 +9,14 @@ table, th, td {
     border: 1px solid black;
 }
 </style>
-
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+    
+        {!! Html::style('resources/assets/css/bootstrap.css') !!}
+		
+		{!! Html::script('resources/assets/js/jquery-1.12.0.js') !!}
+		
+		
+		{!! Html::script('resources/assets/js/bootstrap.js') !!}
 <body>
 
 	<p>All domain names for email address <b>{{$email}}</b></p>
@@ -17,7 +24,7 @@ table, th, td {
 	<u>Total count : {{count($alldomain)}}</u>
 
 	<div>
-		<table>
+		<table class="table table-hover table-bordered domainDAta">
 		
 			<tr>
 				<tr>
