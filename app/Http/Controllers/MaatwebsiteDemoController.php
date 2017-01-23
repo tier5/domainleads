@@ -579,8 +579,13 @@ class MaatwebsiteDemoController extends Controller
              ->paginate(5);
              //->get();
       //return $requiredData;     
-   //return view('searchDomain_ajax')->with('requiredData', $requiredData)>with('leadusersData', $leadusersData)->render();       
-   return view('searchDomain_ajax')->with('requiredData',$requiredData)->with('leadusersData', $leadusersData)->render();        
+   //return view('searchDomain_ajax')->with('requiredData', $requiredData)>with('leadusersData', $leadusersData)->render(); 
+    $lead_id=array();
+       foreach($leadusersData as $val){
+       $lead_id[]=$val->leads_id;
+
+       }      
+   return view('searchDomain_ajax')->with('requiredData',$requiredData)->with('leadusersData', $lead_id)->render();        
     
   }
 
