@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Database\Query\Builder;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -35,7 +37,29 @@ Route::get('/test' , function(){
 });
 
 
+Route::get('/unlock' , function(){
+    $x = \App\LeadUser::all();
+    $arr  = array(); //marks all lead unlocked rectified as 1
 
+    foreach($x as $y)
+    {
+        if(!isset($arr[$y->leads_id]))
+        {
+            $cnt = count(\App\LeadUser::where('leads_id',$y->leads_id)->get());
+            $l = \App\Lead::where('id',$y->leads_id)->first();
+            $l->unlocked_num = $cnt ; 
+            $l->save();
+            $arr[$y->leads_id] = 1;
+        }
+    }
+
+    $ul = \App\Lead::where('unlocked_num' , '>' , 0)->first();
+
+    echo('total itterations made = '.sizeof($arr) .' total rows changed ='.count($ul).'<br>');
+});
+
+
+Route::get('/all_domain/{email}' , 'MaatwebsiteDemoController@all_domain');
 
 Route::get('signup','DemoController@signupform' );
 Route::post('signme','DemoController@signme' );
@@ -53,6 +77,8 @@ Route::post('signme','DemoController@signme' );
 
     Route::post('insertUserLeads','MaatwebsiteDemoController@insertUserLeads' );
     Route::get('/myleads' , 'MaatwebsiteDemoController@myleads');
+
+
 });
 
 // GET route
