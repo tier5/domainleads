@@ -4,6 +4,9 @@ use Input;
 use Auth;
 use App\Jobs\validatephone;
 use Illuminate\Http\Request;
+use \App\LeadUser;
+use \App\Lead;
+use \App\Domain;
 use DB;
 
 use App\User;
@@ -11,9 +14,29 @@ use App\User;
 use Excel;
 
 class MaatwebsiteDemoController extends Controller
-
 {
+
+
+   public function myleads()
+   {
+        $id = Auth::user()->id;
+        $leads = LeadUser::where('user_id' , $id)->get();
+        
+        $i=0;
+        foreach($leads as $l)
+        {
+          
+          $myleads[$i++] = Domain::where('id' , $l->domain_id )->first();
+          
+        }
+
+      return view('user_session.myleads' , compact('myleads'));
+  }
+
   public function downloadExcel(Request $request)
+
+ 
+  
 
   {
     $type='xlsx'; 
@@ -66,13 +89,15 @@ class MaatwebsiteDemoController extends Controller
   
    public function insertUserLeads(Request $request){
 
+   // dd($request->all());
    // print_r($request->all()); dd();
       $total_leads=$request->total_leads;
       $user_id=$request->user_id;
       $leads_id=$request->leads_id;
       $domain_id=$request->domain_id;
        $used_leads=count(DB::table('leadusers')->select('id')->where('user_id',$user_id)->get());
-        if($total_leads>$used_leads){
+        if($total_leads>$used_leads)
+        {
             $date=date('Y-m-d H:i:s');
               $data=array(
 
@@ -199,17 +224,17 @@ class MaatwebsiteDemoController extends Controller
   }
 
   public function searchDomain()
-
   {
+
 
      $user_type=Auth::user()->user_type;
      $user_id=Auth::user()->id;
      $used_leads=count(DB::table('leadusers')->select('id')->where('user_id',$user_id)->get());
-
+     //return 1;
    
       $leadusersData=array();
       $requiredData=array();    
-      $total_leads='10';
+      $total_leads=10;
        if($user_type=='1'){
         return view('searchDomain')->with('requiredData',$requiredData)->with('leadusersData',$leadusersData)->with('total_leads',$total_leads)->with('used_leads',$used_leads);
       }else{
@@ -347,9 +372,7 @@ class MaatwebsiteDemoController extends Controller
           
   }
    public function postSearchData(Request $request)
-
   {   
-   
     ini_set("memory_limit","7G");
     ini_set('max_execution_time', '0');
     ini_set('max_input_time', '0');
@@ -398,6 +421,7 @@ class MaatwebsiteDemoController extends Controller
              ->select('*')
              ->where('user_id', $user_id)
              ->get();
+      //dd($leadusersData);
       //print_r($leadusersData);dd();
 
            
@@ -442,12 +466,15 @@ class MaatwebsiteDemoController extends Controller
        $lead_id[]=$val->leads_id;
 
        } 
-       $total_leads='10';
+       $total_leads='50';
        $used_leads=count(DB::table('leadusers')->select('id')->where('user_id',$user_id)->get());
 
-        if($user_type=='1'){
+        if($user_type=='1')
+        {
             return view('searchDomain')->with('requiredData', $requiredData)->with('leadusersData', $lead_id)->with('total_leads', $total_leads)->with('used_leads', $used_leads); 
-        }else {
+        }
+        else 
+        {
              return view('searchDomainAdmin')->with('requiredData', $requiredData)->with('leadusersData', $lead_id);
         }
                              
