@@ -53,12 +53,18 @@
 			<button class="btn btn-primary">Search</button>
 
 		</form>
+		<form style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 10px;" action="{{ URL::to('downloadExcel') }}" class="form-horizontal" method="get" enctype="multipart/form-data">
+
+		 <button class="btn btn-primary" id="exportID">Export</button>
+
+		</form>
 		
 	<div class="container">
 	
     <h2>Search Result</h2>
     <h3>Total leads : {{$total_leads}}</h3>
     <h3>Used leads : <span id="used_leads_id">{{$used_leads}}</span></h3>
+  
     <input type="hidden" id="filteredemail"  value=""> 
     <div id="filtereddataid" class="content">  
    
@@ -118,7 +124,7 @@
 				    }else {
 				    $domainName_new	=$value->domain_name;
 				    }
-
+				  //  dd($leadusersData);
 						if (in_array($value->leads_id, $leadusersData))
 						{
 						  $style_unpaid='style="display: none;"';
@@ -160,7 +166,7 @@
 				    ?>
 			      <tr>
 			        <td><input type="radio" name="unlockleads{{$key}}" id="unlockleads{{$key}}" <?php echo $checked;?> onclick="unlockleadsfun('<?php echo $key; ?>','<?php echo $value->leads_id; ?>','<?php echo $value->domain_id; ?>')" value="1" <?php echo $disabled;?>>
-                    <div class="paid_td{{$key}}" <?php echo $style_paid;?> ><input type="checkbox" name="downloadcsv" value="1"></div>
+                    <div class="paid_td{{$key}}" <?php echo $style_paid;?> ><input type="checkbox" name="downloadcsv" value="1" class="eachrow_download"></div>
 			        </td>
 			        <td >
 				        <div class="unpaid_td{{$key}}" <?php echo $style_unpaid;?>><a href="<?php  if (Auth::user()->user_type=='2'){ ?>http://{{ $value->domain_name }}" <?php } else { ?>javascript:void(0); <?php  } ?> target="_blank">{{ $domainName_new}}</a></div>
@@ -313,7 +319,8 @@
                 });
   }
    
-    
+  
+   
   function filterFunction(email){
   	var domain_name=$("#domain_name").val();
   	var registrant_country=$("#registrant_country").val();

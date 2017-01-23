@@ -13,17 +13,27 @@ use Excel;
 class MaatwebsiteDemoController extends Controller
 
 {
-  public function downloadExcel($type)
+  public function downloadExcel(Request $request)
 
   {
-    
-   // echo $type;dd();
-      //$data = User::get()->toArray();
-      //print_r($data);dd();
-       $data1 = DB::table('users')
-                ->select('email','name')
-                ->get();
-       $data = json_decode(json_encode($data1), true);
+    $type='xlsx'; 
+      
+      $user_type=Auth::user()->user_type;
+        if($user_type==1){
+          $user_id=Auth::user()->id;
+          $exel_data=DB::table('leadusers')
+                          ->join('leads', 'leads.id', '=', 'leadusers.user_id')
+                          ->join('domains', 'leads.id', '=', 'domains.user_id')
+                          ->join('validatephone', 'validatephone.user_id', '=', 'leads.id')
+                           ->select('leads.*','validatephone.*',
+                        'domains.domain_name','domains.create_date','domains.expiry_date','domains.domain_registrar_id','domains.domain_registrar_name','domains.domain_registrar_whois','domains.domain_registrar_url')
+                          ->where('leadusers.user_id',$user_id)->get();  
+        }else {
+
+
+        }
+
+       $data = json_decode(json_encode($exel_data), true);
       // print_r($data);dd();
 
     return Excel::create('itsolutionstuff_example', function($excel) use ($data) {
@@ -423,7 +433,7 @@ class MaatwebsiteDemoController extends Controller
              //->take(50)
              ->groupBy('leads.registrant_email')
              ->orderBy('domains.create_date', 'desc')
-             ->paginate(100);
+             ->paginate(10);
              //->get();
             
      
@@ -539,7 +549,7 @@ class MaatwebsiteDemoController extends Controller
              //->take(50)
              ->groupBy('leads.registrant_email')
              ->orderBy('domains.create_date', 'desc')
-             ->paginate(100);
+             ->paginate(10);
              //->get();
       //return $requiredData;     
    //return view('searchDomain_ajax')->with('requiredData', $requiredData)>with('leadusersData', $leadusersData)->render();       

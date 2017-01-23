@@ -29,7 +29,7 @@ Route::post('signme','DemoController@signme' );
     Route::get('getDomainData/{id}','MaatwebsiteDemoController@getDomainData' );
     Route::get('postSearchData', 'MaatwebsiteDemoController@searchDomain');
     Route::post('postSearchData', 'MaatwebsiteDemoController@postSearchData');
-    Route::get('downloadExcel/{type}', 'MaatwebsiteDemoController@downloadExcel');
+    Route::get('downloadExcel', 'MaatwebsiteDemoController@downloadExcel');
 
     Route::post('insertUserLeads','MaatwebsiteDemoController@insertUserLeads' );
 });
