@@ -457,7 +457,7 @@ class MaatwebsiteDemoController extends Controller
              //->take(50)
              ->groupBy('leads.registrant_email')
              ->orderBy('domains.create_date', 'desc')
-             ->paginate(10);
+             ->paginate(5);
              //->get();
             
      
@@ -576,7 +576,7 @@ class MaatwebsiteDemoController extends Controller
              //->take(50)
              ->groupBy('leads.registrant_email')
              ->orderBy('domains.create_date', 'desc')
-             ->paginate(10);
+             ->paginate(5);
              //->get();
       //return $requiredData;     
    //return view('searchDomain_ajax')->with('requiredData', $requiredData)>with('leadusersData', $leadusersData)->render();       
