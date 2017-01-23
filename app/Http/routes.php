@@ -59,9 +59,15 @@ Route::get('/unlock' , function(){
 });
 
 
+Route::get('/plans' , 'DemoController@plans');
+
+Route::get('/signin' , 'DemoController@signin');
+
 Route::get('/all_domain/{email}' , 'MaatwebsiteDemoController@all_domain');
 
-Route::get('signup','DemoController@signupform' );
+Route::post('/stripe_initial_subscription' , 'StripeController@initial_subscription');
+
+Route::get('signup','DemoController@signupform');
 Route::post('signme','DemoController@signme' );
 
   Route::group(['middleware' => 'auth'],function(){

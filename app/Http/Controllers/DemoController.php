@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use Validator;
 use Illuminate\Http\Request;
+use \App\User;
 use DB;
 use Hash;
 use Auth;
@@ -19,6 +20,16 @@ class DemoController extends Controller {
 	|	Route::get('/', 'HomeController@showWelcome');
 	|
 	*/
+
+	public  function signin()
+	{
+		return view('user_session.login');
+	}
+
+	public function plans()
+	{
+		return view('subscriptions.plans');
+	}
 
 	public function getIndex()
 	{
@@ -67,15 +78,17 @@ class DemoController extends Controller {
 	Auth::logout();
 	return redirect()->intended('mylogin');
 	}
-	public function signme(Request $request){
-	  
+	public function signme(Request $request)
+	{
+
+	  //dd($request->request);
 	  //print_r($request->all()); dd();
 	 $first_name=$request->first_name;
-	  $last_name=$request->last_name;
-	   $email=$request->email;
-	   $password=$request->password;
-	    $remember_token=$request->_token;
-		$date=date('Y-m-d H:i:s');
+	 $last_name=$request->last_name;
+	 $email=$request->email;
+	 $password=$request->password;
+	 $remember_token=$request->_token;
+	 $date=date('Y-m-d H:i:s');
 	 
 	 $validator=Validator::make(
 	  array(
@@ -99,31 +112,25 @@ class DemoController extends Controller {
 	 	return "error1";
 	 } else {
 	     
-		 $data=array(
-			"name"=>$first_name." ".$last_name,
-			"email"=>$email,
-			"password"=>Hash::make($password),
-			"remember_token"=>$remember_token,
-			"user_type"=>'1',
-			"created_at"=>$date,
-			"updated_at"=>$date
+		 $id_email = DB::table('users')->select('email')->where('email',$email)->get();
+		 if(count($id_email) ==0)
+		 {
+
+		 	$u = new User();
+		 	$u->name = $first_name." ".$last_name;
+		 	$u->email = $email;
+		 	$u->password = Hash::make($password);
+		 	$u->remember_token = $remember_token;
+		 	$u->user_type = 1;
+		 	
+		 	
+			 if($u->save()) 
+			 	return \Response::json(array("msg"=>"success" , "user_id"=>$u->id));
+			 else 
+				return \Response::json(array("msg"=>"error2" , "user_id"=>null));
+	     }   
+	     return \Response::json(array("msg"=>"error3" , "user_id"=>null));
 		 
-		 );
-		 $id_email=DB::table('users')->select('email')->where('email',$email)->get();
-		 if(count($id_email) ==0 ){
-		 
-		 
-			 if(DB::table('users')->insert($data)) {
-			   //return redirect('/')->with("success","Successfully Signed");
-			 	return "success";
-			 } else {
-				//return redirect('/')->with("error","Unsuccessfully Signed");
-				return "error2";
-			 }
-	     } else {
-		   // return redirect('/')->with("error","Email exists");
-	     	return "error3";
-		 }
 	 }
 	   
 	}

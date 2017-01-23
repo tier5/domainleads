@@ -56,16 +56,19 @@
                     <!-- Main navigation -->
                     <div class="nav-collapse collapse pull-right">
                         <ul class="nav" id="top-navigation">
-                            <li class="active"><a href="#home">Home</a></li>
+                            <li class="active"><a href="{{url('/')}}">Home</a></li>
                             <li><a href="#service">Services</a></li>
                             <li><a href="#portfolio">How it works</a></li>
                             <li><a href="#about">About</a></li>
                             <li><a href="#clients">Clients</a></li>
+                            <li><a href="{{url('/')}}/plans">Plans</a></li>
                             <li><a href="#price">Pricing</a></li>
                              @if (Auth::check())
                              <li> <a href="{{ URL::to('postSearchData') }}">Search Domain</a></li>
                              <li> <a href="{{ URL::to('logout') }}">Logout</a></li>
                               @else 
+
+
                             <li> <button class="" id="popupid" data-toggle="modal" data-target="#myModal">SignIn</button></li>
                             <li><button class="" id="popupid_for_reg" data-toggle="modal" data-target="#myModal_for_reg">SignUp</button></li>
                             @endif
@@ -713,53 +716,7 @@
         </div>
       
         <!-- Price section start -->
-        <div id="price" class="section secondary-section">
-            <div class="container">
-                <div class="title">
-                    <h1>Montlhy Pricing</h1>
-                    <p>You won't find a more competitive price for the same features.</p>
-                </div>
-                <div class="price-table row-fluid">
-                    <div class="span4 price-column">
-                        <h3>Basic</h3>
-                        <ul class="list">
-                            <li class="price">$9.99</li>
-                            <li><strong>50</strong> Monthly Leads</li>
-                            <li><strong>$0.99</strong> Each additional Lead</li>
-                            <li><strong>Basic</strong> Filters</li>
-                            <li><strong>NO</strong> CRM</li>
-                        </ul>
-                        <a href="#" class="button button-ps">BUY</a>
-                    </div>
-                    <div class="span4 price-column">
-                        <h3>Pro</h3>
-                        <ul class="list">
-                            <li class="price">$49.99</li>
-                            <li><strong>500</strong> Monly Leads</li>
-                            <li><strong>$0.50</strong> Each additional Lead</li>
-                            <li><strong>Full</strong> Filters</li>
-                            <li><strong>Basic</strong> CRM</li>
-                        </ul>
-                        <a href="#" class="button button-ps">BUY</a>
-                    </div>
-                    <div class="span4 price-column">
-                        <h3>Premium</h3>
-                        <ul class="list">
-                            <li class="price">$99.99</li>
-                            <li><strong>5000</strong> Monthly Leads</li>
-                            <li><strong>$0.25</strong> Each additional Lead</li>
-                            <li><strong>Full</strong> Filters</li>
-                            <li><strong>Full</strong> CRM</li>
-                        </ul>
-                        <a href="#" class="button button-ps">BUY</a>
-                    </div>
-                </div>
-                <div class="centered">
-                    <p class="price-text">We Offer Custom Plans. Contact Us For More Info.</p>
-                    <a href="#contact" class="button">Contact Us</a>
-                </div>
-            </div>
-        </div>
+      
         <!-- Price section end -->
         <!-- Newsletter section start -->
         <div class="section third-section">
@@ -983,7 +940,8 @@
                 {!! Form ::button('submit',array('class'=>'send-btn','id' => 'submitbtn_reg')) !!}
                 </div>
                 {!! Form::close() !!}
-                </div>           
+                </div> 
+
                
             </div>
         </div>
@@ -1032,17 +990,17 @@ $( document ).ready(function() {
                url:'signme',
                data:'first_name='+first_name+'&last_name='+last_name+'&email='+email_reg+'&password='+password_reg+'&c_password='+c_password_reg,
                success:function(data){
-                //console.log(data);
-                if(data=='success'){
+                console.log(data);
+                if(data.msg =='success'){
                    $("#errormsg_reg").html('Successfully Signed');
                 }
-                if(data=='error1'){
+                if(data.msg =='error1'){
                    $("#errormsg_reg").html('Data not correct');
                 }
-                if(data=='error2'){
+                if(data.msg =='error2'){
                    $("#errormsg_reg").html('Please signup again');
                 } 
-                if(data=='error3'){
+                if(data.msg =='error3'){
                    $("#errormsg_reg").html('Email exists');
                 } 
                  

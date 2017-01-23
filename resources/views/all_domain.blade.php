@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-
+@include('layouts.header')
 <html>
 <head>
 	<title>All Domain</title>

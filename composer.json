@@ -11,7 +11,11 @@
         "appzcoder/crud-generator": "^1.1",
         "yajra/laravel-datatables-oracle": "^6.16",
         "maatwebsite/excel": "~2.1.0",
-        "guzzlehttp/guzzle": "^6.2"
+        "guzzlehttp/guzzle": "^6.2",
+        "laravel/cashier": "~6.0",
+        "cartalyst/stripe-laravel": "4.0.*",
+        "khill/lavacharts": "~3.0",
+        "doctrine/dbal": "^2.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

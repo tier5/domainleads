@@ -150,6 +150,8 @@ return [
 		Appzcoder\CrudGenerator\CrudGeneratorServiceProvider::class,
 		Yajra\Datatables\DatatablesServiceProvider::class,
         'Maatwebsite\Excel\ExcelServiceProvider',
+        'Cartalyst\Stripe\Laravel\StripeServiceProvider',
+        "Khill\Lavacharts\Laravel\LavachartsServiceProvider",
 
         /*
          * Application Service Providers...
@@ -211,6 +213,7 @@ return [
 	  'Input'     => Illuminate\Support\Facades\Input::class,
 	  'Datatables'=>Yajra\Datatables\Datatables::class,
        'Excel' => 'Maatwebsite\Excel\Facades\Excel',
+       'Stripe' => 'Cartalyst\Stripe\Laravel\Facades\Stripe',
 
     ],
 
