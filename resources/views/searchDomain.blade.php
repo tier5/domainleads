@@ -41,6 +41,8 @@
 			Registrant Country<input type="text" name="registrant_country" id="registrant_country" value="{{ Input::get('registrant_country') }}" />
 
 			Registered Date<input type="text" name="create_date" id="datepicker" class="" value="{{ Input::get('create_date') }}" />
+			<br>
+			State<input type="text" name="registrant_state" id="registrant_state"> 
             
             <br/>
             .com<input type="checkbox" name="tdl_com" id="tdl_com" value='1' <?php if(Input::get('tdl_com')==1) { echo "checked";} ?>>
@@ -82,6 +84,7 @@
 		        <th>Registrant Phone</th>
 		        <th>Registered Date</th>
 		        <th>Registrant Company</th>
+		        
 		       
 		        <!--
 		        <th>Registrant Address</th>
@@ -235,12 +238,7 @@
                      
 
 			        <td>
-			        @if(in_array($value->leads_id, $leadusersData))
-			        <span id="show_date{{$key}}">{{$value->create_date}}</span>
-			        @else
-			        <span id="show_date{{$key}}">****/**/**</span>
-			        @endif
-
+			        	<span id="show_date{{$key}}">{{$value->create_date}}</span>
 			        </td>
 			        <td>
 
@@ -251,6 +249,7 @@
 			        	@endif
 
 			        </td>
+			        
 			       	<!--
 			        <td>{{ $value->registrant_address}}</td>
 			        <td>{{ $value->registrant_city}}</td>
