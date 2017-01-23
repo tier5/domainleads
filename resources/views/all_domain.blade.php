@@ -19,6 +19,10 @@ table, th, td {
 		{!! Html::script('resources/assets/js/bootstrap.js') !!}
 <body>
 
+	<div class="col-md-10" style="padding-left:85px"> 
+		
+	
+
 	<p>All domain names for email address <b>{{$email}}</b></p>
 
 	<u>Total count : {{count($alldomain)}}</u>
@@ -63,8 +67,12 @@ table, th, td {
 						{{$domain->created_at}}
 					</td>
 					<td>
-						
+
+						@if($domain->registrant_company == null)
+							<img src="{{url('/')}}/public/images/userimg.png" style="width:30px; height:30px">
+						@else
 						{{$domain->registrant_company}}
+						@endif
 					</td>
 				</tr>
 
@@ -73,6 +81,8 @@ table, th, td {
 			  	
 			</tr>
 		</table>
+	</div>
+
 	</div>
 </body>
 </html>

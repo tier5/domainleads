@@ -1,6 +1,11 @@
 <html lang="en">
 @include('layouts.header')
 <head>
+<style>
+table, th, td {
+    border: 1px solid black;
+}
+</style>
 	<title>domainleads | My Links</title>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
 	{!! Html::style('resources/assets/css/bootstrap.css') !!}
@@ -9,57 +14,71 @@
 		{!! Html::script('resources/assets/js/jquery.dataTables.js') !!}
 	<body>
 		<section>
-		<h4 class="center">My Leads</h4>
-			<div>
+		
+			<div class="col-md-10" style="padding-left:85px">
+
+				<h4>
+				<small><u>MY  LEADS</u></small> 
+
+				<small class="pull-right">TOTAL : {{sizeof($myleads)}}</small>
+				</h4>
+				
 		    	@if(isset($myleads) && $myleads != null)         
-				@foreach($myleads as $key=>$each)
+				
 				<table class="table table-hover table-bordered domainDAta">
 
-					<tr class="col-md-10">
-						<td class="col-md-2">
-							<div>
-								<label>Domain Name</label>
-								<span> {{ $myleads[$key]['domain_name'] }}</span>
-							</div>
+
+					<tr>
+						<th>Domain Name</th>
+						<th>Administrative name</th>
+						<th>Administrative address</th>
+						<th>Administrative email</th>
+						<th>Name_Server_1</th>
+					</tr>
+
+					@foreach($myleads as $key=>$each)
+
+					<tr>
+						<td>
+							
+								{{ $myleads[$key]['domain_name'] }}
+							
 				        </td>
 
 
-				        <td class="col-md-2">
-				        	<div>
-				        	<label>Administrative name</label>
-					        <span> {{ $myleads[$key]['administrative_name'] }}</span>
-				        	</div>
+				        <td>
+				        	
+					        {{ $myleads[$key]['administrative_name'] }}
+				        	
 				        </td>
 				        
-				        <td class="col-md-2"> 
-				        <div>
-				        <label>Administrative address</label>
-				        	<div>
-					        <span> {{ $myleads[$key]['administrative_address'] }}</span> 
-					        </div>
-				        </div>
+				        <td> 
+				        
+				        	
+					        {{ $myleads[$key]['administrative_address'] }}
+					        
+				        
 				        </td>
 			        
-			        	<td class="col-md-2">
-				        <div>
-				        	<label>Administrative email</label>
-				        	<div>
-					        <span> {{ $myleads[$key]['administrative_email'] }}</span>
-				        	</div>
-				        </div>
+			        	<td>
+				        
+				        	
+				        	
+					        {{ $myleads[$key]['administrative_email'] }}
+				        	
+				        
 				        </td>
-				        <td class="col-md-2">
-				        <div>
-				        	<label>Name_Server_1</label>
-				        	<div>
-					        <span> {{ $myleads[$key]['name_server1_'] }}</span>
-				        	</div>
-				        </div>
+				        <td>
+				        
+				        	
+				        	{{ $myleads[$key]['name_server1_'] }}
+				        	
+				        
 				        </td>
 					</tr>
-					
+					@endforeach
 				</table>
-				@endforeach
+				
 				@endif
 			</div>
 		</section>
