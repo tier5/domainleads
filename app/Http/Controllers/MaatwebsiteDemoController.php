@@ -39,104 +39,116 @@ class MaatwebsiteDemoController extends Controller
     $type='xlsx'; 
       
       $user_type=Auth::user()->user_type;
-        if($user_type==1){
-          $domains_for_export=$request->domains_for_export;
+      $user_id=Auth::user()->id;
+        $domains_for_export_allChecked=$request->domains_for_export_allChecked;
+        if($domains_for_export_allChecked==1){
+          if($user_type==1){
+            $exel_data=DB::table('leadusers')
+                          ->join('leads', 'leads.id', '=', 'leadusers.user_id')
+                          ->join('domains', 'leads.id', '=', 'domains.user_id')
+                          ->join('validatephone', 'validatephone.user_id', '=', 'leads.id')
+                          ->select('leads.registrant_name as name','domains.domain_name as website','leads.registrant_address as address','leads.registrant_phone as phone','leads.registrant_email as email_id')
+                          ->where('leadusers.user_id',$user_id)->get();  
+          }else{
+             $create_date=$request->create_date_downloadExcel;
+             $registrant_state=$request->registrant_state_downloadExcel;
+          $tdl_com=$request->tdl_com_downloadExcel;
+          $tdl_net=$request->tdl_net_downloadExcel;
+          $tdl_org=$request->tdl_org_downloadExcel;
+          $tdl_io=$request->tdl_io_downloadExcel;
+
+          $cell_number=$request->cell_number_downloadExcel;
+          $landline=$request->landline_downloadExcel;
+
+          $phone_number=array();
+          if($cell_number=='1'){
+            $phone_number[]='Cell Number';
+          }
+          if($landline=='1'){
+            $phone_number[]='Landline';
+          }
+          $tdl=array();
+          if($tdl_com==1){
+           $tdl[]='com'; 
+          }
+          if($tdl_net==1){
+           $tdl[]='net'; 
+          }
+          if($tdl_org==1){
+           $tdl[]='org'; 
+          }
+          if($tdl_io==1){
+           $tdl[]='io'; 
+          }
+          
+          $registrant_country=$request->registrant_country_downloadExcel;
+       
+          $domain_name=$request->domain_name_downloadExcel;
+          
+          $requiredData=array();
+          $leadusersData=array();
+          $user_id=Auth::user()->id;
+
+
+                 
+            $exel_data = DB::table('leads')
+                    ->join('domains', 'leads.id', '=', 'domains.user_id')
+                    ->join('validatephone', 'validatephone.user_id', '=', 'leads.id')
+                    ->select('leads.registrant_name as name','domains.domain_name as website','leads.registrant_address as address','leads.registrant_phone as phone','leads.registrant_email as email_id')
+                    
+                    ->where(function($query) use ($create_date,$domain_name,$registrant_country,$phone_number,$tdl,$registrant_state)
+                      {
+                          if (!empty($registrant_country)) {
+                              $query->where('leads.registrant_country', $registrant_country);
+                          } 
+                          if (!empty($create_date)) {
+                              $query->where('domains.create_date', $create_date);
+                          } 
+                          if (!empty($domain_name)) {
+                             $query->where('domains.domain_name','like', '%'.$domain_name.'%');
+                             
+                          }
+                          if(!empty($registrant_state))
+                          {
+                              $query->where('leads.registrant_state', $registrant_state);
+                          }
+                          if (!empty($phone_number)) {
+                              $query->whereIn('validatephone.number_type', $phone_number);
+                             
+                          }
+                           if (!empty($tdl)) {
+                              $query->whereIn('domains.domain_ext', $tdl);
+                             
+                          }
+                        
+                      })
+                 //->skip(0)
+                 //->take(50)
+                 ->groupBy('leads.registrant_email')
+                 ->orderBy('domains.create_date', 'desc')
+                 
+                 ->get();
+
+          } 
+        }else{
+          
+            $domains_for_export=$request->domains_for_export;
             $domainsforexport=explode(",",$domains_for_export);
             $req_domainsforexport=array();
               foreach($domainsforexport as $val){
               $req_domainsforexport[]=$val; 
               }
-              //print_r($req_domainsforexport);dd();
-          $user_id=Auth::user()->id;
-          $exel_data=DB::table('leadusers')
-                          ->join('leads', 'leads.id', '=', 'leadusers.user_id')
-                          ->join('domains', 'leads.id', '=', 'domains.user_id')
+              $exel_data=DB::table('domains')                         
+                          ->join('leads', 'leads.id', '=', 'domains.user_id')
                           ->join('validatephone', 'validatephone.user_id', '=', 'leads.id')
-                           ->select('leads.registrant_name as name','domains.domain_name as website','leads.registrant_address as address','leads.registrant_phone as phone','leads.registrant_email as email_id')
-                          ->where('leadusers.user_id',$user_id)->get();  
-        }else {
-    
-      ini_set("memory_limit","7G");
-      ini_set('max_execution_time', '0');
-      ini_set('max_input_time', '0');
-      set_time_limit(0);
-      ignore_user_abort(true); 
-
-      $create_date=$request->create_date_downloadExcel;
-      $tdl_com=$request->tdl_com_downloadExcel;
-      $tdl_net=$request->tdl_net_downloadExcel;
-      $tdl_org=$request->tdl_org_downloadExcel;
-      $tdl_io=$request->tdl_io_downloadExcel;
-
-      $cell_number=$request->cell_number_downloadExcel;
-      $landline=$request->landline_downloadExcel;
-
-      $phone_number=array();
-      if($cell_number=='1'){
-        $phone_number[]='Cell Number';
-      }
-      if($landline=='1'){
-        $phone_number[]='Landline';
-      }
-      $tdl=array();
-      if($tdl_com==1){
-       $tdl[]='com'; 
-      }
-      if($tdl_net==1){
-       $tdl[]='net'; 
-      }
-      if($tdl_org==1){
-       $tdl[]='org'; 
-      }
-      if($tdl_io==1){
-       $tdl[]='io'; 
-      }
-      
-      $registrant_country=$request->registrant_country_downloadExcel;
-   
-      $domain_name=$request->domain_name_downloadExcel;
-      
-      $requiredData=array();
-      $leadusersData=array();
-      $user_id=Auth::user()->id;
+                          ->select('leads.registrant_name as name','domains.domain_name as website','leads.registrant_address as address','leads.registrant_phone as phone','leads.registrant_email as email_id')
+                          ->whereIn('domains.id',$req_domainsforexport)->get();   
 
 
-           
-      $exel_data = DB::table('leads')
-              ->join('domains', 'leads.id', '=', 'domains.user_id')
-              ->join('validatephone', 'validatephone.user_id', '=', 'leads.id')
-              ->select('leads.registrant_name as name','domains.domain_name as website','leads.registrant_address as address','leads.registrant_phone as phone','leads.registrant_email as email_id')
-              
-              ->where(function($query) use ($create_date,$domain_name,$registrant_country,$phone_number,$tdl)
-                {
-                    if (!empty($registrant_country)) {
-                        $query->where('leads.registrant_country', $registrant_country);
-                    } 
-                    if (!empty($create_date)) {
-                        $query->where('domains.create_date', $create_date);
-                    } 
-                    if (!empty($domain_name)) {
-                       $query->where('domains.domain_name','like', '%'.$domain_name.'%');
-                       
-                    }
-                    if (!empty($phone_number)) {
-                        $query->whereIn('validatephone.number_type', $phone_number);
-                       
-                    }
-                     if (!empty($tdl)) {
-                        $query->whereIn('domains.domain_ext', $tdl);
-                       
-                    }
-                  
-                })
-             //->skip(0)
-             //->take(50)
-             ->groupBy('leads.registrant_email')
-             ->orderBy('domains.create_date', 'desc')
-             
-             ->get();
-      
         }
+
+
+
 
        $data = json_decode(json_encode($exel_data), true);
       // print_r($data);dd();
@@ -599,8 +611,10 @@ class MaatwebsiteDemoController extends Controller
   {   
    
   
-
+      $domains_for_export_id=$request->domains_for_export_id;
+       $domains_for_export_id_allChecked=$request->domains_for_export_id_allChecked;
       $create_date=$request->create_date;
+      $registrant_state=$request->registrant_state;
       
       $tdl_com=$request->tdl_com;
       
@@ -656,7 +670,7 @@ class MaatwebsiteDemoController extends Controller
               ->select('leads.*','leads.id as leads_id','domains.id as domain_id','validatephone.*',
                       'domains.domain_name','domains.create_date','domains.expiry_date','domains.domain_registrar_id','domains.domain_registrar_name','domains.domain_registrar_whois','domains.domain_registrar_url')
               
-              ->where(function($query) use ($create_date,$domain_name,$registrant_country,$phone_number,$tdl)
+              ->where(function($query) use ($create_date,$domain_name,$registrant_country,$phone_number,$tdl,$registrant_state)
                 {
                     if (!empty($registrant_country)) {
                         $query->where('leads.registrant_country', $registrant_country);
@@ -668,6 +682,10 @@ class MaatwebsiteDemoController extends Controller
                        $query->where('domains.domain_name','like', '%'.$domain_name.'%');
                        
                     }
+                    if(!empty($registrant_state))
+                    {
+                        $query->where('leads.registrant_state', $registrant_state);
+                    }
                     if (!empty($phone_number)) {
                         $query->whereIn('validatephone.number_type', $phone_number);
                        
@@ -676,6 +694,7 @@ class MaatwebsiteDemoController extends Controller
                         $query->whereIn('domains.domain_ext', $tdl);
                        
                     }
+                    
                   
                 })
              //->skip(0)
@@ -684,14 +703,22 @@ class MaatwebsiteDemoController extends Controller
              ->orderBy('domains.create_date', 'desc')
              ->paginate(100);
              //->get();
-      //return $requiredData;     
-   //return view('searchDomain_ajax')->with('requiredData', $requiredData)>with('leadusersData', $leadusersData)->render(); 
+     
     $lead_id=array();
        foreach($leadusersData as $val){
        $lead_id[]=$val->leads_id;
 
-       }      
-   return view('searchDomain_ajax')->with('requiredData',$requiredData)->with('leadusersData', $lead_id)->render();        
+       } 
+    $domainsforexport=explode(",",$domains_for_export_id);
+            $req_domainsforexport=array();
+              foreach($domainsforexport as $val){
+              $req_domainsforexport[]=$val; 
+              }    
+    if($user_type==1){
+     return view('searchDomain_ajax')->with('requiredData',$requiredData)->with('leadusersData', $lead_id)->with('req_domainsforexport', $req_domainsforexport)->with('domains_for_export_id_allChecked', $domains_for_export_id_allChecked)->render(); 
+    }else {
+     return view('searchDomainAdmin_ajax')->with('requiredData',$requiredData)->with('leadusersData', $lead_id)->with('req_domainsforexport', $req_domainsforexport)->with('domains_for_export_id_allChecked', $domains_for_export_id_allChecked)->render();        
+    }
     
   }
 

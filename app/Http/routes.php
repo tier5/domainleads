@@ -55,8 +55,10 @@ Route::get('/unlock' , function(){
 
     $ul = \App\Lead::where('unlocked_num' , '>' , 0)->first();
 
+
     echo('total itterations made = '.sizeof($arr) .' total rows changed ='.count($ul).'<br>');
 });
+
 
 
 Route::get('/plans' , 'DemoController@plans');
@@ -98,6 +100,7 @@ Route::resource('product', 'ProductController');
 
 Route::get('ajax/product', 'ProductController@ajax');
 Route::get('ajax/search', 'MaatwebsiteDemoController@ajax');
+
 
 
 
