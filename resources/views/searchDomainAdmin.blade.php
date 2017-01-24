@@ -180,11 +180,17 @@
 			        <td >
 				        
 	                     <div><a href="http://{{ $value->domain_name }}" target="_blank">{{ $value->domain_name}}</a></div>
+	                     <br>
+	                     <small>Unlocked : {{$value->unlocked_num == null ? 0 : $value->unlocked_num}} times</small>
 			        </td>
 
-
+			        
 			        <td>{{ $value->registrant_name}}</td>
-			        <td>{{ $value->registrant_email}}</td>
+			        <td>
+			        	{{ $value->registrant_email}}
+			        	<br>
+			        	<a href="/all_domain/{{base64_encode($value->registrant_email)}}">Other domains</a>
+			        </td>
 
 			        <td>			            
 				        <div><a href="#" <?php echo $class;?>><?php echo $phonenumber;?><span <?php echo $option ;?> > <img class="callout" src="theme/images/Callout.gif" />

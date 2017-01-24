@@ -178,7 +178,7 @@
 
 			        <td>
 			        <input type="radio" name="unlockleads{{$key}}" id="unlockleads{{$key}}" <?php echo $checked;?> onclick="unlockleadsfun('<?php echo $key; ?>','<?php echo $value->leads_id; ?>','<?php echo $value->domain_id; ?>','{{$value->registrant_email}}' , 
-			        '{{$value->registrant_name}}' , '{{$value->create_date}}')" value="1" <?php echo $disabled;?>>
+			        '{{$value->registrant_name}}' , '{{$value->create_date}}' , '{{$value->unlocked_num}}')" value="1" <?php echo $disabled;?>>
 
                     <div class="paid_td{{$key}}" <?php echo $style_paid;?> ><input type="checkbox" name="downloadcsv" value="1" class="eachrow_download" id="{{$value->domain_id}}"></div>
 
@@ -187,6 +187,15 @@
 			        <td>
 				        <div class="unpaid_td{{$key}}" <?php echo $style_unpaid;?>><a href="<?php  if (Auth::user()->user_type=='2'){ ?>http://{{ $value->domain_name }}" <?php } else { ?>javascript:void(0); <?php  } ?> target="_blank">{{ $domainName_new}}</a></div>
 	                     <div class="paid_td{{$key}}" <?php echo $style_paid;?> ><a href="http://{{ $value->domain_name }}" target="_blank">{{ $value->domain_name}}</a></div>
+
+	                     <br>
+
+
+	                     @if(in_array($value->leads_id, $leadusersData))
+	                     <small id="unlocked{{$key}}">Unlocked : {{$value->unlocked_num == null ? 0 : $value->unlocked_num}} times</small>
+	                     @else
+	                     	<small id="unlocked{{$key}}"></small>
+	                     @endif
 			        </td>
 
 			      
@@ -210,7 +219,9 @@
 
 			        <td>
 			        @if(in_array($value->leads_id, $leadusersData))
-			         <span id="show_email{{$key}}">{{ $value->registrant_email}}</span>
+			         	<span id="show_email{{$key}}">{{ $value->registrant_email}}</span>
+			         	<br>
+			        	<a href="/all_domain/{{base64_encode($value->registrant_email)}}">Other domains</a>
 			        	
 			        @else
 			        	<?php
@@ -224,7 +235,7 @@
 
 			        	?>
 			        <span id="show_email{{$key}}">{{$ss}}</span>
-			        	
+
 			        @endif
 
 			        <a href="getDomainData/{{base64_encode($value->registrant_email)}}" target="_blank"><button class="btn btn-success">View</button></a>
@@ -392,7 +403,7 @@
 	</script>
   
   <script>
-  function unlockleadsfun(key,leads_id,domain_id,email,name,date)
+  function unlockleadsfun(key,leads_id,domain_id,email,name,date,unlocked_num)
   {
 
    var total_leads='<?php echo $total_leads?>';
@@ -421,7 +432,7 @@
 						$('#show_name'+key).text(name);
 						$('#show_email'+key).text(email);
 						$('#show_date'+key).text(date);
-
+						$('#unlocked'+key).text('Unlocked : '+(unlocked_num+1).toString());
 	               	  	
 	               	  }
 

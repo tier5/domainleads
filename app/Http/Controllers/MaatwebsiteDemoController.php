@@ -206,6 +206,10 @@ class MaatwebsiteDemoController extends Controller
        
           DB::table('leadusers')->insert($data);
           echo $used_leads+1;
+
+          $l = Lead::where('id',$leads_id)->first();
+          $l->unlocked_num = $l->unlocked_num == null ? 1 :  $l->unlocked_num+1;
+          $l->save();
         }else {
           echo "false";
         }
@@ -465,6 +469,22 @@ class MaatwebsiteDemoController extends Controller
      return view('importExport');
           
   }
+
+
+  public function all_domain($email = null)
+  {
+    
+    $email = base64_decode($email);
+    $leads = Lead::where('registrant_email',$email);
+    $leads_id = $leads->select('id')->get()->toArray();
+    $domain = Domain::whereIn('user_id' , $leads_id);
+
+    $alldomain = $domain->join('leads', 'domains.user_id', '=', 'leads.id')->get();
+    //dd($alldomain);
+    return view('all_domain',['alldomain'=>$alldomain,'email'=>$email ]);
+  }
+
+
    public function postSearchData(Request $request)
   {   
     ini_set("memory_limit","7G");
@@ -560,12 +580,10 @@ class MaatwebsiteDemoController extends Controller
              ->paginate(100);
              //->get();
             
-     
        $lead_id=array();
        foreach($leadusersData as $val){
-       $lead_id[]=$val->leads_id;
-
-       } 
+          $lead_id[]=$val->leads_id;
+        } 
        $total_leads='50';
        $used_leads=count(DB::table('leadusers')->select('id')->where('user_id',$user_id)->get());
 
