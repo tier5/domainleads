@@ -587,13 +587,28 @@ class MaatwebsiteDemoController extends Controller
        $total_leads='50';
        $used_leads=count(DB::table('leadusers')->select('id')->where('user_id',$user_id)->get());
 
+
+       // to implement the domain count via email
+
+       $count_domain = array();
+       foreach($requiredData as $data)
+       {
+          if(!isset($count_domain[$data->registrant_email]))
+          {
+              $leads            = Lead::where('registrant_email' , $data->registrant_email);
+              $leads_id         = $leads->select('id')->get()->toArray();
+              $count_domain[$data->registrant_email] =  count(Domain::whereIn('user_id' , $leads_id)->get());
+          }
+       }
+       // domain count ends
+
         if($user_type=='1')
         {
-            return view('searchDomain')->with('requiredData', $requiredData)->with('leadusersData', $lead_id)->with('total_leads', $total_leads)->with('used_leads', $used_leads); 
+            return view('searchDomain')->with('requiredData', $requiredData)->with('leadusersData', $lead_id)->with('total_leads', $total_leads)->with('used_leads', $used_leads)->with('count_domain' , $count_domain); 
         }
         else 
         {
-             return view('searchDomainAdmin')->with('requiredData', $requiredData)->with('leadusersData', $lead_id);
+             return view('searchDomainAdmin')->with('requiredData', $requiredData)->with('leadusersData', $lead_id)->with('count_domain' , $count_domain);
         }
                              
     

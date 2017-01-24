@@ -182,6 +182,8 @@
 	                     <div><a href="http://{{ $value->domain_name }}" target="_blank">{{ $value->domain_name}}</a></div>
 	                     <br>
 	                     <small>Unlocked : {{$value->unlocked_num == null ? 0 : $value->unlocked_num}} times</small>
+	                     <br>
+	                     <small id="domain_count"> Total Domains: <a href="/all_domain/{{base64_encode($value->registrant_email)}}">{{$count_domain[$value->registrant_email]}}</a></small>
 			        </td>
 
 			        
@@ -189,7 +191,7 @@
 			        <td>
 			        	{{ $value->registrant_email}}
 			        	<br>
-			        	<a href="/all_domain/{{base64_encode($value->registrant_email)}}">Other domains</a>
+			        	<!-- <a href="/all_domain/{{base64_encode($value->registrant_email)}}">Other domains</a> -->
 			        </td>
 
 			        <td>			            

@@ -111,7 +111,6 @@
 				@foreach($requiredData as $key=>$value)
 		         
 				    <?php 
-				    //dd($leadusersData);
 				    if (Auth::user()->user_type=='1')
 				    {
 					     $domainName=$value->domain_name;
@@ -191,11 +190,13 @@
 	                     <br>
 
 
-	                     @if(in_array($value->leads_id, $leadusersData))
+	                     
+	                    
 	                     <small id="unlocked{{$key}}">Unlocked : {{$value->unlocked_num == null ? 0 : $value->unlocked_num}} times</small>
-	                     @else
-	                     	<small id="unlocked{{$key}}"></small>
-	                     @endif
+	                     <br>
+	                     <small id="domain_count"> Total Domains: <a href="/all_domain/{{base64_encode($value->registrant_email)}}">{{$count_domain[$value->registrant_email]}}</a></small>
+	                     
+	                     
 			        </td>
 
 			      
@@ -221,8 +222,8 @@
 			        @if(in_array($value->leads_id, $leadusersData))
 			         	<span id="show_email{{$key}}">{{ $value->registrant_email}}</span>
 			         	<br>
-			        	<a href="/all_domain/{{base64_encode($value->registrant_email)}}">Other domains</a>
-			        	
+			        	<!-- <a href="/all_domain/{{base64_encode($value->registrant_email)}}">Other domains</a> -->
+			        	<a id="view{{$key}}"  href="getDomainData/{{base64_encode($value->registrant_email)}}" target="_blank"><button class="btn btn-success">View</button></a>
 			        @else
 			        	<?php
 			        		$s = $value->registrant_email;
@@ -235,10 +236,10 @@
 
 			        	?>
 			        <span id="show_email{{$key}}">{{$ss}}</span>
-
+			        <a id="view{{$key}}" style="display:none" href="getDomainData/{{base64_encode($value->registrant_email)}}" target="_blank"><button class="btn btn-success">View</button></a>
 			        @endif
 
-			        <a href="getDomainData/{{base64_encode($value->registrant_email)}}" target="_blank"><button class="btn btn-success">View</button></a>
+			        
 			        </td>
 
 			        <td>
@@ -433,7 +434,7 @@
 						$('#show_email'+key).text(email);
 						$('#show_date'+key).text(date);
 						$('#unlocked'+key).text('Unlocked : '+(unlocked_num+1).toString());
-	               	  	
+						$('#view'+key).show();	
 	               	  }
 
 	                 
