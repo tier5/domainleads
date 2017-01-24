@@ -42,7 +42,7 @@
 
 			Registered Date<input type="text" name="create_date" id="datepicker" class="" value="{{ Input::get('create_date') }}" />
 			<br>
-			State<input type="text" name="registrant_state" id="registrant_state"> 
+			State<input type="text" name="registrant_state" id="registrant_state" value="{{ Input::get('registrant_state') }}"> 
             
             <br/>
             .com<input type="checkbox" name="tdl_com" id="tdl_com" value='1' <?php if(Input::get('tdl_com')==1) { echo "checked";} ?>>
@@ -57,6 +57,7 @@
 
 		<form style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 10px;" action="{{ URL::to('downloadExcel') }}" class="form-horizontal" method="get" enctype="multipart/form-data">
          <input type="hidden" name="domains_for_export" id="domains_for_export_id" value="">
+         <input type="hidden" name="domains_for_export_allChecked" id="domains_for_export_id_allChecked" value="0">
 		 <button class="btn btn-primary" id="exportID">Export</button>
 
 		</form>
@@ -77,7 +78,7 @@
 		  <table class="table table-hover table-bordered domainDAta">
 		    <thead>
 		      <tr>
-		        <th></th>
+		        <th><input type="checkbox"  value="1" class="downloadcsv_all" id=""></th>
 		        <th>Domain Name</th>
 		        <th>Registrant Name</th>
 		        <th>Registrant Email</th>
@@ -285,9 +286,29 @@
 </body>
 
  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
- <script>
+  <script>
   var domains = [];
+  
+   $('.downloadcsv_all').click(function(event){
+   
+        $("#domains_for_export_id").val('');
+        domains = [];
+	    if($(this).is(':checked')) {
+	      $(".eachrow_download").prop( "checked", true);
+	      $("#domains_for_export_id_allChecked").val(1);
+	    } else {
+	       $(".eachrow_download").prop( "checked", false);
+	       $("#domains_for_export_id_allChecked").val(0);
+	    }
+        
+	    
+	   
+	   
+  });
+
   $('.eachrow_download').click(function(event){
+   $("#domains_for_export_id_allChecked").val(0);
+   $(".downloadcsv_all").prop( "checked", false);
    var id=$(this).attr('id');
    
 	    if($("#"+id).is(':checked')) {
@@ -323,6 +344,9 @@
 			var domain_name=$("#domain_name").val();
 			var registrant_country=$("#registrant_country").val();
 			var datepicker=$("#datepicker").val();
+			var domains_for_export_id=$("#domains_for_export_id").val();
+			var domains_for_export_id_allChecked=$("#domains_for_export_id_allChecked").val();
+			var registrant_state=$("#registrant_state").val();
 			
 				if($("#tdl_com").is(':checked')){
 				 var tdl_com='1';	
@@ -359,7 +383,7 @@
 			
 			$.ajax({
 				url: 'ajax/search?page=' + page,
-				data:'domain_name='+domain_name+'&registrant_country='+registrant_country+'&tdl_com='+tdl_com+'&tdl_net='+tdl_net+'&tdl_org='+tdl_org+'&tdl_io='+tdl_io+'&cell_number='+cell_number+'&landline='+landline+'&datepicker='+datepicker,
+				data:'domain_name='+domain_name+'&registrant_country='+registrant_country+'&tdl_com='+tdl_com+'&tdl_net='+tdl_net+'&tdl_org='+tdl_org+'&tdl_io='+tdl_io+'&cell_number='+cell_number+'&landline='+landline+'&datepicker='+datepicker+'&domains_for_export_id='+domains_for_export_id+'&domains_for_export_id_allChecked='+domains_for_export_id_allChecked+'&registrant_state='+registrant_state,
 			}).done(function(data){
 				$('.content').html(data);
 			});
