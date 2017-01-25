@@ -7,6 +7,7 @@
       <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
     
         {!! Html::style('resources/assets/css/bootstrap.css') !!}
+        {!! Html::style('resources/assets/css/view.css') !!}
 		
 		{!! Html::script('resources/assets/js/jquery-1.12.0.js') !!}
 		
@@ -34,24 +35,36 @@
 		</div>
 	
 	<div class="container">
-
-		<form style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 10px;" action="{{ URL::to('postSearchData') }}" class="form-horizontal" method="post" enctype="multipart/form-data">
-
-			Domain Name<input type="text" name="domain_name" id="domain_name" value="{{ Input::get('domain_name') }}" />
-			Registrant Country<input type="text" name="registrant_country" id="registrant_country" value="{{ Input::get('registrant_country') }}" />
-
-			Registered Date<input type="text" name="create_date" id="datepicker" class="" value="{{ Input::get('create_date') }}" />
-			<br>
-			State<input type="text" name="registrant_state" id="registrant_state" value="{{ Input::get('registrant_state') }}"> 
-            
-            <br/>
-            .com<input type="checkbox" name="tdl_com" id="tdl_com" value='1' <?php if(Input::get('tdl_com')==1) { echo "checked";} ?>>
-            .net<input type="checkbox" name="tdl_net" id="tdl_net" value='1' <?php if(Input::get('tdl_net')==1) { echo "checked";} ?>>
-            .org<input type="checkbox" name="tdl_org" id="tdl_org" value='1'<?php if(Input::get('tdl_org')==1) { echo "checked";} ?>>
-            .io<input type="checkbox" name="tdl_io" id="tdl_io" value='1' <?php if(Input::get('tdl_io')==1) { echo "checked";} ?>>
-            Cell Number<input type="checkbox" name="cell_number" id="cell_number" value='1' <?php if(Input::get('cell_number')==1) { echo "checked";} ?>>
-            Landline Number<input type="checkbox" name="landline" id="landline" value='1' <?php if(Input::get('landline')==1) { echo "checked";} ?>>
-			<button class="btn btn-primary">Search</button>
+	<div class="row">
+	<div class="col-md-8">
+		<form class="form" style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 10px;" action="{{ URL::to('postSearchData') }}" class="form-horizontal" method="post" enctype="multipart/form-data">
+			<div class="form-group">
+				<label>Domain Name</label>
+				<input type="text" name="domain_name" class="form-control" id="domain_name" value="{{ Input::get('domain_name') }}" />
+			</div>
+			<div class="form-group">
+				<label>Registrant Country</label>
+				<input type="text" name="registrant_country" id="registrant_country" class="form-control" value="{{ Input::get('registrant_country') }}" />
+			</div>
+			<div class="form-group">
+				<label>Registered Date</label>
+				<input type="text" name="create_date" id="datepicker" class="form-control" value="{{ Input::get('create_date') }}" />
+			</div>
+			<div class="form-group">
+				<label>State</label>
+				<input type="text" class="form-control" name="registrant_state" id="registrant_state" value="{{ Input::get('registrant_state') }}"> 
+            </div>
+            <div class="form-group">
+            <label>.com</label><input type="checkbox" name="tdl_com" id="tdl_com" value='1' <?php if(Input::get('tdl_com')==1) { echo "checked";} ?>>
+            <label>.net</label><input type="checkbox" name="tdl_net" id="tdl_net" value='1' <?php if(Input::get('tdl_net')==1) { echo "checked";} ?>>
+            <label>.org</label><input type="checkbox" name="tdl_org" id="tdl_org" value='1'<?php if(Input::get('tdl_org')==1) { echo "checked";} ?>>
+            <label>.io</label><input type="checkbox" name="tdl_io" id="tdl_io" value='1' <?php if(Input::get('tdl_io')==1) { echo "checked";} ?>>
+            <label>Cell Number</label><input type="checkbox" name="cell_number" id="cell_number" value='1' <?php if(Input::get('cell_number')==1) { echo "checked";} ?>>
+            <label>Landline Number</label><input type="checkbox" name="landline" id="landline" value='1' <?php if(Input::get('landline')==1) { echo "checked";} ?>>
+            </div>
+            <div class="form-group">
+				<button class="btn btn-primary">Search</button>
+			</div>
 
 		</form>
 
@@ -61,6 +74,10 @@
 		 <button class="btn btn-primary" id="exportID">Export</button>
 
 		</form>
+		</div>
+		<div class="col-md-4"></div>
+ 	</div>
+		
 
 
 
