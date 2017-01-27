@@ -489,7 +489,7 @@ class DomainLeadsController extends Controller
              //->take(50)
              ->groupBy('leads.registrant_email')
              ->orderBy('domains.create_date', 'desc')
-             ->paginate(10);
+             ->paginate(100);
              //->get();
             
        $lead_id=array();
@@ -628,7 +628,7 @@ class DomainLeadsController extends Controller
              //->take(50)
              ->groupBy('leads.registrant_email')
              ->orderBy('domains.create_date', 'desc')
-             ->paginate(10);
+             ->paginate(100);
              //->get();
      
     $lead_id=array();
