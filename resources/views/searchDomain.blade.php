@@ -365,7 +365,7 @@
 		$(document).on('click','.pagination a', function(e){
 			e.preventDefault();
 			var page = $(this).attr('href').split('page=')[1];
-			// getProducts(page);
+			
 			location.hash = page;
 		});
 
@@ -412,6 +412,10 @@
 			
 			$.ajax({
 				url: 'ajax/search?page=' + page,
+				 beforeSend: function()
+					{
+						$('.content').html('<span align="center"><img src="theme/images/loader.gif"></span>');
+					},
 				data:'domain_name='+domain_name+'&registrant_country='+registrant_country+'&tdl_com='+tdl_com+'&tdl_net='+tdl_net+'&tdl_org='+tdl_org+'&tdl_io='+tdl_io+'&cell_number='+cell_number+'&landline='+landline+'&datepicker='+datepicker+'&domains_for_export_id='+domains_for_export_id+'&domains_for_export_id_allChecked='+domains_for_export_id_allChecked+'&registrant_state='+registrant_state,
 			}).done(function(data){
 				$('.content').html(data);
