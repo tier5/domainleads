@@ -14,7 +14,7 @@
 use Illuminate\Database\Query\Builder;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::get('/test' , function(){
@@ -61,45 +61,40 @@ Route::get('/unlock' , function(){
 
 
 
-Route::get('/plans' , 'DemoController@plans');
-
-Route::get('/signin' , 'DemoController@signin');
-
-Route::get('/all_domain/{email}' , 'MaatwebsiteDemoController@all_domain');
-
-Route::post('/stripe_initial_subscription' , 'StripeController@initial_subscription');
-
-Route::get('signup','DemoController@signupform');
-Route::post('signme','DemoController@signme' );
-
-  Route::group(['middleware' => 'auth'],function(){
-
-	Route::get('importExport', 'MaatwebsiteDemoController@importExport');
-    Route::post('importExcel', 'MaatwebsiteDemoController@importExcel');
-
-    Route::post('filteremailID','MaatwebsiteDemoController@filteremailID' );
-    Route::get('getDomainData/{id}','MaatwebsiteDemoController@getDomainData' );
-    Route::get('postSearchData', 'MaatwebsiteDemoController@searchDomain');
-    Route::post('postSearchData', 'MaatwebsiteDemoController@postSearchData');
-    Route::get('downloadExcel', 'MaatwebsiteDemoController@downloadExcel');
-
-    Route::post('insertUserLeads','MaatwebsiteDemoController@insertUserLeads' );
-    Route::get('/myleads' , 'MaatwebsiteDemoController@myleads');
+    Route::get('/plans' , 'HomeController@plans');
 
 
-});
 
-// GET route
-Route::get('login', function() {
-  return View::make('login');
-});
-//POST route
-Route::post('login', 'AccountController@login');
-Route::get('logout', array('uses' => 'AccountController@logout'));
-Route::resource('product', 'ProductController');
+    Route::get('/all_domain/{email}' , 'DomainLeadsController@all_domain');
 
-Route::get('ajax/product', 'ProductController@ajax');
-Route::get('ajax/search', 'MaatwebsiteDemoController@ajax');
+    Route::post('/stripe_initial_subscription' , 'StripeController@initial_subscription');
+
+ 
+    Route::post('signme','HomeController@signme' );
+
+    Route::group(['middleware' => 'auth'],function(){
+
+    	Route::get('importExport', 'DomainLeadsController@importExport');
+        Route::post('importExcel', 'DomainLeadsController@importExcel');
+
+        Route::post('filteremailID','DomainLeadsController@filteremailID' );
+        Route::get('getDomainData/{id}','DomainLeadsController@getDomainData' );
+        Route::get('postSearchData', 'DomainLeadsController@searchDomain');
+        Route::post('postSearchData', 'DomainLeadsController@postSearchData');
+        Route::get('downloadExcel', 'DomainLeadsController@downloadExcel');
+
+        Route::post('insertUserLeads','DomainLeadsController@insertUserLeads' );
+        Route::get('/myleads' , 'DomainLeadsController@myleads');
+
+
+   });
+
+
+    Route::post('login', 'HomeController@login');
+    Route::get('logout', array('uses' => 'HomeController@logout'));
+
+
+    Route::get('ajax/search', 'DomainLeadsController@ajax');
 
 
 
