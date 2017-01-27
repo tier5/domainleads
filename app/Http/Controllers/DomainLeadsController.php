@@ -540,7 +540,7 @@ class DomainLeadsController extends Controller
   
       $domains_for_export_id=$request->domains_for_export_id;
        $domains_for_export_id_allChecked=$request->domains_for_export_id_allChecked;
-      $create_date=$request->create_date;
+      $create_date=$request->datepicker;
       $registrant_state=$request->registrant_state;
       
       $tdl_com=$request->tdl_com;
