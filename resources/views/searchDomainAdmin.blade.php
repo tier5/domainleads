@@ -43,12 +43,12 @@
 			State<input type="text" name="registrant_state" id="registrant_state" value="{{ Input::get('registrant_state') }}"> 
 
 			 <br/>
-            .com<input type="checkbox" name="tdl_com" value='1' <?php if(Input::get('tdl_com')==1) { echo "checked";} ?>>
-            .net<input type="checkbox" name="tdl_net" value='1' <?php if(Input::get('tdl_net')==1) { echo "checked";} ?>>
-            .org<input type="checkbox" name="tdl_org" value='1' <?php if(Input::get('tdl_org')==1) { echo "checked";} ?>>
-            .io<input type="checkbox" name="tdl_io" value='1' <?php if(Input::get('tdl_io')==1) { echo "checked";} ?>>
-            Cell Number<input type="checkbox" name="cell_number" value='1' <?php if(Input::get('cell_number')==1) { echo "checked";} ?>>
-            Landline Number<input type="checkbox" name="landline" value='1' <?php if(Input::get('landline')==1) { echo "checked";} ?>>
+            .com<input type="checkbox" name="tdl_com" id="tdl_com" value='1' <?php if(Input::get('tdl_com')==1) { echo "checked";} ?>>
+            .net<input type="checkbox" name="tdl_net" id="tdl_net" value='1' <?php if(Input::get('tdl_net')==1) { echo "checked";} ?>>
+            .org<input type="checkbox" name="tdl_org" id="tdl_org"  value='1' <?php if(Input::get('tdl_org')==1) { echo "checked";} ?>>
+            .io<input type="checkbox" name="tdl_io" id="tdl_io" value='1' <?php if(Input::get('tdl_io')==1) { echo "checked";} ?>>
+            Cell Number<input type="checkbox" name="cell_number" id="cell_number" value='1' <?php if(Input::get('cell_number')==1) { echo "checked";} ?>>
+            Landline Number<input type="checkbox" name="landline" id="landline" value='1' <?php if(Input::get('landline')==1) { echo "checked";} ?>>
 
 			<button class="btn btn-primary">Search</button>
 
@@ -282,7 +282,7 @@
 
 		$(window).on('hashchange',function(){
 			page = window.location.hash.replace('#','');
-			getProducts(page);
+			getDomainLeads(page);
 		});
 
 		$(document).on('click','.pagination a', function(e){
@@ -292,7 +292,7 @@
 			location.hash = page;
 		});
 
-		function getProducts(page){
+		function getDomainLeads(page){
 			var domain_name=$("#domain_name").val();
 			var registrant_country=$("#registrant_country").val();
 			var datepicker=$("#datepicker").val();
@@ -357,42 +357,14 @@
 					},
                data:'user_id='+user_id+'&leads_id='+leads_id+'&domain_id='+domain_id,
 	               success:function(data){
-	               	//$("#filtereddataid").html(data);
-	                //console.log(data);
+	               	
 	                 
 	               }
                 });
   }
    
     
-  function filterFunction(email){
-  	var domain_name=$("#domain_name").val();
-  	var registrant_country=$("#registrant_country").val();
-  	var datepicker=$("#datepicker").val();
-    var filteredemail=$("#filteredemail").val();
-	     if(filteredemail==''){
-	      filteredemail=email;
-	     }else {
-	      filteredemail=filteredemail+","+email;
-	     } 
-        $("#filteredemail").val(filteredemail);
-
-        $.ajax({
-               type:'POST',
-               url:'filteremailID',
-               beforeSend: function()
-					{
-						$('#filtereddataid').html('<img src="theme/images/loading.gif">Loading...');
-					},
-               data:'domain_name='+domain_name+'&registrant_country='+registrant_country+'&datepicker='+datepicker+'&filteredemail='+filteredemail,
-	               success:function(data){
-	               	$("#filtereddataid").html(data);
-	                //console.log(data);
-	                 
-	               }
-                });
-      
-  }
+  
   $(function() {
   	
   	

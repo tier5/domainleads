@@ -359,7 +359,7 @@
 
 		$(window).on('hashchange',function(){
 			page = window.location.hash.replace('#','');
-			getProducts(page);
+			getDomainLeads(page);
 		});
 
 		$(document).on('click','.pagination a', function(e){
@@ -369,7 +369,7 @@
 			location.hash = page;
 		});
 
-		function getProducts(page){
+		function getDomainLeads(page){
 			var domain_name=$("#domain_name").val();
 			var registrant_country=$("#registrant_country").val();
 			var datepicker=$("#datepicker").val();
@@ -461,35 +461,7 @@
    
   
    
-  function filterFunction(email){
-  	var domain_name=$("#domain_name").val();
-  	var registrant_country=$("#registrant_country").val();
-  	var datepicker=$("#datepicker").val();
-    var filteredemail=$("#filteredemail").val();
-	     if(filteredemail==''){
-	      filteredemail=email;
-	     }else {
-	      filteredemail=filteredemail+","+email;
-	     } 
-        $("#filteredemail").val(filteredemail);
-
-        $.ajax({
-               type:'POST',
-               url:'filteremailID',
-               beforeSend: function()
-					{
-						$('#filtereddataid').html('<img src="theme/images/loading.gif">Loading...');
-					},
-               data:'domain_name='+domain_name+'&registrant_country='+registrant_country+'&datepicker='+datepicker+'&filteredemail='+filteredemail,
-	               success:function(data){
-	               	alert(1);
-	               	$("#filtereddataid").html(data);
-	                //console.log(data);
-	                 
-	               }
-                });
-      
-  }
+  
   $(function() {
   	
   	
