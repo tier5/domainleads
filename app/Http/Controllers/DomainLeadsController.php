@@ -44,14 +44,15 @@ class DomainLeadsController extends Controller
         if($domains_for_export_allChecked==1){
           if($user_type==1){
             $exel_data=DB::table('leadusers')
-                          ->join('leads', 'leads.id', '=', 'leadusers.user_id')
-                          ->join('domains', 'leads.id', '=', 'domains.user_id')
+                          ->join('leads', 'leads.id', '=', 'leadusers.leads_id')
+                          ->join('domains', 'domains.id', '=', 'leadusers.domain_id')
                           ->join('validatephone', 'validatephone.user_id', '=', 'leads.id')
                           ->select('leads.registrant_name as name','domains.domain_name as website','leads.registrant_address as address','leads.registrant_phone as phone','leads.registrant_email as email_id')
                           ->where('leadusers.user_id',$user_id)->get();  
+
           }else{
-             $create_date=$request->create_date_downloadExcel;
-             $registrant_state=$request->registrant_state_downloadExcel;
+          $create_date=$request->create_date_downloadExcel;
+          $registrant_state=$request->registrant_state_downloadExcel;
           $tdl_com=$request->tdl_com_downloadExcel;
           $tdl_net=$request->tdl_net_downloadExcel;
           $tdl_org=$request->tdl_org_downloadExcel;
@@ -151,15 +152,21 @@ class DomainLeadsController extends Controller
 
 
        $data = json_decode(json_encode($exel_data), true);
-      // print_r($data);dd();
+       $reqData=array();
+       foreach($data as $key=>$result){
+          $reqData[$key]['name']=$result['name'];
+          $reqData[$key]['website']=$result['website'];
+          $reqData[$key]['phone']=substr(strrchr($result['phone'], "."), 1);
+          $reqData[$key]['email_id']=$result['email_id'];
+       }
+      // print_r($reqData);dd();
+    return Excel::create('domainleads', function($excel) use ($reqData) {
 
-    return Excel::create('domainleads', function($excel) use ($data) {
-
-      $excel->sheet('mySheet', function($sheet) use ($data)
+      $excel->sheet('mySheet', function($sheet) use ($reqData)
 
           {
 
-        $sheet->fromArray($data);
+        $sheet->fromArray($reqData);
 
           });
 
