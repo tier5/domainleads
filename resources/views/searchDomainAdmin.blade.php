@@ -350,6 +350,10 @@
            $.ajax({
                type:'POST',
                url:'sendemailindividual',
+               beforeSend: function()
+					{
+						$('#msg_for_emailpart').html('<span align="center"><img src="theme/images/loading.gif">sending...</span>');
+					},
                data:'emailID_for_sendingemail='+emailID_for_sendingemail+'&content_for_sendingemail='+content_for_sendingemail+'&use_template='+use_template,
                success:function(data){
                	if(data=='success'){
@@ -408,6 +412,10 @@
 			  $.ajax({
                type:'POST',
                url:'sendemail_all',
+               beforeSend: function()
+					{
+						$('#msg_for_emailpart_all').html('<span align="center"><img src="theme/images/loading.gif">sending...</span>');
+					},
               data:'domain_name='+domain_name+'&registrant_country='+registrant_country+'&tdl_com='+tdl_com+'&tdl_net='+tdl_net+'&tdl_org='+tdl_org+'&tdl_io='+tdl_io+'&cell_number='+cell_number+'&landline='+landline+'&datepicker='+datepicker+'&domains_for_export='+domains_for_export_id+'&domains_for_export_allChecked='+domains_for_export_id_allChecked+'&registrant_state='+registrant_state+'&use_template_all='+use_template_all+'&content_for_sendingemail_all='+content_for_sendingemail_all,
                success:function(data){
                	if(data=='success'){

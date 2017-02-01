@@ -25,8 +25,8 @@ class DomainLeadsController extends Controller
        $mailbody=$request->content_for_sendingemail;
        
         $data = array();
-        //$emails =$request->emailID_for_sendingemail;
-        $emails ='work@tier5.us';
+        $emails =$request->emailID_for_sendingemail;
+        //$emails ='work@tier5.us';
         $use_template=$request->use_template;
 
         if($use_template==1){
