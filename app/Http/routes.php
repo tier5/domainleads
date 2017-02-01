@@ -62,7 +62,9 @@ Route::get('/unlock' , function(){
 
 
     Route::get('/plans' , 'HomeController@plans');
-
+   
+    Route::post('sendemailindividual','DomainLeadsController@sendemailindividual');
+    Route::post('sendemail_all','DomainLeadsController@sendemail_all');
 
 
     Route::get('/all_domain/{email}' , 'DomainLeadsController@all_domain');

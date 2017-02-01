@@ -7,9 +7,10 @@
       <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
     
         {!! Html::style('resources/assets/css/bootstrap.css') !!}
-		{!! Html::style('resources/assets/css/jquery.dataTables.css') !!}
+		{!! Html::style('theme/css/bootstrap-responsive.css') !!}
 		{!! Html::script('resources/assets/js/jquery-1.12.0.js') !!}
-		{!! Html::script('resources/assets/js/jquery.dataTables.js') !!}
+		{!! Html::script('theme/js/bootstrap.js') !!}
+		
        
 </head>
 
@@ -77,7 +78,10 @@
 	
     <h2>Search Result</h2>
     <input type="hidden" id="filteredemail"  value=""> 
-    <div id="filtereddataid" class="content">     
+    <button class="btn btn-success"  id=""   data-toggle="modal" data-target="#myModal_allemail">Send Email</button>
+   
+    <div id="filtereddataid" class="content"> 
+
 		  <table class="table table-hover table-bordered domainDAta">
 		    <thead>
 		      <tr>
@@ -201,7 +205,7 @@
 
 			        <td>{{ $value->create_date}}</td>
 			        <td>{{ $value->registrant_company}}</td>
-			        <td><a href="getDomainData/{{base64_encode($value->registrant_email)}}" target="_blank"><button class="btn btn-success">View</button></a></td>
+			        <td><a href="getDomainData/{{base64_encode($value->registrant_email)}}" target="_blank"><button class="btn btn-success">View</button></a><button class="btn btn-success" id="popupid" onclick="sendindividualemailfunction('<?php echo $value->registrant_email ?>','<?php echo $value->domain_name ?>','<?php echo $value->create_date ?>','<?php echo $value->registrant_company ?>','<?php echo $value->phone_number ?>')"   data-toggle="modal" data-target="#myModal">Send Email</button></td>
 			       
 			        <!--
 			        <td>{{ $value->registrant_address}}</td>
@@ -234,11 +238,193 @@
 </div> 
 		
 </div>
-
+<div class="modal fade" id="myModal_allemail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    ×</button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Send Email</h4>
+                    <div id="msg_for_emailpart_all"></div>
+            </div>
+            <div class="modal-body">
+                {{ Form::open(array('url' => '')) }}
+                
+                <div class="form-group">
+                Use mail template <input type="checkbox" id="use_mail_template_for_all" value="1">
+                </div>
+                <div class="form-group">
+                <textarea name="content_for_sendingemail_all" id="content_for_sendingemail_all" rows="5" cols="30"></textarea>
+                <input type="hidden" name="use_template_all" id="use_template_all" value="0">
+                </div>
+                
+                <div class="form-group">
+                {{ Form::button('Submit', array('class'=>'send-btn','id' => 'submitbtn_for_sendingemail_all')) }}
+                {{ Form::close() }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    ×</button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Send Email</h4>
+                    <div id="msg_for_emailpart"></div>
+            </div>
+            <div class="modal-body">
+                {{ Form::open(array('url' => '')) }}
+                <div class="form-group">
+                <input type="text" name="emailID_for_sendingemail" id="emailID_for_sendingemail" readonly="readonly" value="">
+                </div>
+                <div class="form-group">
+                Use mail template <input type="checkbox" id="use_mail_template_for_individual" value="1">
+                </div>
+                <div class="form-group">
+                <textarea name="content_for_sendingemail" id="content_for_sendingemail" rows="5" cols="30"></textarea>
+                <input type="hidden" name="use_template" id="use_template" value="0">
+                </div>
+                <div class="form-group">
+                <span id="domain_name_for_sendingemail"></span>&nbsp;
+                <span id="create_date_for_sendingemail"></span>&nbsp;
+                <span id="registrant_company_for_sendingemail"></span>&nbsp;
+                <span id="phone_number_for_sendingemail"></span>&nbsp;
+                </div>
+                <div class="form-group">
+                {{ Form::button('Submit', array('class'=>'send-btn','id' => 'submitbtn_for_sendingemail')) }}
+                {{ Form::close() }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 
  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
   <script>
+    
+    $( document ).ready(function() {
+         $("#use_mail_template_for_individual").click(function(){
+            if($("#use_mail_template_for_individual").is(':checked')) {
+              $("#content_for_sendingemail").val('Hey [name ],How are u doing today?here are few of our [website]');
+              $("#use_template").val(1);
+            }else{
+            	 $("#content_for_sendingemail").val('');
+            	 $("#use_template").val(0);
+            }
+         });
+
+         $("#use_mail_template_for_all").click(function(){
+            if($("#use_mail_template_for_all").is(':checked')) {
+              $("#content_for_sendingemail_all").val('Hey [name ],How are u doing today?here are few of our [website]');
+              $("#use_template_all").val(1);
+            }else{
+            	 $("#content_for_sendingemail_all").val('');
+            	 $("#use_template_all").val(0);
+            }
+         });
+     });       
+  function sendindividualemailfunction(registrant_email,domain_name,create_date,registrant_company,phone_number){
+    
+  	$("#emailID_for_sendingemail").val(registrant_email);
+  	$("#domain_name_for_sendingemail").text(domain_name);
+  	$("#create_date_for_sendingemail").text(create_date);
+  	$("#registrant_company_for_sendingemail").text(registrant_company);
+  	$("#phone_number_for_sendingemail").text(phone_number);
+  	$("#use_mail_template_for_individual").prop( "checked", false);
+    $("#content_for_sendingemail").val('');
+
+  }
+   $("#submitbtn_for_sendingemail").click(function(){
+            var emailID_for_sendingemail=$("#emailID_for_sendingemail").val();
+            var content_for_sendingemail=$("#content_for_sendingemail").val();
+             var use_template=$("#use_template").val();
+            
+           $.ajax({
+               type:'POST',
+               url:'sendemailindividual',
+               data:'emailID_for_sendingemail='+emailID_for_sendingemail+'&content_for_sendingemail='+content_for_sendingemail+'&use_template='+use_template,
+               success:function(data){
+               	if(data=='success'){
+               		$("#use_mail_template_for_individual").prop( "checked", false);
+                    $("#content_for_sendingemail").val('');
+                    $("#msg_for_emailpart").html('Mail sent');
+               	}
+               
+                 
+               }
+            });
+        });
+    $("#submitbtn_for_sendingemail_all").click(function(){
+            var domain_name=$("#domain_name").val();
+			var registrant_country=$("#registrant_country").val();
+			var datepicker=$("#datepicker").val();
+			var domains_for_export_id=$("#domains_for_export_id").val();
+			var domains_for_export_id_allChecked=$("#domains_for_export_id_allChecked").val();
+			var registrant_state=$("#registrant_state").val();
+
+			
+				if($("#tdl_com").is(':checked')){
+				 var tdl_com='1';	
+				}else {
+				 var tdl_com='0';	
+				}
+				if($("#tdl_net").is(':checked')){
+				 var tdl_net='1';	
+				}else {
+				 var tdl_net='0';	
+				}
+				if($("#tdl_org").is(':checked')){
+				 var tdl_org='1';	
+				}else {
+				 var tdl_org='0';	
+				}
+			    if($("#tdl_io").is(':checked')){
+				 var tdl_io='1';	
+				}else {
+				 var tdl_io='0';	
+				}
+				 if($("#cell_number").is(':checked')){
+				 var cell_number='1';	
+				}else {
+				 var cell_number='0';	
+				}
+				 if($("#landline").is(':checked')){
+				 var landline='1';	
+				}else {
+				 var landline='0';	
+				}
+			
+			 var use_template_all=$("#use_template_all").val();
+             var content_for_sendingemail_all=$("#content_for_sendingemail_all").val();
+
+			  $.ajax({
+               type:'POST',
+               url:'sendemail_all',
+              data:'domain_name='+domain_name+'&registrant_country='+registrant_country+'&tdl_com='+tdl_com+'&tdl_net='+tdl_net+'&tdl_org='+tdl_org+'&tdl_io='+tdl_io+'&cell_number='+cell_number+'&landline='+landline+'&datepicker='+datepicker+'&domains_for_export='+domains_for_export_id+'&domains_for_export_allChecked='+domains_for_export_id_allChecked+'&registrant_state='+registrant_state+'&use_template_all='+use_template_all+'&content_for_sendingemail_all='+content_for_sendingemail_all,
+               success:function(data){
+               	if(data=='success'){
+               		$("#use_mail_template_for_all").prop( "checked", false);
+                    $("#content_for_sendingemail_all").val('');
+                    $("#msg_for_emailpart_all").html('Mail sent');
+               	}
+               
+                 
+               }
+            });
+
+			
+            
+            
+          
+    });      
   var domains = [];
   
    $('.downloadcsv_all').click(function(event){
@@ -379,6 +565,31 @@
      	$( "#datepicker" ).val(create_date);
      }
   });
+  </script>
+  <script type="text/javascript">
+     
+        $("#submitbtn").click(function(){
+            var email=$("#email_id_login").val();
+            var password=$("#password").val();
+           $.ajax({
+               type:'POST',
+               url:'login',
+               data:'email='+email+'&password='+password,
+               success:function(data){
+               // console.log(data);
+                if(data=='success'){
+                  window.location.href = 'importExport';
+                }
+                if(data=='error1'){
+                   $("#errormsg").html('User is not registered');
+                }
+                if(data=='error2'){
+                   $("#errormsg").html('Invalid login credentials');
+                } 
+                 
+               }
+            });
+        }); 
   </script>
 	  <style  type="text/css">
 	a.tooltip2 {outline:none; }

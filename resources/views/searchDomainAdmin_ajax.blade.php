@@ -115,7 +115,7 @@
 
 			        <td>{{ $value->create_date}}</td>
 			        <td>{{ $value->registrant_company}}</td>
-			        <td><a href="getDomainData/{{base64_encode($value->registrant_email)}}" target="_blank"><button class="btn btn-success">View</button></a></td>
+			        <td><a href="getDomainData/{{base64_encode($value->registrant_email)}}" target="_blank"><button class="btn btn-success">View</button></a><button class="btn btn-success" id="popupid" onclick="sendindividualemailfunction('<?php echo $value->registrant_email ?>','<?php echo $value->domain_name ?>','<?php echo $value->create_date ?>','<?php echo $value->registrant_company ?>','<?php echo $value->phone_number ?>')"   data-toggle="modal" data-target="#myModal">Send Email</button></td>
 			       
 			        <!--
 			        <td>{{ $value->registrant_address}}</td>
@@ -144,6 +144,8 @@
 		{{$requiredData->links()}}  
 		 
   <script>
+
+    
   //var domains = [];
   
    $('.downloadcsv_all').click(function(event){

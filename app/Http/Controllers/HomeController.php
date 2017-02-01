@@ -26,7 +26,7 @@ class HomeController extends Controller {
 	*/
 
 	
-
+    
 	public function plans()
 	{
 		return view('subscriptions.plans');
