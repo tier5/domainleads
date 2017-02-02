@@ -62,6 +62,13 @@
             <label>Cell Number</label><input type="checkbox" name="cell_number" id="cell_number" value='1' <?php if(Input::get('cell_number')==1) { echo "checked";} ?>>
             <label>Landline Number</label><input type="checkbox" name="landline" id="landline" value='1' <?php if(Input::get('landline')==1) { echo "checked";} ?>>
             </div>
+            Filter by <select name="domaincount" id="domaincount" class="domaincount">
+			      <option value="0" <?php if(Input::get('domaincount')==0) { echo "selected";} ?>>Select</option>
+				  <option value="1" <?php if(Input::get('domaincount')==1) { echo "selected";} ?>>DomainCount ASC</option>
+				  <option value="2" <?php if(Input::get('domaincount')==2) { echo "selected";} ?>>DomainCount DESC</option> 
+				  <option value="3" <?php if(Input::get('domaincount')==3) { echo "selected";} ?>>LeadCount ASC</option>
+				  <option value="4" <?php if(Input::get('domaincount')==4) { echo "selected";} ?>>LeadCount DESC</option> 
+				</select> 
             <div class="form-group">
 				<button class="btn btn-primary">Search</button>
 			</div>
@@ -206,12 +213,10 @@
 
 	                     <br>
 
-
-	                     
 	                    
 	                     <small id="unlocked{{$key}}">Unlocked : {{$value->unlocked_num == null ? 0 : $value->unlocked_num}} times</small>
 	                     <br>
-	                     <small id="domain_count"> Total Domains: <a href="/all_domain/{{base64_encode($value->registrant_email)}}">{{$count_domain[$value->registrant_email]}}</a></small>
+	                     <small id="domain_count"> Total Domains: {{$value->domainCount}}</small>
 	                     
 	                     
 			        </td>
@@ -408,7 +413,7 @@
 				 var landline='0';	
 				}
 			
-			
+			   var domaincount = $('#domaincount').find(":selected").val();   
 			
 			$.ajax({
 				url: 'ajax/search?page=' + page,
@@ -416,7 +421,7 @@
 					{
 						$('.content').html('<span align="center"><img src="theme/images/loader.gif"></span>');
 					},
-				data:'domain_name='+domain_name+'&registrant_country='+registrant_country+'&tdl_com='+tdl_com+'&tdl_net='+tdl_net+'&tdl_org='+tdl_org+'&tdl_io='+tdl_io+'&cell_number='+cell_number+'&landline='+landline+'&datepicker='+datepicker+'&domains_for_export_id='+domains_for_export_id+'&domains_for_export_id_allChecked='+domains_for_export_id_allChecked+'&registrant_state='+registrant_state,
+				data:'domain_name='+domain_name+'&registrant_country='+registrant_country+'&tdl_com='+tdl_com+'&tdl_net='+tdl_net+'&tdl_org='+tdl_org+'&tdl_io='+tdl_io+'&cell_number='+cell_number+'&landline='+landline+'&datepicker='+datepicker+'&domains_for_export_id='+domains_for_export_id+'&domains_for_export_id_allChecked='+domains_for_export_id_allChecked+'&registrant_state='+registrant_state+'&domaincount='+domaincount,
 			}).done(function(data){
 				$('.content').html(data);
 			});

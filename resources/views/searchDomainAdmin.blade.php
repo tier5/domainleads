@@ -50,7 +50,14 @@
             .io<input type="checkbox" name="tdl_io" id="tdl_io" value='1' <?php if(Input::get('tdl_io')==1) { echo "checked";} ?>>
             Cell Number<input type="checkbox" name="cell_number" id="cell_number" value='1' <?php if(Input::get('cell_number')==1) { echo "checked";} ?>>
             Landline Number<input type="checkbox" name="landline" id="landline" value='1' <?php if(Input::get('landline')==1) { echo "checked";} ?>>
-
+			Filter by <select name="domaincount" id="domaincount" class="domaincount">
+			      <option value="0" <?php if(Input::get('domaincount')==0) { echo "selected";} ?>>Select</option>
+				  <option value="1" <?php if(Input::get('domaincount')==1) { echo "selected";} ?>>DomainCount ASC</option>
+				  <option value="2" <?php if(Input::get('domaincount')==2) { echo "selected";} ?>>DomainCount DESC</option> 
+				  <option value="3" <?php if(Input::get('domaincount')==3) { echo "selected";} ?>>LeadCount ASC</option>
+				  <option value="4" <?php if(Input::get('domaincount')==4) { echo "selected";} ?>>LeadCount DESC</option> 
+				</select> 
+            
 			<button class="btn btn-primary">Search</button>
 
 		</form>
@@ -68,6 +75,8 @@
         <input type="hidden" name="tdl_io_downloadExcel" value="{{ Input::get('tdl_io') }}">
         <input type="hidden" name="cell_number_downloadExcel" value="{{ Input::get('cell_number') }}" >
         <input type="hidden" name="landline_downloadExcel" value="{{ Input::get('landline') }}">
+
+        <input type="hidden" name="filterOption_downloadExcel" value="{{ Input::get('domaincount') }}">
 
         <input type="hidden" name="domains_for_export" id="domains_for_export_id" value="">
          <input type="hidden" name="domains_for_export_allChecked" id="domains_for_export_id_allChecked" value="0">
@@ -187,7 +196,7 @@
 	                     <br>
 	                     <small>Unlocked : {{$value->unlocked_num == null ? 0 : $value->unlocked_num}} times</small>
 	                     <br>
-	                     <small id="domain_count"> Total Domains: <a href="/all_domain/{{base64_encode($value->registrant_email)}}">{{$count_domain[$value->registrant_email]}}</a></small>
+	                     <small id="domain_count"> Total Domains: <a href="/all_domain/{{base64_encode($value->registrant_email)}}">{{$value->domainCount}}</a></small>
 			        </td>
 
 			        
@@ -310,6 +319,7 @@
  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
   <script>
     
+   
     $( document ).ready(function() {
          $("#use_mail_template_for_individual").click(function(){
             if($("#use_mail_template_for_individual").is(':checked')) {
@@ -472,6 +482,8 @@
 
  </script>
   <script>
+   
+			 
 		/*==================== PAGINATION =========================*/
 
 		$(window).on('hashchange',function(){
@@ -524,16 +536,19 @@
 				}else {
 				 var landline='0';	
 				}
-			
-			
-			
+			 
+			 //$('.domaincount').change(function() {
+                 //var domaincount_option = $(this).val();      
+             // });
+           
+             var domaincount = $('#domaincount').find(":selected").val();   
 			$.ajax({
 				url: 'ajax/search?page=' + page,
 				beforeSend: function()
 					{
 						$('.content').html('<span align="center"><img src="theme/images/loader.gif"></span>');
 					},
-				data:'domain_name='+domain_name+'&registrant_country='+registrant_country+'&tdl_com='+tdl_com+'&tdl_net='+tdl_net+'&tdl_org='+tdl_org+'&tdl_io='+tdl_io+'&cell_number='+cell_number+'&landline='+landline+'&datepicker='+datepicker+'&domains_for_export_id='+domains_for_export_id+'&domains_for_export_id_allChecked='+domains_for_export_id_allChecked+'&registrant_state='+registrant_state,
+				data:'domain_name='+domain_name+'&registrant_country='+registrant_country+'&tdl_com='+tdl_com+'&tdl_net='+tdl_net+'&tdl_org='+tdl_org+'&tdl_io='+tdl_io+'&cell_number='+cell_number+'&landline='+landline+'&datepicker='+datepicker+'&domains_for_export_id='+domains_for_export_id+'&domains_for_export_id_allChecked='+domains_for_export_id_allChecked+'&registrant_state='+registrant_state+'&domaincount='+domaincount,
 			}).done(function(data){
 				$('.content').html(data);
 			});

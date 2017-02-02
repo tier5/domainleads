@@ -98,10 +98,15 @@
 			      <tr>
 			        <td>
                       <div><input type="checkbox" name="downloadcsv" class="eachrow_download" value="1" id="{{$value->domain_id}}" <?php if ((in_array($value->domain_id, $req_domainsforexport)) || ($domains_for_export_id_allChecked=='1')) {echo "checked"; }else { echo "";}?>></div>
+
 			        </td>
 			        <td >
 				        
 	                     <div><a href="http://{{ $value->domain_name }}" target="_blank">{{ $value->domain_name}}</a></div>
+	                     <br>
+	                     <small>Unlocked : {{$value->unlocked_num == null ? 0 : $value->unlocked_num}} times</small>
+	                     <br>
+                       <small id="domain_count"> Total Domains: <a href="/all_domain/{{base64_encode($value->registrant_email)}}">{{$value->domainCount}}</a></small>
 			        </td>
 
 

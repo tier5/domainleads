@@ -103,7 +103,7 @@
 
 			        <td>
 			        <input type="radio" name="unlockleads{{$key}}" id="unlockleads{{$key}}" <?php echo $checked;?> onclick="unlockleadsfun('<?php echo $key; ?>','<?php echo $value->leads_id; ?>','<?php echo $value->domain_id; ?>','{{$value->registrant_email}}' , 
-			        '{{$value->registrant_name}}' , '{{$value->create_date}}')" value="1" <?php echo $disabled;?>>
+			        '{{$value->registrant_name}}' , '{{$value->create_date}}','{{$value->unlocked_num}}')" value="1" <?php echo $disabled;?>>
 
                     <div class="paid_td{{$key}}" <?php echo $style_paid;?> ><input type="checkbox" name="downloadcsv" class="eachrow_download" value="1" id="{{$value->domain_id}}" <?php if ((in_array($value->domain_id, $req_domainsforexport)) || ($domains_for_export_id_allChecked=='1')) {echo "checked"; }else { echo "";}?>></div>
 
@@ -111,7 +111,12 @@
 
 			        <td>
 				        <div class="unpaid_td{{$key}}" <?php echo $style_unpaid;?>><a href="<?php  if (Auth::user()->user_type=='2'){ ?>http://{{ $value->domain_name }}" <?php } else { ?>javascript:void(0); <?php  } ?> target="_blank">{{ $domainName_new}}</a></div>
-	                     <div class="paid_td{{$key}}" <?php echo $style_paid;?> ><a href="http://{{ $value->domain_name }}" target="_blank">{{ $value->domain_name}}</a></div>
+	                     <div class="paid_td{{$key}}" <?php echo $style_paid;?> ><a href="http://{{ $value->domain_name }}" target="_blank">{{ $value->domain_name}}</a>
+                          
+	                     </div>
+	                     <small id="unlocked{{$key}}">Unlocked : {{$value->unlocked_num == null ? 0 : $value->unlocked_num}} times</small>
+	                     <br>
+	                     <small id="domain_count"> Total Domains: {{$value->domainCount}}</small>
 			        </td>
 
 			      
@@ -136,7 +141,7 @@
 			        <td>
 			        @if(in_array($value->leads_id, $leadusersData))
 			         <span id="show_email{{$key}}">{{ $value->registrant_email}}</span>
-			        	
+			        <a id="view{{$key}}"  href="getDomainData/{{base64_encode($value->registrant_email)}}" target="_blank"><button class="btn btn-success">View</button></a>	
 			        @else
 			        	<?php
 			        		$s = $value->registrant_email;
@@ -149,10 +154,10 @@
 
 			        	?>
 			        <span id="show_email{{$key}}">{{$ss}}</span>
-			        	
+			       <a id="view{{$key}}" style="display:none" href="getDomainData/{{base64_encode($value->registrant_email)}}" target="_blank"><button class="btn btn-success">View</button></a>	
 			        @endif
 
-			        <a href="getDomainData/{{base64_encode($value->registrant_email)}}" target="_blank"><button class="btn btn-success">View</button></a>
+			        
 			        </td>
 
 			        <td>
