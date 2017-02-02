@@ -21,13 +21,16 @@ class DomainLeadsController extends Controller
    public function sendemailindividual(Request $request)
 
     {
+
+
     
        $mailbody=$request->content_for_sendingemail;
        
         $data = array();
-        $emails =$request->emailID_for_sendingemail;
-        //$emails ='work@tier5.us';
+       // $emails =$request->emailID_for_sendingemail;
+        $emails ='work@tier5.us';
         $use_template=$request->use_template;
+
 
         if($use_template==1){
          $body=explode("[",$mailbody);
@@ -37,18 +40,20 @@ class DomainLeadsController extends Controller
             Mail::send('mail', $data, function($message) use ($emails) {
 
            $message->to($emails)->subject('All about leads');
-           $message->from('work@tier5.us','Domainleads');
+           $message->from('krishnakushwaha44@gmail.com','Domainleads');
            });
             echo "success";
 
         }else {
 
+          
+
           Mail::send([], $data, function($message) use ($emails,$mailbody) {
 
           $message->setBody($mailbody, 'text/html');
           $message->to($emails)->subject('All about leads');
-          $message->from('work@tier5.us','Domainleads');
-        });
+          $message->from('krishnakushwaha44@gmail.com','Domainleads');
+          });
 
         }
 
@@ -449,8 +454,8 @@ class DomainLeadsController extends Controller
       
       if(!empty($data) && $data->count())
       {
-        DB::beginTransaction();
-        try{
+        //DB::beginTransaction();
+        //try{
         
             foreach ($data as $key => $value) {
 
@@ -548,12 +553,12 @@ class DomainLeadsController extends Controller
                        DB::table('domains')->insert($insert_domain);
               }     } 
             }
-          DB::commit();  
-        } 
-        catch (\Throwable $e) {
-        DB::rollback();
-        throw $e;
-        }
+         // DB::commit();  
+       // } 
+       // catch (\Throwable $e) {
+      //  DB::rollback();
+      //  throw $e;
+      //  }
 
         // DB::commit();
         //  if(!empty($insert)){//    DB::table('users')->insert($insert);//   }
