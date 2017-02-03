@@ -459,7 +459,7 @@
 						$('#show_name'+key).text(name);
 						$('#show_email'+key).text(email);
 						$('#show_date'+key).text(date);
-						$('#unlocked'+key).text('Unlocked : '+(unlocked_num+1).toString());
+						$('#unlocked'+key).text('Unlocked : '+(parseInt(unlocked_num)+parseInt(1)).toString());
 						$('#view'+key).show();	
 	               	  }
 

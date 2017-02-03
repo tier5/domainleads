@@ -422,7 +422,7 @@ class DomainLeadsController extends Controller
           echo $used_leads+1;
 
           $l = Lead::where('id',$leads_id)->first();
-          $l->unlocked_num = $l->unlocked_num == null ? 1 :  $l->unlocked_num+1;
+          $l->unlocked_num = $l->unlocked_num == 0 ? 1 :  $l->unlocked_num+1;
           $l->save();
         }else {
           echo "false";
@@ -658,6 +658,11 @@ class DomainLeadsController extends Controller
    
       $domain_name=$request->domain_name;
       $domaincount=$request->domaincount;
+       if($request->domaincount_no){
+        $domaincount_no=$request->domaincount_no;
+      }else {  $domaincount_no=0;    }
+       $leadsunlocked_no=$request->leadsunlocked_no;
+     
       if($domaincount==2){
        
         $key='domainCount';
@@ -693,7 +698,7 @@ class DomainLeadsController extends Controller
              ->get();
       //dd($leadusersData);
       //print_r($leadusersData);dd();
-
+     
            
       $requiredData = DB::table('leads')
               ->join('domains', 'leads.id', '=', 'domains.user_id')
@@ -701,8 +706,9 @@ class DomainLeadsController extends Controller
               ->select('leads.*','leads.id as leads_id','domains.id as domain_id','validatephone.*',
                       'domains.domain_name','domains.create_date','domains.expiry_date','domains.domain_registrar_id','domains.domain_registrar_name','domains.domain_registrar_whois','domains.domain_registrar_url',DB::raw('count(domains.user_id) as domainCount'))
               
-              ->where(function($query) use ($create_date,$domain_name,$registrant_country,$phone_number,$tdl,$registrant_state,$domaincount)
+              ->where(function($query) use ($create_date,$domain_name,$registrant_country,$phone_number,$tdl,$registrant_state,$leadsunlocked_no)
                 {
+
                     if (!empty($registrant_country)) {
                         $query->where('leads.registrant_country', $registrant_country);
                     } 
@@ -713,10 +719,14 @@ class DomainLeadsController extends Controller
                     if (!empty($create_date)) {
                         $query->where('domains.create_date', $create_date);
                     } 
+                    if (!empty($leadsunlocked_no)) {
+                        $query->where('leads.unlocked_num','<', $leadsunlocked_no);
+                    }
                     if (!empty($domain_name)) {
                        $query->where('domains.domain_name','like', '%'.$domain_name.'%');
                        
                     }
+
                     if (!empty($phone_number)) {
                         $query->whereIn('validatephone.number_type', $phone_number);
                        
@@ -725,6 +735,7 @@ class DomainLeadsController extends Controller
                         $query->whereIn('domains.domain_ext', $tdl);
                        
                     }
+
                     //if (!empty($domaincount)) {
                      //$query->orderBy('domainCount', 'desc');
                        
@@ -734,9 +745,8 @@ class DomainLeadsController extends Controller
              //->skip(0)
              //->take(50)
              ->groupBy('leads.registrant_email')
-            
-             ->orderBy($key,$value)
-            
+             ->havingRaw('count(domains.user_id) >'. $domaincount_no)
+             ->orderBy($key,$value)           
              ->paginate(100);
              //->get();
         
@@ -805,6 +815,12 @@ class DomainLeadsController extends Controller
        $landline=$request->landline;
 
        $domaincount=$request->domaincount;
+       $domaincount_no=$request->domaincount_no;
+       $leadsunlocked_no=$request->leadsunlocked_no;
+        if($request->domaincount_no){
+        $domaincount_no=$request->domaincount_no;
+        }else {  $domaincount_no=0;    }
+
        if($domaincount==2){
        
         $key='domainCount';
@@ -872,7 +888,7 @@ class DomainLeadsController extends Controller
               ->select('leads.*','leads.id as leads_id','domains.id as domain_id','validatephone.*',
                       'domains.domain_name','domains.create_date','domains.expiry_date','domains.domain_registrar_id','domains.domain_registrar_name','domains.domain_registrar_whois','domains.domain_registrar_url',DB::raw('count(domains.user_id) as domainCount'))
               
-              ->where(function($query) use ($create_date,$domain_name,$registrant_country,$phone_number,$tdl,$registrant_state)
+              ->where(function($query) use ($create_date,$domain_name,$registrant_country,$phone_number,$tdl,$registrant_state,$leadsunlocked_no)
                 {
                     if (!empty($registrant_country)) {
                         $query->where('leads.registrant_country', $registrant_country);
@@ -880,6 +896,9 @@ class DomainLeadsController extends Controller
                     if (!empty($create_date)) {
                         $query->where('domains.create_date', $create_date);
                     } 
+                    if (!empty($leadsunlocked_no)) {
+                        $query->where('leads.unlocked_num','<', $leadsunlocked_no);
+                    }
                     if (!empty($domain_name)) {
                        $query->where('domains.domain_name','like', '%'.$domain_name.'%');
                        
@@ -902,6 +921,7 @@ class DomainLeadsController extends Controller
              //->skip(0)
              //->take(50)
              ->groupBy('leads.registrant_email')
+             ->havingRaw('count(domains.user_id) >'. $domaincount_no)
              ->orderBy($key,$value)
              ->paginate(100);
              //->get();

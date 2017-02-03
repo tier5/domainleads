@@ -32,9 +32,31 @@
 	
 
 	<div class="container">
+        <form style="margin-left: 1000px;" action="{{ URL::to('downloadExcel') }}" class="form-horizontal" method="get" enctype="multipart/form-data">
+	        <input type="hidden" name="domain_name_downloadExcel"  value="{{ Input::get('domain_name') }}" />
+			<input type="hidden" name="registrant_country_downloadExcel" id="registrant_country" value="{{ Input::get('registrant_country') }}" />
 
-		<form style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 10px;" action="{{ URL::to('postSearchData') }}" class="form-horizontal" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="create_date_downloadExcel"  class="" value="{{ Input::get('create_date') }}" />
 
+			<input type="hidden" name="registrant_state_downloadExcel"  class="" value="{{ Input::get('registrant_state') }}" />
+			
+	        <input type="hidden" name="tdl_com_downloadExcel" value="{{ Input::get('tdl_com') }}" >
+	        <input type="hidden" name="tdl_net_downloadExcel" value="{{ Input::get('tdl_net') }}" >
+	        <input type="hidden" name="tdl_org_downloadExcel" value="{{ Input::get('tdl_org') }}">
+	        <input type="hidden" name="tdl_io_downloadExcel" value="{{ Input::get('tdl_io') }}">
+	        <input type="hidden" name="cell_number_downloadExcel" value="{{ Input::get('cell_number') }}" >
+	        <input type="hidden" name="landline_downloadExcel" value="{{ Input::get('landline') }}">
+
+	        <input type="hidden" name="filterOption_downloadExcel" value="{{ Input::get('domaincount') }}">
+
+	        <input type="hidden" name="domains_for_export" id="domains_for_export_id" value="">
+	         <input type="hidden" name="domains_for_export_allChecked" id="domains_for_export_id_allChecked" value="0">
+		  <button class="btn btn-primary" id="exportID">Export</button>
+
+		</form>
+        <button style="margin-left: 1000px;" class="btn btn-success"  id=""   data-toggle="modal" data-target="#myModal_allemail">Send Email</button>
+		<form  action="{{ URL::to('postSearchData') }}" class="form-horizontal" method="post" enctype="multipart/form-data" id="postSearchDataForm">
+         <div style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 10px;">
 			Domain Name<input type="text" name="domain_name" id="domain_name" value="{{ Input::get('domain_name') }}" />
 			Registrant Country<input type="text" name="registrant_country" id="registrant_country" value="{{ Input::get('registrant_country') }}" />
 
@@ -50,44 +72,30 @@
             .io<input type="checkbox" name="tdl_io" id="tdl_io" value='1' <?php if(Input::get('tdl_io')==1) { echo "checked";} ?>>
             Cell Number<input type="checkbox" name="cell_number" id="cell_number" value='1' <?php if(Input::get('cell_number')==1) { echo "checked";} ?>>
             Landline Number<input type="checkbox" name="landline" id="landline" value='1' <?php if(Input::get('landline')==1) { echo "checked";} ?>>
-			Filter by <select name="domaincount" id="domaincount" class="domaincount">
+           
+			 
+            
+			  <button class="btn btn-primary">Search</button>
+          </div>
+          <div style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 10px;">
+            DomainCount > <input type="text" name="domaincount_no" id="domaincount_no" value="{{ Input::get('domaincount_no') }}"> 
+            LeadsUnlocked < <input type="text" name="leadsunlocked_no" id="leadsunlocked_no" value="{{ Input::get('leadsunlocked_no') }}"> 
+          Filter by <select name="domaincount" id="domaincount" class="domaincount">
 			      <option value="0" <?php if(Input::get('domaincount')==0) { echo "selected";} ?>>Select</option>
 				  <option value="1" <?php if(Input::get('domaincount')==1) { echo "selected";} ?>>DomainCount ASC</option>
 				  <option value="2" <?php if(Input::get('domaincount')==2) { echo "selected";} ?>>DomainCount DESC</option> 
 				  <option value="3" <?php if(Input::get('domaincount')==3) { echo "selected";} ?>>LeadCount ASC</option>
 				  <option value="4" <?php if(Input::get('domaincount')==4) { echo "selected";} ?>>LeadCount DESC</option> 
-				</select> 
-            
-			<button class="btn btn-primary">Search</button>
-
+				</select>
+           <div class="btn btn-primary" id="refine_searchID">Refine Search</div>
+          </div>
 		</form>
-		<form style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 10px;" action="{{ URL::to('downloadExcel') }}" class="form-horizontal" method="get" enctype="multipart/form-data">
-        <input type="hidden" name="domain_name_downloadExcel"  value="{{ Input::get('domain_name') }}" />
-		<input type="hidden" name="registrant_country_downloadExcel" id="registrant_country" value="{{ Input::get('registrant_country') }}" />
-
-		<input type="hidden" name="create_date_downloadExcel"  class="" value="{{ Input::get('create_date') }}" />
-
-		<input type="hidden" name="registrant_state_downloadExcel"  class="" value="{{ Input::get('registrant_state') }}" />
 		
-        <input type="hidden" name="tdl_com_downloadExcel" value="{{ Input::get('tdl_com') }}" >
-        <input type="hidden" name="tdl_net_downloadExcel" value="{{ Input::get('tdl_net') }}" >
-        <input type="hidden" name="tdl_org_downloadExcel" value="{{ Input::get('tdl_org') }}">
-        <input type="hidden" name="tdl_io_downloadExcel" value="{{ Input::get('tdl_io') }}">
-        <input type="hidden" name="cell_number_downloadExcel" value="{{ Input::get('cell_number') }}" >
-        <input type="hidden" name="landline_downloadExcel" value="{{ Input::get('landline') }}">
-
-        <input type="hidden" name="filterOption_downloadExcel" value="{{ Input::get('domaincount') }}">
-
-        <input type="hidden" name="domains_for_export" id="domains_for_export_id" value="">
-         <input type="hidden" name="domains_for_export_allChecked" id="domains_for_export_id_allChecked" value="0">
-		 <button class="btn btn-primary" id="exportID">Export</button>
-
-		</form>
 	<div class="container">
 	
     <h2>Search Result</h2>
     <input type="hidden" id="filteredemail"  value=""> 
-    <button class="btn btn-success"  id=""   data-toggle="modal" data-target="#myModal_allemail">Send Email</button>
+    
    
     <div id="filtereddataid" class="content"> 
 
@@ -352,6 +360,11 @@
     $("#content_for_sendingemail").val('');
 
   }
+   $("#refine_searchID").click(function(){
+
+     	$("#postSearchDataForm").submit();
+
+   });
    $("#submitbtn_for_sendingemail").click(function(){
             var emailID_for_sendingemail=$("#emailID_for_sendingemail").val();
             var content_for_sendingemail=$("#content_for_sendingemail").val();
@@ -541,14 +554,16 @@
                  //var domaincount_option = $(this).val();      
              // });
            
-             var domaincount = $('#domaincount').find(":selected").val();   
+             var domaincount = $('#domaincount').find(":selected").val();
+             var domaincount_no=$("#domaincount_no").val();
+             var leadsunlocked_no=$("#leadsunlocked_no").val();   
 			$.ajax({
 				url: 'ajax/search?page=' + page,
 				beforeSend: function()
 					{
 						$('.content').html('<span align="center"><img src="theme/images/loader.gif"></span>');
 					},
-				data:'domain_name='+domain_name+'&registrant_country='+registrant_country+'&tdl_com='+tdl_com+'&tdl_net='+tdl_net+'&tdl_org='+tdl_org+'&tdl_io='+tdl_io+'&cell_number='+cell_number+'&landline='+landline+'&datepicker='+datepicker+'&domains_for_export_id='+domains_for_export_id+'&domains_for_export_id_allChecked='+domains_for_export_id_allChecked+'&registrant_state='+registrant_state+'&domaincount='+domaincount,
+				data:'domain_name='+domain_name+'&registrant_country='+registrant_country+'&tdl_com='+tdl_com+'&tdl_net='+tdl_net+'&tdl_org='+tdl_org+'&tdl_io='+tdl_io+'&cell_number='+cell_number+'&landline='+landline+'&datepicker='+datepicker+'&domains_for_export_id='+domains_for_export_id+'&domains_for_export_id_allChecked='+domains_for_export_id_allChecked+'&registrant_state='+registrant_state+'&domaincount='+domaincount+'&domaincount_no='+domaincount_no+'&leadsunlocked_no='+leadsunlocked_no,
 			}).done(function(data){
 				$('.content').html(data);
 			});

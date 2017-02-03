@@ -13,7 +13,7 @@ class InsertUnlockedNumberInLeadsTable extends Migration
     public function up()
     {
          Schema::table('leads', function (Blueprint $table) {
-            $table->integer('unlocked_num')->unsigned()->index()->nullable();
+            $table->integer('unlocked_num');
         });
     }
 
