@@ -233,6 +233,11 @@ class DomainLeadsController extends Controller
                           ->where('leadusers.user_id',$user_id)->get();  
 
           }else{
+          $gt_ls_domaincount_no_downloadExcel=$request->gt_ls_domaincount_no_downloadExcel;
+          $domaincount_no_downloadExcel=$request->domaincount_no_downloadExcel;
+          $gt_ls_leadsunlocked_no_downloadExcel=$request->gt_ls_leadsunlocked_no_downloadExcel;
+          $leadsunlocked_no_downloadExcel=$request->leadsunlocked_no_downloadExcel;  
+
           $filterOption_downloadExcel=$request->filterOption_downloadExcel;
           $create_date=$request->create_date_downloadExcel;
           $registrant_state=$request->registrant_state_downloadExcel;
@@ -264,31 +269,54 @@ class DomainLeadsController extends Controller
           if($tdl_io==1){
            $tdl[]='io'; 
           }
-          if($filterOption_downloadExcel==2){
-           
-            $key='domainCount';
-            $value='desc';
-          }
-          if($filterOption_downloadExcel==1){
-           
-            $key='domainCount';
-            $value='asc';
-          }
-          if($filterOption_downloadExcel==0){
-           
-            $key='domains.create_date';
-            $value='desc';
-          }
-          if($filterOption_downloadExcel==3){
-           
-            $key='leads.unlocked_num';
-            $value='asc';
-          }
-          if($filterOption_downloadExcel==4){
-           
-            $key='leads.unlocked_num';
-            $value='desc';
-          }
+          
+
+      if($gt_ls_domaincount_no_downloadExcel==0){
+       $gt_ls_domaincount_no='>';
+      }else if($gt_ls_domaincount_no_downloadExcel==1){
+       $gt_ls_domaincount_no='>';
+      }else{
+       $gt_ls_domaincount_no='<';
+      }
+    
+
+      if($gt_ls_leadsunlocked_no_downloadExcel==0){
+       $gt_ls_leadsunlocked_no='>';
+      }else if($gt_ls_leadsunlocked_no_downloadExcel==1){
+       $gt_ls_leadsunlocked_no='>';
+      }else{
+       $gt_ls_leadsunlocked_no='<';
+      }
+
+       if($request->domaincount_no_downloadExcel){
+        $domaincount_no=$request->domaincount_no_downloadExcel;
+      }else {  $domaincount_no=0;    }
+       $leadsunlocked_no=$request->leadsunlocked_no_downloadExcel;
+
+      switch ($filterOption_downloadExcel) {
+     
+      case 1:
+          $key='domainCount';
+          $value='asc';
+          break;
+      case 2:
+          $key='domainCount';
+          $value='desc';
+          break;
+      case 3:
+          $key='leads.unlocked_num';
+          $value='asc';
+          break;
+      case 4:
+          $key='leads.unlocked_num';
+          $value='desc';
+          break;
+        default: 
+        $key='domains.create_date';
+        $value='desc';  
+      }
+          
+         
           $registrant_country=$request->registrant_country_downloadExcel;
        
           $domain_name=$request->domain_name_downloadExcel;
@@ -304,7 +332,7 @@ class DomainLeadsController extends Controller
                     ->join('validatephone', 'validatephone.user_id', '=', 'leads.id')
                     ->select('leads.registrant_name as name','domains.domain_name as website','leads.registrant_address as address','leads.registrant_phone as phone','leads.registrant_email as email_id',DB::raw('count(domains.user_id) as domainCount'))
                     
-                    ->where(function($query) use ($create_date,$domain_name,$registrant_country,$phone_number,$tdl,$registrant_state)
+                    ->where(function($query) use ($create_date,$domain_name,$registrant_country,$phone_number,$tdl,$registrant_state,$leadsunlocked_no,$gt_ls_leadsunlocked_no)
                       {
                           if (!empty($registrant_country)) {
                               $query->where('leads.registrant_country', $registrant_country);
@@ -312,6 +340,9 @@ class DomainLeadsController extends Controller
                           if (!empty($create_date)) {
                               $query->where('domains.create_date', $create_date);
                           } 
+                           if (!empty($leadsunlocked_no)) {
+                              $query->where('leads.unlocked_num',$gt_ls_leadsunlocked_no, $leadsunlocked_no);
+                          }
                           if (!empty($domain_name)) {
                              $query->where('domains.domain_name','like', '%'.$domain_name.'%');
                              
@@ -333,6 +364,7 @@ class DomainLeadsController extends Controller
                  //->skip(0)
                  //->take(50)
                  ->groupBy('leads.registrant_email')
+                  ->havingRaw('count(domains.user_id) '.$gt_ls_domaincount_no.''. $domaincount_no)
                  ->orderBy($key,$value)
                  
                  ->get();
@@ -658,36 +690,53 @@ class DomainLeadsController extends Controller
    
       $domain_name=$request->domain_name;
       $domaincount=$request->domaincount;
+      $gt_ls_domaincount_no=$request->gt_ls_domaincount_no;
+      if($gt_ls_domaincount_no==0){
+       $gt_ls_domaincount_no='>';
+      }else if($gt_ls_domaincount_no==1){
+       $gt_ls_domaincount_no='>';
+      }else{
+       $gt_ls_domaincount_no='<';
+      }
+      $gt_ls_leadsunlocked_no=$request->gt_ls_leadsunlocked_no;
+
+      if($gt_ls_leadsunlocked_no==0){
+       $gt_ls_leadsunlocked_no='>';
+      }else if($gt_ls_leadsunlocked_no==1){
+       $gt_ls_leadsunlocked_no='>';
+      }else{
+       $gt_ls_leadsunlocked_no='<';
+      }
+
        if($request->domaincount_no){
         $domaincount_no=$request->domaincount_no;
       }else {  $domaincount_no=0;    }
        $leadsunlocked_no=$request->leadsunlocked_no;
+
+      switch ($domaincount) {
      
-      if($domaincount==2){
-       
-        $key='domainCount';
-        $value='desc';
-      }
-      if($domaincount==1){
-       
-        $key='domainCount';
-        $value='asc';
-      }
-      if($domaincount==0){
-       
+      case 1:
+          $key='domainCount';
+          $value='asc';
+          break;
+      case 2:
+          $key='domainCount';
+          $value='desc';
+          break;
+      case 3:
+          $key='leads.unlocked_num';
+          $value='asc';
+          break;
+      case 4:
+          $key='leads.unlocked_num';
+          $value='desc';
+          break;
+        default: 
         $key='domains.create_date';
-        $value='desc';
+        $value='desc';  
       }
-      if($domaincount==3){
-       
-        $key='leads.unlocked_num';
-        $value='asc';
-      }
-      if($domaincount==4){
-       
-        $key='leads.unlocked_num';
-        $value='desc';
-      }
+     
+      
       $requiredData=array();
       $leadusersData=array();
       $user_id=Auth::user()->id;
@@ -699,6 +748,7 @@ class DomainLeadsController extends Controller
       //dd($leadusersData);
       //print_r($leadusersData);dd();
      
+    
            
       $requiredData = DB::table('leads')
               ->join('domains', 'leads.id', '=', 'domains.user_id')
@@ -706,7 +756,7 @@ class DomainLeadsController extends Controller
               ->select('leads.*','leads.id as leads_id','domains.id as domain_id','validatephone.*',
                       'domains.domain_name','domains.create_date','domains.expiry_date','domains.domain_registrar_id','domains.domain_registrar_name','domains.domain_registrar_whois','domains.domain_registrar_url',DB::raw('count(domains.user_id) as domainCount'))
               
-              ->where(function($query) use ($create_date,$domain_name,$registrant_country,$phone_number,$tdl,$registrant_state,$leadsunlocked_no)
+              ->where(function($query) use ($create_date,$domain_name,$registrant_country,$phone_number,$tdl,$registrant_state,$leadsunlocked_no,$gt_ls_leadsunlocked_no)
                 {
 
                     if (!empty($registrant_country)) {
@@ -720,7 +770,7 @@ class DomainLeadsController extends Controller
                         $query->where('domains.create_date', $create_date);
                     } 
                     if (!empty($leadsunlocked_no)) {
-                        $query->where('leads.unlocked_num','<', $leadsunlocked_no);
+                        $query->where('leads.unlocked_num',$gt_ls_leadsunlocked_no, $leadsunlocked_no);
                     }
                     if (!empty($domain_name)) {
                        $query->where('domains.domain_name','like', '%'.$domain_name.'%');
@@ -745,7 +795,7 @@ class DomainLeadsController extends Controller
              //->skip(0)
              //->take(50)
              ->groupBy('leads.registrant_email')
-             ->havingRaw('count(domains.user_id) >'. $domaincount_no)
+             ->havingRaw('count(domains.user_id) '.$gt_ls_domaincount_no.''. $domaincount_no)
              ->orderBy($key,$value)           
              ->paginate(100);
              //->get();
@@ -821,30 +871,27 @@ class DomainLeadsController extends Controller
         $domaincount_no=$request->domaincount_no;
         }else {  $domaincount_no=0;    }
 
-       if($domaincount==2){
-       
-        $key='domainCount';
-        $value='desc';
-      }
-      if($domaincount==1){
-       
-        $key='domainCount';
-        $value='asc';
-      }
-      if($domaincount==0){
-       
-        $key='domains.create_date';
-        $value='desc';
-      }
-       if($domaincount==3){
-       
-        $key='leads.unlocked_num';
-        $value='asc';
-      }
-      if($domaincount==4){
-       
-        $key='leads.unlocked_num';
-        $value='desc';
+       switch ($domaincount) {
+     
+        case 1:
+            $key='domainCount';
+            $value='asc';
+            break;
+        case 2:
+            $key='domainCount';
+            $value='desc';
+            break;
+        case 3:
+            $key='leads.unlocked_num';
+            $value='asc';
+            break;
+        case 4:
+            $key='leads.unlocked_num';
+            $value='desc';
+            break;
+          default: 
+          $key='domains.create_date';
+          $value='desc';  
       }
       $phone_number=array();
       if($cell_number=='1'){
@@ -870,6 +917,24 @@ class DomainLeadsController extends Controller
       $registrant_country=$request->registrant_country;
    
       $domain_name=$request->domain_name;
+
+      $gt_ls_domaincount_no=$request->gt_ls_domaincount_no;
+      if($gt_ls_domaincount_no==0){
+       $gt_ls_domaincount_no='>';
+      }else if($gt_ls_domaincount_no==1){
+       $gt_ls_domaincount_no='>';
+      }else{
+       $gt_ls_domaincount_no='<';
+      }
+      $gt_ls_leadsunlocked_no=$request->gt_ls_leadsunlocked_no;
+
+      if($gt_ls_leadsunlocked_no==0){
+       $gt_ls_leadsunlocked_no='>';
+      }else if($gt_ls_leadsunlocked_no==1){
+       $gt_ls_leadsunlocked_no='>';
+      }else{
+       $gt_ls_leadsunlocked_no='<';
+      }
       
       $requiredData=array();
       $leadusersData=array();
@@ -888,7 +953,7 @@ class DomainLeadsController extends Controller
               ->select('leads.*','leads.id as leads_id','domains.id as domain_id','validatephone.*',
                       'domains.domain_name','domains.create_date','domains.expiry_date','domains.domain_registrar_id','domains.domain_registrar_name','domains.domain_registrar_whois','domains.domain_registrar_url',DB::raw('count(domains.user_id) as domainCount'))
               
-              ->where(function($query) use ($create_date,$domain_name,$registrant_country,$phone_number,$tdl,$registrant_state,$leadsunlocked_no)
+              ->where(function($query) use ($create_date,$domain_name,$registrant_country,$phone_number,$tdl,$registrant_state,$leadsunlocked_no,$gt_ls_leadsunlocked_no)
                 {
                     if (!empty($registrant_country)) {
                         $query->where('leads.registrant_country', $registrant_country);
@@ -897,7 +962,7 @@ class DomainLeadsController extends Controller
                         $query->where('domains.create_date', $create_date);
                     } 
                     if (!empty($leadsunlocked_no)) {
-                        $query->where('leads.unlocked_num','<', $leadsunlocked_no);
+                        $query->where('leads.unlocked_num',$gt_ls_leadsunlocked_no, $leadsunlocked_no);
                     }
                     if (!empty($domain_name)) {
                        $query->where('domains.domain_name','like', '%'.$domain_name.'%');
@@ -921,7 +986,7 @@ class DomainLeadsController extends Controller
              //->skip(0)
              //->take(50)
              ->groupBy('leads.registrant_email')
-             ->havingRaw('count(domains.user_id) >'. $domaincount_no)
+             ->havingRaw('count(domains.user_id) '.$gt_ls_domaincount_no.''. $domaincount_no)
              ->orderBy($key,$value)
              ->paginate(100);
              //->get();

@@ -49,6 +49,11 @@
 
 	        <input type="hidden" name="filterOption_downloadExcel" value="{{ Input::get('domaincount') }}">
 
+	        <input type="hidden" name="gt_ls_domaincount_no_downloadExcel" value="{{ Input::get('gt_ls_domaincount_no') }}">
+	        <input type="hidden" name="domaincount_no_downloadExcel" value="{{ Input::get('domaincount_no') }}">
+	        <input type="hidden" name="gt_ls_leadsunlocked_no_downloadExcel" value="{{ Input::get('gt_ls_leadsunlocked_no') }}">
+	        <input type="hidden" name="leadsunlocked_no_downloadExcel" value="{{ Input::get('leadsunlocked_no') }}">
+
 	        <input type="hidden" name="domains_for_export" id="domains_for_export_id" value="">
 	         <input type="hidden" name="domains_for_export_allChecked" id="domains_for_export_id_allChecked" value="0">
 		  <button class="btn btn-primary" id="exportID">Export</button>
@@ -78,8 +83,16 @@
 			  <button class="btn btn-primary">Search</button>
           </div>
           <div style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 10px;">
-            DomainCount > <input type="text" name="domaincount_no" id="domaincount_no" value="{{ Input::get('domaincount_no') }}"> 
-            LeadsUnlocked < <input type="text" name="leadsunlocked_no" id="leadsunlocked_no" value="{{ Input::get('leadsunlocked_no') }}"> 
+            DomainCount <select name="gt_ls_domaincount_no" id="gt_ls_domaincount_no">
+            <option value="0" <?php if(Input::get('gt_ls_domaincount_no')==0) { echo "selected";} ?>>Select</option>
+            <option value="1" <?php if(Input::get('gt_ls_domaincount_no')==1) { echo "selected";} ?>>Greater than</option>
+            <option value="2" <?php if(Input::get('gt_ls_domaincount_no')==2) { echo "selected";} ?>>Lesser Than</option></select>
+            <input type="text" name="domaincount_no" id="domaincount_no" value="{{ Input::get('domaincount_no') }}"> 
+            LeadsUnlocked <select name="gt_ls_leadsunlocked_no" id="gt_ls_leadsunlocked_no" >
+            <option value="0" <?php if(Input::get('gt_ls_leadsunlocked_no')==0) { echo "selected";} ?>>Select</option>
+            <option value="1" <?php if(Input::get('gt_ls_leadsunlocked_no')==1) { echo "selected";} ?>>Greater than</option>
+            <option value="2" <?php if(Input::get('gt_ls_leadsunlocked_no')==2) { echo "selected";} ?>>Lesser Than</option></select>
+            <input type="text" name="leadsunlocked_no" id="leadsunlocked_no" value="{{ Input::get('leadsunlocked_no') }}"> 
           Filter by <select name="domaincount" id="domaincount" class="domaincount">
 			      <option value="0" <?php if(Input::get('domaincount')==0) { echo "selected";} ?>>Select</option>
 				  <option value="1" <?php if(Input::get('domaincount')==1) { echo "selected";} ?>>DomainCount ASC</option>
@@ -554,16 +567,18 @@
                  //var domaincount_option = $(this).val();      
              // });
            
-             var domaincount = $('#domaincount').find(":selected").val();
-             var domaincount_no=$("#domaincount_no").val();
-             var leadsunlocked_no=$("#leadsunlocked_no").val();   
+			var domaincount = $('#domaincount').find(":selected").val();
+			var gt_ls_domaincount_no = $('#gt_ls_domaincount_no').find(":selected").val();
+			var gt_ls_leadsunlocked_no = $('#gt_ls_leadsunlocked_no').find(":selected").val();
+			var domaincount_no=$("#domaincount_no").val();
+			var leadsunlocked_no=$("#leadsunlocked_no").val();   
 			$.ajax({
 				url: 'ajax/search?page=' + page,
 				beforeSend: function()
 					{
 						$('.content').html('<span align="center"><img src="theme/images/loader.gif"></span>');
 					},
-				data:'domain_name='+domain_name+'&registrant_country='+registrant_country+'&tdl_com='+tdl_com+'&tdl_net='+tdl_net+'&tdl_org='+tdl_org+'&tdl_io='+tdl_io+'&cell_number='+cell_number+'&landline='+landline+'&datepicker='+datepicker+'&domains_for_export_id='+domains_for_export_id+'&domains_for_export_id_allChecked='+domains_for_export_id_allChecked+'&registrant_state='+registrant_state+'&domaincount='+domaincount+'&domaincount_no='+domaincount_no+'&leadsunlocked_no='+leadsunlocked_no,
+				data:'domain_name='+domain_name+'&registrant_country='+registrant_country+'&tdl_com='+tdl_com+'&tdl_net='+tdl_net+'&tdl_org='+tdl_org+'&tdl_io='+tdl_io+'&cell_number='+cell_number+'&landline='+landline+'&datepicker='+datepicker+'&domains_for_export_id='+domains_for_export_id+'&domains_for_export_id_allChecked='+domains_for_export_id_allChecked+'&registrant_state='+registrant_state+'&domaincount='+domaincount+'&domaincount_no='+domaincount_no+'&leadsunlocked_no='+leadsunlocked_no+'&gt_ls_domaincount_no='+gt_ls_domaincount_no+'&gt_ls_leadsunlocked_no='+gt_ls_leadsunlocked_no,
 			}).done(function(data){
 				$('.content').html(data);
 			});

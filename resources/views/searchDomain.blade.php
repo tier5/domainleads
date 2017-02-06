@@ -35,52 +35,68 @@
 		</div>
 	
 	<div class="container">
-	<div class="row">
-	<div class="col-md-8">
-		<form class="form" style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 10px;" action="{{ URL::to('postSearchData') }}" class="form-horizontal" method="post" enctype="multipart/form-data">
-			<div class="form-group">
-				<label>Domain Name</label>
-				<input type="text" name="domain_name" class="form-control" id="domain_name" value="{{ Input::get('domain_name') }}" />
-			</div>
-			<div class="form-group">
-				<label>Registrant Country</label>
-				<input type="text" name="registrant_country" id="registrant_country" class="form-control" value="{{ Input::get('registrant_country') }}" />
-			</div>
-			<div class="form-group">
-				<label>Registered Date</label>
-				<input type="text" name="create_date" id="datepicker" class="form-control" value="{{ Input::get('create_date') }}" />
-			</div>
-			<div class="form-group">
-				<label>State</label>
-				<input type="text" class="form-control" name="registrant_state" id="registrant_state" value="{{ Input::get('registrant_state') }}"> 
-            </div>
-            <div class="form-group">
-            <label>.com</label><input type="checkbox" name="tdl_com" id="tdl_com" value='1' <?php if(Input::get('tdl_com')==1) { echo "checked";} ?>>
-            <label>.net</label><input type="checkbox" name="tdl_net" id="tdl_net" value='1' <?php if(Input::get('tdl_net')==1) { echo "checked";} ?>>
-            <label>.org</label><input type="checkbox" name="tdl_org" id="tdl_org" value='1'<?php if(Input::get('tdl_org')==1) { echo "checked";} ?>>
-            <label>.io</label><input type="checkbox" name="tdl_io" id="tdl_io" value='1' <?php if(Input::get('tdl_io')==1) { echo "checked";} ?>>
-            <label>Cell Number</label><input type="checkbox" name="cell_number" id="cell_number" value='1' <?php if(Input::get('cell_number')==1) { echo "checked";} ?>>
-            <label>Landline Number</label><input type="checkbox" name="landline" id="landline" value='1' <?php if(Input::get('landline')==1) { echo "checked";} ?>>
-            </div>
-            Filter by <select name="domaincount" id="domaincount" class="domaincount">
-			      <option value="0" <?php if(Input::get('domaincount')==0) { echo "selected";} ?>>Select</option>
-				  <option value="1" <?php if(Input::get('domaincount')==1) { echo "selected";} ?>>DomainCount ASC</option>
-				  <option value="2" <?php if(Input::get('domaincount')==2) { echo "selected";} ?>>DomainCount DESC</option> 
-				  <option value="3" <?php if(Input::get('domaincount')==3) { echo "selected";} ?>>LeadCount ASC</option>
-				  <option value="4" <?php if(Input::get('domaincount')==4) { echo "selected";} ?>>LeadCount DESC</option> 
-				</select> 
-            <div class="form-group">
-				<button class="btn btn-primary">Search</button>
-			</div>
-
-		</form>
-
-		<form style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 10px;" action="{{ URL::to('downloadExcel') }}" class="form-horizontal" method="get" enctype="multipart/form-data">
+	<form style="margin-left: 1000px;" action="{{ URL::to('downloadExcel') }}" class="form-horizontal" method="get" enctype="multipart/form-data">
          <input type="hidden" name="domains_for_export" id="domains_for_export_id" value="">
          <input type="hidden" name="domains_for_export_allChecked" id="domains_for_export_id_allChecked" value="0">
 		 <button class="btn btn-primary" id="exportID">Export</button>
 
 		</form>
+	<div class="row">
+	<div class="col-md-8">
+		<form class="form"  action="{{ URL::to('postSearchData') }}" class="form-horizontal" method="post" enctype="multipart/form-data" id="postSearchDataForm">
+		     <div style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 10px;">
+				<div class="form-group">
+					<label>Domain Name</label>
+					<input type="text" name="domain_name" class="form-control" id="domain_name" value="{{ Input::get('domain_name') }}" />
+				</div>
+				<div class="form-group">
+					<label>Registrant Country</label>
+					<input type="text" name="registrant_country" id="registrant_country" class="form-control" value="{{ Input::get('registrant_country') }}" />
+				</div>
+				<div class="form-group">
+					<label>Registered Date</label>
+					<input type="text" name="create_date" id="datepicker" class="form-control" value="{{ Input::get('create_date') }}" />
+				</div>
+				<div class="form-group">
+					<label>State</label>
+					<input type="text" class="form-control" name="registrant_state" id="registrant_state" value="{{ Input::get('registrant_state') }}"> 
+	            </div>
+	            <div class="form-group">
+	            <label>.com</label><input type="checkbox" name="tdl_com" id="tdl_com" value='1' <?php if(Input::get('tdl_com')==1) { echo "checked";} ?>>
+	            <label>.net</label><input type="checkbox" name="tdl_net" id="tdl_net" value='1' <?php if(Input::get('tdl_net')==1) { echo "checked";} ?>>
+	            <label>.org</label><input type="checkbox" name="tdl_org" id="tdl_org" value='1'<?php if(Input::get('tdl_org')==1) { echo "checked";} ?>>
+	            <label>.io</label><input type="checkbox" name="tdl_io" id="tdl_io" value='1' <?php if(Input::get('tdl_io')==1) { echo "checked";} ?>>
+	            <label>Cell Number</label><input type="checkbox" name="cell_number" id="cell_number" value='1' <?php if(Input::get('cell_number')==1) { echo "checked";} ?>>
+	            <label>Landline Number</label><input type="checkbox" name="landline" id="landline" value='1' <?php if(Input::get('landline')==1) { echo "checked";} ?>>
+	            </div>
+	           
+	            <div class="form-group">
+					<button class="btn btn-primary">Search</button>
+				</div>
+            </div>
+            <div style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 10px;">
+            DomainCount <select name="gt_ls_domaincount_no" id="gt_ls_domaincount_no">
+            <option value="0" <?php if(Input::get('gt_ls_domaincount_no')==0) { echo "selected";} ?>>Select</option>
+            <option value="1" <?php if(Input::get('gt_ls_domaincount_no')==1) { echo "selected";} ?>>Greater than</option>
+            <option value="2" <?php if(Input::get('gt_ls_domaincount_no')==2) { echo "selected";} ?>>Lesser Than</option></select>
+            <input type="text" name="domaincount_no" id="domaincount_no" value="{{ Input::get('domaincount_no') }}"> 
+            LeadsUnlocked <select name="gt_ls_leadsunlocked_no" id="gt_ls_leadsunlocked_no" >
+            <option value="0" <?php if(Input::get('gt_ls_leadsunlocked_no')==0) { echo "selected";} ?>>Select</option>
+            <option value="1" <?php if(Input::get('gt_ls_leadsunlocked_no')==1) { echo "selected";} ?>>Greater than</option>
+            <option value="2" <?php if(Input::get('gt_ls_leadsunlocked_no')==2) { echo "selected";} ?>>Lesser Than</option></select>
+            <input type="text" name="leadsunlocked_no" id="leadsunlocked_no" value="{{ Input::get('leadsunlocked_no') }}"> 
+                Filter by <select name="domaincount" id="domaincount" class="domaincount">
+				      <option value="0" <?php if(Input::get('domaincount')==0) { echo "selected";} ?>>Select</option>
+					  <option value="1" <?php if(Input::get('domaincount')==1) { echo "selected";} ?>>DomainCount ASC</option>
+					  <option value="2" <?php if(Input::get('domaincount')==2) { echo "selected";} ?>>DomainCount DESC</option> 
+					  <option value="3" <?php if(Input::get('domaincount')==3) { echo "selected";} ?>>LeadCount ASC</option>
+					  <option value="4" <?php if(Input::get('domaincount')==4) { echo "selected";} ?>>LeadCount DESC</option> 
+					</select> 
+				<div class="btn btn-primary" id="refine_searchID">Refine Search</div>
+            </div>
+		</form>
+
+		
 		</div>
 		<div class="col-md-4"></div>
  	</div>
@@ -321,6 +337,11 @@
 
  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
   <script>
+  $("#refine_searchID").click(function(){
+
+     	$("#postSearchDataForm").submit();
+
+   });
   var domains = [];
   
    $('.downloadcsv_all').click(function(event){
@@ -413,7 +434,11 @@
 				 var landline='0';	
 				}
 			
-			   var domaincount = $('#domaincount').find(":selected").val();   
+			   var domaincount = $('#domaincount').find(":selected").val(); 
+				var gt_ls_domaincount_no = $('#gt_ls_domaincount_no').find(":selected").val();
+				var gt_ls_leadsunlocked_no = $('#gt_ls_leadsunlocked_no').find(":selected").val();
+				var domaincount_no=$("#domaincount_no").val();
+				var leadsunlocked_no=$("#leadsunlocked_no").val();   
 			
 			$.ajax({
 				url: 'ajax/search?page=' + page,
@@ -421,7 +446,7 @@
 					{
 						$('.content').html('<span align="center"><img src="theme/images/loader.gif"></span>');
 					},
-				data:'domain_name='+domain_name+'&registrant_country='+registrant_country+'&tdl_com='+tdl_com+'&tdl_net='+tdl_net+'&tdl_org='+tdl_org+'&tdl_io='+tdl_io+'&cell_number='+cell_number+'&landline='+landline+'&datepicker='+datepicker+'&domains_for_export_id='+domains_for_export_id+'&domains_for_export_id_allChecked='+domains_for_export_id_allChecked+'&registrant_state='+registrant_state+'&domaincount='+domaincount,
+				data:'domain_name='+domain_name+'&registrant_country='+registrant_country+'&tdl_com='+tdl_com+'&tdl_net='+tdl_net+'&tdl_org='+tdl_org+'&tdl_io='+tdl_io+'&cell_number='+cell_number+'&landline='+landline+'&datepicker='+datepicker+'&domains_for_export_id='+domains_for_export_id+'&domains_for_export_id_allChecked='+domains_for_export_id_allChecked+'&registrant_state='+registrant_state+'&domaincount='+domaincount+'&domaincount_no='+domaincount_no+'&leadsunlocked_no='+leadsunlocked_no+'&gt_ls_domaincount_no='+gt_ls_domaincount_no+'&gt_ls_leadsunlocked_no='+gt_ls_leadsunlocked_no,
 			}).done(function(data){
 				$('.content').html(data);
 			});
